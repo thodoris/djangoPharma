@@ -1,0 +1,11 @@
+PY2
+create_parser
+TextIOWrapper
+open
+argparse
+getreader
+SQLParseError
+sqlparse
+main
+_error
+sys

@@ -1,0 +1,10 @@
+PY2
+file_types
+text_type
+PY3
+TextIOBase
+StringIO
+string_types
+bytes_type
+sys
+unicode_compatible

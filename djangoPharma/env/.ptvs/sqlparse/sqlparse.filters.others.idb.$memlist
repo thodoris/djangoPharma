@@ -1,0 +1,7 @@
+split_unquoted_newlines
+T
+StripCommentsFilter
+StripWhitespaceFilter
+sql
+SpacesAroundOperatorsFilter
+SerializerUnicode
