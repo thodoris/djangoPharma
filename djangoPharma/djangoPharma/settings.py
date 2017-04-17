@@ -34,6 +34,9 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'app',
     # Add your apps here to enable them
+    'bootstrap3',
+    'suit',
+    'cart',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,3 +127,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
+
+BOOTSTRAP3 = {
+
+    # The complete URL to the Bootstrap CSS file (None means no theme)
+    'theme_url': 'https://bootswatch.com/cosmo/bootstrap.min.css',
+}

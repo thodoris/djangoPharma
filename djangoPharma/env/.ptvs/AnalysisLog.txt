@@ -5852,3 +5852,45 @@ C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Micro
 2017-04-15T16:28:44: Saving group "C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\sqlparse"
 2017-04-15T16:28:44: End of group "C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\sqlparse"
 2017-04-15T16:28:46: Deleting 0 files
+
+2017-04-15T20:04:06: Start analysis
+2017-04-15T20:04:06: [WARNING] Library was set explicitly - skipping path detection
+2017-04-15T20:04:06: IncludeModulesFromModulePath = win32com
+2017-04-15T20:04:08: Deleting 0 files
+2017-04-15T20:04:08: astropy.CallDepth = 0
+2017-04-15T20:04:08: matplotlib.CallDepth = 3
+2017-04-15T20:04:08: pandas.CallDepth = 0
+2017-04-15T20:04:08: sympy.CallDepth = 0
+2017-04-15T20:04:08: Start group "C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit" with 13 files
+2017-04-15T20:04:08: Parsing "suit.admin" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\admin.py")
+2017-04-15T20:04:08: Parsing "suit.compat" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\compat.py")
+2017-04-15T20:04:08: Parsing "suit.config" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\config.py")
+2017-04-15T20:04:08: Parsing "suit.models" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\models.py")
+2017-04-15T20:04:08: Parsing "suit.utils" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\utils.py")
+2017-04-15T20:04:08: Parsing "suit.watch_less" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\watch_less.py")
+2017-04-15T20:04:08: Parsing "suit.widgets" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\widgets.py")
+2017-04-15T20:04:08: Parsing "suit" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\__init__.py")
+2017-04-15T20:04:08: Parsing "suit.templatetags.suit_compat" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\templatetags\suit_compat.py")
+2017-04-15T20:04:08: Parsing "suit.templatetags.suit_list" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\templatetags\suit_list.py")
+2017-04-15T20:04:08: Parsing "suit.templatetags.suit_menu" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\templatetags\suit_menu.py")
+2017-04-15T20:04:08: Parsing "suit.templatetags.suit_tags" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\templatetags\suit_tags.py")
+2017-04-15T20:04:08: Parsing "suit.templatetags" ("C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit\templatetags\__init__.py")
+2017-04-15T20:04:08: Parsing complete
+2017-04-15T20:04:08: Analyzing "suit.admin"
+2017-04-15T20:04:08: Analyzing "suit.compat"
+2017-04-15T20:04:08: Analyzing "suit.config"
+2017-04-15T20:04:08: Analyzing "suit.models"
+2017-04-15T20:04:08: Analyzing "suit.utils"
+2017-04-15T20:04:08: Analyzing "suit.watch_less"
+2017-04-15T20:04:08: Analyzing "suit.widgets"
+2017-04-15T20:04:08: Analyzing "suit"
+2017-04-15T20:04:08: Analyzing "suit.templatetags.suit_compat"
+2017-04-15T20:04:08: Analyzing "suit.templatetags.suit_list"
+2017-04-15T20:04:08: Analyzing "suit.templatetags.suit_menu"
+2017-04-15T20:04:08: Analyzing "suit.templatetags.suit_tags"
+2017-04-15T20:04:08: Analyzing "suit.templatetags"
+2017-04-15T20:04:08: Starting analysis of 13 modules
+2017-04-15T20:04:11: Analysis complete
+2017-04-15T20:04:11: Saving group "C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit"
+2017-04-15T20:04:11: End of group "C:\Users\THODORIS\Dropbox\Share\metaptyxiako\Πληροφοριακά Συστήματα Ιστού\source\djangoPharma\djangoPharma\env\Lib\site-packages\suit"
+2017-04-15T20:04:13: Deleting 0 files

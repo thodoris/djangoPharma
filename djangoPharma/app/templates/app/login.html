@@ -1,4 +1,7 @@
-{% extends "app/layout.html" %}
+{% extends 'app/base/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}django-bootstrap3{% endblock %}
 
 {% block content %}
 
@@ -6,32 +9,16 @@
 <div class="row">
     <div class="col-md-8">
         <section id="loginForm">
-            <form action="." method="post" class="form-horizontal">
-                {% csrf_token %}
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                <div class="form-group">
-                    <label for="id_username" class="col-md-2 control-label">User name</label>
-                    <div class="col-md-10">
-                        {{ form.username }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="id_password" class="col-md-2 control-label">Password</label>
-                    <div class="col-md-10">
-                        {{ form.password }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="hidden" name="next" value="/" />
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
-                </div>
-                {% if form.errors %}
-                <p class="validation-summary-errors">Please enter a correct user name and password.</p>
-                {% endif %}
-            </form>
+
+        <form  action="." role="form" class="form-horizontal" method="post">
+            {% csrf_token %}
+            {% bootstrap_form_errors form type='non_fields' %}
+            {% bootstrap_field form.username size='md' %}
+            {% bootstrap_field form.password placeholder='password' %}
+             <input type="hidden" name="next" value="/" />
+            {% buttons submit='Log in' reset="Cancel" %}{% endbuttons %}
+        </form>
+
         </section>
     </div>
     <div class="col-md-4">
@@ -45,6 +32,6 @@
 {% block scripts %}
 
     {% load staticfiles %}
-<script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
 
 {% endblock %}
