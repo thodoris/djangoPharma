@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app',
+    'drugs',
     # Add your apps here to enable them
     'bootstrap3',
     'suit',

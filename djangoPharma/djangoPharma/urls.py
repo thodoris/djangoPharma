@@ -5,13 +5,16 @@ Definition of urls for djangoPharma.
 from datetime import datetime
 from django.conf.urls import url
 import django.contrib.auth.views
-
 import app.forms
 import app.views
+import drugs.urls
 
 # Uncomment the next lines to enable the admin:
 from django.conf.urls import include
 from django.contrib import admin
+
+import drugs
+
 admin.autodiscover()
 
 urlpatterns = [
@@ -41,6 +44,9 @@ urlpatterns = [
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
+    # enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+
+    # Uncomment the next line to enable the admin:
+    url(r'^drugs/', include(drugs.urls)),
 ]
