@@ -13,9 +13,7 @@ class Category(models.Model):
 # Model for Drug
 class Drug(models.Model):
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
-    barcode = models.CharField(max_length=512)
-    price = models.DecimalField(decimal_places=2, max_digits=3)
+    friendlyname = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     availability = models.IntegerField()
     imagePath = models.URLField()
@@ -24,9 +22,6 @@ class Drug(models.Model):
     class Meta:
         verbose_name_plural = 'drugs'
         managed = False
-
-    def get_price(self):
-        return self.price
 
     def get_img_url(self):
         return self.imagePath

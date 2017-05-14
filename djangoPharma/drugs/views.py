@@ -5,7 +5,7 @@ from suds.client import Client
 from datetime import datetime
 from .models import Drug, Category
 from .forms import AddDrugsForm
-import utils
+import drugs.utils as utils
 
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 # client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')

@@ -131,6 +131,13 @@ STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
 
 BOOTSTRAP3 = {
 
+    # The URL to the jQuery JavaScript file
+    'jquery_url': '/static/app/scripts/jquery-3.2.1.min.js',
     # The complete URL to the Bootstrap CSS file (None means no theme)
     'theme_url': 'https://bootswatch.com/cosmo/bootstrap.min.css',
+    'javascript_in_head': True,
 }
+
+#Registration
+ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window;
+REGISTRATION_AUTO_LOGIN = True  # Automatically log the user in.

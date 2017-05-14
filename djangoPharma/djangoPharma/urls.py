@@ -41,12 +41,12 @@ urlpatterns = [
         },
         name='logout'),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
+    # include registration
+    url(r'^accounts/register/$', app.views.register, name='register'),
+    url(r'^accounts/', include('registration.backends.hmac.urls')),
     # enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 
-    # Uncomment the next line to enable the admin:
+    # include drugs application's urls
     url(r'^drugs/', include(drugs.urls)),
 ]

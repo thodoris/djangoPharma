@@ -6,7 +6,9 @@ Definition of views.
 from django.http import HttpRequest
 from datetime import datetime
 from django.shortcuts import render
-
+from django.http import HttpResponseRedirect
+from django.template.context_processors import csrf
+from .forms import UserForm , UserAddressForm
 
 
 def home(request):
@@ -48,3 +50,24 @@ def about(request):
             'year': datetime.now().year,
         }
     )
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/accounts/register/complete')
+
+    else:
+        user_form = UserForm(prefix="user")
+        address_form = UserAddressForm(prefix="address")
+        context = {
+            "user_form": user_form,
+            "address_form": address_form
+        }
+        return render(request, 'registration/registration_form.html', context)
+
+
+def registration_complete(request):
+    return render('registration/registration_complete.html')
