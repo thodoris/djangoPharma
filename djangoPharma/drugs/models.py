@@ -14,8 +14,9 @@ class Category(models.Model):
 class Drug(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
-    barcode = models.TextField(max_length=512)
-    price = models.DecimalField(decimal_places=2 , max_digits=3)
+    barcode = models.CharField(max_length=512)
+    price = models.DecimalField(decimal_places=2, max_digits=3)
+    description = models.CharField(max_length=100)
     availability = models.IntegerField()
     imagePath = models.URLField()
     category = models.ForeignKey(Category)
