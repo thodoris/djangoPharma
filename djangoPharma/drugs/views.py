@@ -25,11 +25,9 @@ def get_drug(drugid):
     return client.service.findDrug(drugid)
 
 
-def insert_drug(drug):
-    # request_data = client.factory.create('addDrug')
-    # request_data.id = drug.id
-    response = client.service.addDrug(id=drug.id, name=drug.name, price=drug.price, availability=drug.availability,
-                                      categoryid=1)
+def insert_drug(request_data):
+    response = client.service.addDrug(request_data)
+
     return HttpResponse(response)
 
 
@@ -38,28 +36,18 @@ def add_drug(request):
         form = AddDrugsForm()
     else:
         form = AddDrugsForm(request.POST)
-        id = request.POST.get('id')
-        name = request.POST.get('name')
+        drug_id = request.POST.get('id')
+        friendly_name = request.POST.get('friendlyName')
         description = request.POST.get('description')
-        barcode = request.POST.get('barcode')
-        price = request.POST.get('price')
         availability = request.POST.get('availability')
-        # hardcoded value
-        category = Category(id=1)
-        post = Drug(id=id, name=name, description=description, barcode=barcode, price=price,
-                    availability=availability, category=category)
-        insert_drug(post)
-        # if form.is_valid():
-        #     id = form.cleaned_data['id']
-        #     name = form.cleaned_data['name']
-        #     description = form.cleaned_data['description']
-        #     barcode = form.cleaned_data['barcode']
-        #     price = form.cleaned_data['price']
-        #     availability = form.cleaned_data['availability']
-        #     categoryid = 1
-        #     post = Drug.objects.create(id=id, name=name, description=description, barcode=barcode, price=price,
-        #                                availability=availability, categoryId=categoryid, userId=request.user)
-        #     insert_drug(post)
+        # hardcoded value TODO Remove
+        category_id = 100
+
+        request_data = {'id': drug_id, 'friendlyName': friendly_name, 'availability': availability,
+                        'description': description,
+                        'categoryId': category_id}
+
+        insert_drug(request_data)
         #     return HttpResponseRedirect("/posts/" + str(post.id))
 
     return render(request, 'app/addDrug.html', {

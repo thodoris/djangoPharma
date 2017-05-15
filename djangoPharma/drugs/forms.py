@@ -5,5 +5,5 @@ from .models import Drug
 class AddDrugsForm(ModelForm):
     class Meta:
         model = Drug
-        fields = ['id', 'friendlyname' , 'availability',  'description']
+        fields = ['id', 'friendlyName', 'availability',  'description']
         managed = False
