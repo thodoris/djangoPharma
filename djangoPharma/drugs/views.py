@@ -35,6 +35,8 @@ def insert_drug(request_data):
 def add_drug(request):
     if request.method == 'GET':
         drugs_info = restUtils.get_drug_ids_and_names()
+        drug_categories = restUtils.get_drug_categories()
+        search_drug = restUtils.search_drug('dep')
         form = AddDrugsForm()
     else:
         form = AddDrugsForm(request.POST)
