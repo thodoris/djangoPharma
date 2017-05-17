@@ -6,6 +6,7 @@ from datetime import datetime
 from .models import Drug, Category
 from .forms import AddDrugsForm
 import drugs.utils as utils
+import drugs.restUtils as restUtils
 
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 # client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
@@ -33,6 +34,7 @@ def insert_drug(request_data):
 
 def add_drug(request):
     if request.method == 'GET':
+        drugs_info = restUtils.get_drug_ids_and_names()
         form = AddDrugsForm()
     else:
         form = AddDrugsForm(request.POST)
