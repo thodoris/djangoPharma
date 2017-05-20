@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from suds.client import Client
 from datetime import datetime
 from .models import Drug, Category
+from django.core import serializers
 from .forms import AddDrugsForm
 import drugs.utils as utils
 import drugs.restService as restService
@@ -39,10 +40,11 @@ def add_drug(request):
     if request.method == 'GET':
         drugs_info = soapService.get_drug_ids_and_names()
         drug_categories = soapService.get_drug_categories()
+        obj_generator = serializers.deserialize("json", drug_categories)
         # search_drug = soapService.search_drug('dep')
-        # resp = restService.get_drugs()
+        all_drugs = '' #restService.get_drugs()
         resp2 = restService.get_drug_by_id('000090201')
-        form = AddDrugsForm()
+        form = AddDrugsForm(drug_categories=drug_categories, all_drugs=all_drugs)
     else:
         form = AddDrugsForm(request.POST)
         drug_id = request.POST.get('id')
