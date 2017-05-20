@@ -5,10 +5,11 @@ from suds.client import Client
 from datetime import datetime
 from .models import Drug, Category
 from django.core import serializers
-from .forms import AddDrugsForm
+from .forms import AddDrugsForm, UpdateDrugsForm
 import drugs.utils as utils
 import drugs.restService as restService
 import drugs.soapService as soapService
+import json
 
 # client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 
@@ -70,6 +71,33 @@ def add_drug(request):
     return render(request, 'app/addDrug.html', {
         'form': form,
         'title': 'Add new Drug',
+        'message': 'Your application description page.',
+        'year': datetime.now().year,
+    })
+
+
+def update_drug(request, drug_id):
+    if request.method == 'GET':
+        # get the info from the SOAP WS
+        selected_drug = soapService.get_drug(drug_id)
+        # get drug categories
+        drug_categories = soapService.get_drug_categories()
+
+        json_data = json.loads(selected_drug)
+        model = json_data['drug'][0]
+        drug_id = model['id']
+        friendly_name = model['friendlyName']
+        description = model['description']
+        availability = model['availability']
+        category_id = model['drugCategory']['id']
+
+        drug = Drug(drug_id=drug_id, friendly_name=friendly_name, description=description, availability=availability)
+
+        form = UpdateDrugsForm(instance=drug, drug_categories=drug_categories, initial={'category_id': category_id})
+
+    return render(request, 'app/updateDrug.html', {
+        'form': form,
+        'title': 'Update Drug',
         'message': 'Your application description page.',
         'year': datetime.now().year,
     })
