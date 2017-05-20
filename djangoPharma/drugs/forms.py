@@ -20,15 +20,27 @@ class AddDrugsForm(ModelForm):
                                           'class': 'form-control',
                                           'placeholder': 'Availability'}))
 
+    description = forms.CharField(label=_("Description"), required=True, max_length=254,
+                                  widget=forms.TextInput({
+                                      'class': 'form-control',
+                                      'placeholder': 'Description'}))
+
     class Meta:
         model = Drug
-        fields = ['id', 'friendly_name', 'availability', 'description']
+        fields = ['drug_id', 'friendly_name', 'availability', 'description']
 
     def __init__(self, *args, **kwargs):
         drug_categories = kwargs.pop('drug_categories')
         all_drugs = kwargs.pop('all_drugs')
         super(AddDrugsForm, self).__init__(*args, **kwargs)
         decoded_json = json.loads(drug_categories)
-        self.fields['category'] = forms.ChoiceField(
-            choices=[(x['id'], x['name']) for x in decoded_json['drugCategory']])
-        self.fields['drug_id'] = forms.ChoiceField(choices=[(x['id'], x['id']) for x in all_drugs])
+        self.fields['category'] = forms.ChoiceField(label='Category Name',
+                                                    widget=forms.Select(attrs={'class': 'form-control'}),
+                                                    choices=[(x['id'], x['name']) for x in
+                                                             decoded_json['drugCategory']])
+
+        self.fields['drug_id'] = forms.ChoiceField(label='Drug ID',
+                                              widget=forms.Select(attrs={'class': 'form-control',
+                                                                         'placeholder': 'Drug ID'}),
+                                              choices=[('1000', '1000')])
+        # choices=[(x['id'], x['id']) for x in all_drugs])

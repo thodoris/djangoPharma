@@ -10,10 +10,10 @@ import drugs.utils as utils
 import drugs.restService as restService
 import drugs.soapService as soapService
 
-client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
+# client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 
 
-# client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
+client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 
 
 def index(request):
@@ -42,17 +42,23 @@ def add_drug(request):
         drug_categories = soapService.get_drug_categories()
         obj_generator = serializers.deserialize("json", drug_categories)
         # search_drug = soapService.search_drug('dep')
-        all_drugs = '' #restService.get_drugs()
+        all_drugs = ''  # restService.get_drugs()
         resp2 = restService.get_drug_by_id('000090201')
         form = AddDrugsForm(drug_categories=drug_categories, all_drugs=all_drugs)
     else:
-        form = AddDrugsForm(request.POST)
-        drug_id = request.POST.get('id')
-        friendly_name = request.POST.get('friendlyName')
-        description = request.POST.get('description')
-        availability = request.POST.get('availability')
-        # hardcoded value TODO Remove
-        category_id = 100
+        form_class = AddDrugsForm
+        drug_categories = soapService.get_drug_categories()
+        form = form_class(data=request.POST, drug_categories=drug_categories, all_drugs='')
+
+        if form.is_valid():
+            drug_id = request.POST.get('drug_id', '')
+            friendly_name = request.POST.get('friendly_name', '')
+            description = request.POST.get('description', '')
+            availability = request.POST.get('availability', '')
+            category_id = request.POST.get('category', '')
+        else:
+            form.errors
+            return HttpResponse('invalid')
 
         request_data = {'id': drug_id, 'friendlyName': friendly_name, 'availability': availability,
                         'description': description,

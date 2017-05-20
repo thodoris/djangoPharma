@@ -12,7 +12,7 @@ class Category(models.Model):
 
 # Model for Drug
 class Drug(models.Model):
-    id = models.IntegerField(primary_key=True)
+    drug_id = models.CharField(max_length=40)
     friendlyName = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     availability = models.IntegerField()
