@@ -267,3 +267,7 @@ ModelManifest.xml
 
 # virtual env
 **/venv
+
+#idea
+**/.idea
+
