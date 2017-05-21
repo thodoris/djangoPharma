@@ -264,3 +264,6 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /djangoPharma.sln
+
+# virtual env
+**/venv
