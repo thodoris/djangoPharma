@@ -11,10 +11,10 @@ import drugs.restService as restService
 import drugs.soapService as soapService
 import json
 
-client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
+# client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 
 
-# client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
+client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 
 
 def index(request):
@@ -94,6 +94,26 @@ def update_drug(request, drug_id):
         drug = Drug(drug_id=drug_id, friendly_name=friendly_name, description=description, availability=availability)
 
         form = UpdateDrugsForm(instance=drug, drug_categories=drug_categories, initial={'category_id': category_id})
+    else:
+        form_class = UpdateDrugsForm
+        drug_categories = soapService.get_drug_categories()
+        form = form_class(data=request.POST, drug_categories=drug_categories, initial={'category_id': ''})
+
+        if form.is_valid():
+            drug_id = request.POST.get('drug_id', '')
+            friendly_name = request.POST.get('friendly_name', '')
+            description = request.POST.get('description', '')
+            availability = request.POST.get('availability', '')
+            category_id = request.POST.get('category', '')
+        else:
+            form.errors
+            return HttpResponse('invalid')
+
+        request_data = {'id': drug_id, 'friendlyName': friendly_name, 'availability': availability,
+                        'description': description,
+                        'categoryId': category_id}
+
+        soapService.update_drug(request_data)
 
     return render(request, 'app/updateDrug.html', {
         'form': form,

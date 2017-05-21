@@ -33,3 +33,10 @@ def get_drug(drug_id):
     # convert the xml to json
     json_data = utils.xml2json(response)
     return json_data
+
+
+def update_drug(request_data):
+    response = client.service.updateDrug(request_data)
+    # convert the xml to json
+    json_data = utils.xml2json(response)
+    return json_data
