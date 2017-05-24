@@ -1,10 +1,9 @@
 from suds.client import Client
+from django.conf import settings
 import drugs.utils as utils
 
-client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
-
-
-# client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
+#get soap wsdl endpoint from settings
+client = Client(settings.DJANGOPHARMA_SOAP_URL)
 
 
 def get_drug_ids_and_names():

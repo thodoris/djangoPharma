@@ -1,7 +1,9 @@
 import json
+from django.conf import settings
 from urllib.request import urlopen
 
-rest_api = 'http://test.hua.gr:8000/pharmacy'
+#get rest endpoint from settings
+rest_api = settings.DJANGOPHARMA_REST_URL
 
 
 def get_drugs():
