@@ -12,8 +12,8 @@ class Category(models.Model):
 
 # Model for Drug
 class Drug(models.Model):
-    id = models.IntegerField(primary_key=True)
-    friendlyName = models.CharField(max_length=100)
+    drug_id = models.CharField(max_length=40)
+    friendly_name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     availability = models.IntegerField()
     imagePath = models.CharField(max_length=100)

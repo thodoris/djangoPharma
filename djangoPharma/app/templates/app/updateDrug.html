@@ -1,0 +1,31 @@
+{% extends 'app/base/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    <h2>{{ title }}</h2>
+    <div class="row">
+        <div class="col-md-10">
+            <section id="addDrugForm">
+                <form action='.' method='post'>{% csrf_token %}
+                    {{ form.as_p }}
+                    <input type='submit' value='Submit'/>
+                </form>
+            </section>
+        </div>
+        <div class="col-md-4">
+            <section id="socialLoginForm"></section>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+    {% load staticfiles %}
+    <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+
+{% endblock %}
