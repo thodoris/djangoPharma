@@ -17,6 +17,7 @@ class Drug(models.Model):
     description = models.CharField(max_length=100)
     availability = models.IntegerField()
     imagePath = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
     category = models.ForeignKey(Category)
 
     class Meta:

@@ -5,6 +5,7 @@ Definition of urls for djangoPharma.
 from datetime import datetime
 from django.conf.urls import url
 import django.contrib.auth.views
+
 import app.forms
 import app.views
 import drugs.urls
@@ -49,4 +50,7 @@ urlpatterns = [
 
     # include drugs application's urls
     url(r'^drugs/', include(drugs.urls)),
+    url(r'^cart$', app.views.get_cart, name='get_cart'),
+    url(r'^add_from_cart$', app.views.add_to_cart, name='add_from_cart'),
+    url(r'^remove_from_cart$', app.views.remove_from_cart, name='remove_from_cart'),
 ]
