@@ -5,6 +5,11 @@ import drugs.utils as utils
 #get soap wsdl endpoint from settings
 client = Client(settings.DJANGOPHARMA_SOAP_URL)
 
+def get_all_drugs():
+    response = client.service.fetchAllDrugs()
+    # convert the xml to json
+    json_data = utils.xml2json(response)
+    return json_data
 
 def get_drug_ids_and_names():
     response = client.service.getDrugIdsAndNames()
@@ -29,6 +34,12 @@ def search_drug(query):
 
 def get_drug(drug_id):
     response = client.service.findDrug(drug_id)
+    # convert the xml to json
+    json_data = utils.xml2json(response)
+    return json_data
+
+def get_drug_by_category(category_id):
+    response = client.service.fetchDrugsByCategory(category_id)
     # convert the xml to json
     json_data = utils.xml2json(response)
     return json_data

@@ -1,0 +1,23 @@
+{% block subject %}New order verified for  {{username}}{% endblock %}
+{% block plain %}
+  Hi {{full_name}},
+
+  We receiverd your order :
+      Name: {{drugname}}
+      Quantity: {{quantity}}
+
+  Thanks, you rock!
+{% endblock %}
+
+{% block html %}
+  <p>Hi {{full_name}},</p>
+
+  <p> We receiverd your order :
+      <dl>
+        <dt>Name</dt><dd>{{drugname}}</dd>
+        <dt>Quantitye</dt><dd>{{quantity}}</dd>
+      </dl>
+  </p>
+
+  <p>Thanks, you rock!</p>
+{% endblock %}

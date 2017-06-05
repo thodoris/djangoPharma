@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.conf import settings
+from django.views.decorators.cache import cache_page
 from suds.client import Client
 from datetime import datetime
 from .models import Drug, Category
@@ -12,7 +14,7 @@ import drugs.soapService as soapService
 import json
 
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
-
+CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
 
 # client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 
@@ -21,6 +23,16 @@ def index(request):
     output = '<h1>Index</h1>'
     return HttpResponse(output)
 
+
+@cache_page(CACHE_TTL)
+def test(request):
+    drugs_data=json.loads(soapService.get_all_drugs())['drug']
+    for drug in drugs_data:
+        drugid=drug['id']
+        if drugid != '':
+            rest_data = restService.get_drug_by_id(drugid)
+            drug['rest']=rest_data
+    return HttpResponse(drugs_data)
 
 def detail(request, drug_id):
     response = utils.xml2json(client.service.findDrug(drug_id))

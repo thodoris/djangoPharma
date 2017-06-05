@@ -13,5 +13,7 @@ def get_drugs():
 
 def get_drug_by_id(drug_id):
     urlpath = rest_api + '/' + drug_id
-    resp = json.load(urlopen(urlpath))
+    rest_result = urlopen(urlpath)
+    resp = json.load(rest_result)
     return resp
+

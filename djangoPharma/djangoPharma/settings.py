@@ -137,13 +137,32 @@ ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window;
 REGISTRATION_AUTO_LOGIN = True  # Automatically log the user in.
 
 #Custom Application Settings
-DJANGOPHARMA_REST_URL = 'http://test.hua.gr:8000/pharmacy'
+DJANGOPHARMA_REST_URL = 'http://connect.opengov.gr:3000/drugs' #''http://test.hua.gr:8000/pharmacy'
 DJANGOPHARMA_SOAP_URL='http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl'
+DJANGOPHARMA_CACHE_TTL = 60 * 15
 
 # mail server dummy setup
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'info@e-pharmacy.com'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-EMAIL_PORT = 1025
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'DjangoPharma <noreply@djangopharma.com>'
+EMAIL_HOST = 'stmp.gmail.com'
+EMAIL_HOST_USER = 'connect.opengov@gmail.com'
+EMAIL_HOST_PASSWORD = 'opengov.connect'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+
+
+CACHES = {
+'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    },
+    "redis": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "djangoPharma"
+    }
+}
+
+
