@@ -1,12 +1,14 @@
 from django.shortcuts import render
+from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.conf import settings
 from django.views.decorators.cache import cache_page
 from suds.client import Client
 from datetime import datetime
-from .models import Drug, Category
+from .models import Drug
 from django.core import serializers
+from cart.cart import Cart
 from .forms import AddDrugsForm, UpdateDrugsForm
 import drugs.utils as utils
 import drugs.restService as restService
@@ -15,6 +17,7 @@ import json
 
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
+
 
 # client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 
@@ -26,13 +29,14 @@ def index(request):
 
 @cache_page(CACHE_TTL)
 def test(request):
-    drugs_data=json.loads(soapService.get_all_drugs())['drug']
+    drugs_data = json.loads(soapService.get_all_drugs())['drug']
     for drug in drugs_data:
-        drugid=drug['id']
+        drugid = drug['id']
         if drugid != '':
             rest_data = restService.get_drug_by_id(drugid)
-            drug['rest']=rest_data
+            drug['rest'] = rest_data
     return HttpResponse(drugs_data)
+
 
 def detail(request, drug_id):
     response = utils.xml2json(client.service.findDrug(drug_id))
@@ -134,4 +138,20 @@ def update_drug(request, drug_id):
         'year': datetime.now().year,
     })
 
+
 # Create your views here.
+
+def add_to_cart(request, product_id, quantity):
+    product = Drug.objects.get(id=product_id)
+    cart = Cart(request)
+    cart.add(product, product.unit_price, quantity)
+
+
+def remove_from_cart(request, product_id):
+    product = Drug.objects.get(id=product_id)
+    cart = Cart(request)
+    cart.remove(product)
+
+
+def get_cart(request):
+    return render_to_response('cart.html', dict(cart=Cart(request)))
