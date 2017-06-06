@@ -17,7 +17,52 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserAddress.objects.create(user=instance)
 
+
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.useraddress.save()
 
+
+STATUS_ENUM = (
+    (1, 'Submitted'),
+    (2, 'Ready For Delivery'),
+    (3, 'Delivered'),
+    (4, 'Rejected'),
+)
+
+PAYMENT_TYPE_ENUM = {
+    (1, 'Cash'),
+    (2, 'Bank Disposal')
+}
+
+SHIPMENT_TYPE_ENUM = {
+    (1, 'From Store'),
+    (2, 'Courier')
+}
+
+
+# Model for Order
+class Order(models.Model):
+    user = models.ForeignKey(User)
+    address = models.ForeignKey(UserAddress)
+    order_date = models.DateTimeField()
+    status = models.IntegerField(choices=STATUS_ENUM, default=1)
+    payment_type = models.IntegerField(choices=PAYMENT_TYPE_ENUM, default=1)
+    shipment_type = models.IntegerField(choices=SHIPMENT_TYPE_ENUM, default=1)
+    comments = models.CharField(max_length=500)
+
+    class Meta:
+        verbose_name_plural = 'orders'
+        managed = True
+
+
+# Model for Order Details
+class OrderDetails(models.Model):
+    order = models.OneToOneField(Order)
+    drug_id = models.IntegerField()
+    quantity = models.IntegerField()
+    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
+
+    class Meta:
+        verbose_name_plural = 'orders_details'
+        managed = True

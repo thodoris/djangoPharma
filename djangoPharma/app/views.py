@@ -131,3 +131,7 @@ def remove_from_cart(request):
 
 def get_cart(request):
     return render_to_response('app/cart.html', dict(cart=Cart(request)))
+
+
+def get_orders(request):
+    return render_to_response('app/orders.html')

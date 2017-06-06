@@ -53,4 +53,5 @@ urlpatterns = [
     url(r'^cart$', app.views.get_cart, name='get_cart'),
     url(r'^add_from_cart$', app.views.add_to_cart, name='add_from_cart'),
     url(r'^remove_from_cart$', app.views.remove_from_cart, name='remove_from_cart'),
+    url(r'^my_orders$', app.views.get_orders, name='my_orders'),
 ]
