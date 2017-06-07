@@ -15,7 +15,7 @@ import drugs.restService as restService
 import drugs.soapService as soapService
 import json
 
-client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
+client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
 
 
