@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Model for Category
 class Category(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -7,12 +8,11 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'categories'
-        managed = False
 
 
 # Model for Drug
 class Drug(models.Model):
-    drug_id = models.CharField(max_length=40)
+    id = models.CharField(max_length=40, primary_key=True)
     friendly_name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     availability = models.IntegerField()
@@ -22,7 +22,6 @@ class Drug(models.Model):
 
     class Meta:
         verbose_name_plural = 'drugs'
-        managed = False
 
     def get_img_url(self):
         return self.imagePath

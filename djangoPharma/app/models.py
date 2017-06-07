@@ -24,10 +24,11 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 STATUS_ENUM = (
-    (1, 'Submitted'),
-    (2, 'Ready For Delivery'),
-    (3, 'Delivered'),
-    (4, 'Rejected'),
+    (1, 'Pending'),
+    (2, 'Submitted'),
+    (3, 'Ready For Delivery'),
+    (4, 'Delivered'),
+    (5, 'Rejected'),
 )
 
 PAYMENT_TYPE_ENUM = {
