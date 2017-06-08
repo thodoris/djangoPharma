@@ -16,6 +16,9 @@ from django.template.loader import render_to_string
 from .forms import UserForm, UserAddressForm
 from .forms import ContactForm
 from cart.cart import Cart
+from django.contrib.auth.models import User
+from .models import UserAddress
+from .models import Order, OrderDetails
 import drugs.restService as restService
 import drugs.models as DrugModel
 
@@ -107,14 +110,9 @@ def registration_complete(request):
 
 def add_to_cart(request):
     # hardcoded values TODO remove
-    product = restService.get_drug_by_id('000090201')
-    quantity = 1
-    # set the model
-    drug = DrugModel.Drug()
-    drug.id = product['id']
-    drug.friendly_name = product['name']
-    # use only the one price from the two
-    drug.price = product['price_retail']
+    # product = restService.get_drug_by_id('000090201')
+    drug = DrugModel.Drug.objects.get(id='1')
+    quantity = 5
     cart = Cart(request)
     # args: model, price, quantity
     cart.add(drug, drug.price, quantity)
@@ -122,9 +120,7 @@ def add_to_cart(request):
 
 def remove_from_cart(request):
     # hardcoded values TODO remove
-    drug_id = '000090201'
-    drug = DrugModel.Drug()
-    drug.id = drug_id
+    drug = DrugModel.objects.get(id='1')
     cart = Cart(request)
     cart.remove(drug)
 
@@ -134,4 +130,27 @@ def get_cart(request):
 
 
 def get_orders(request):
-    return render_to_response('app/orders.html')
+    if request.method == 'GET':
+        user = User.objects.get(pk=2)
+        orders = Order.objects.get(user=user)
+        return render_to_response('app/orders.html', dict(orders=orders))
+    elif request.method == 'POST':
+        cart = Cart(request)
+        user = User.objects.get(pk=3)
+        address = UserAddress.objects.get(pk=3)
+        order_date = datetime.datetime.now()
+        status = '1'
+        payment_type = '1'
+        shipment_type = '1'
+        comments = 'commmmments'
+
+        order = Order.objects.create(user=user, address=address, order_date=order_date,
+                                     status=status, payment_type=payment_type, shipment_type=shipment_type,
+                                     comments=comments)
+
+        for item in cart.cart.item_set.all():
+            quantity = item.quantity
+            unit_price = item.total_price
+            drug = item.product
+            order_details = OrderDetails.objects.create(order=order, drug=drug,
+                                                        quantity=quantity, unit_price=unit_price)

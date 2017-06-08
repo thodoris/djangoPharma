@@ -103,41 +103,42 @@ def add_drug(request):
 def update_drug(request, drug_id):
     if request.method == 'GET':
         # get the info from the SOAP WS
+        drug = Drug.objects.get(pk=drug_id)
         selected_drug = soapService.get_drug(drug_id)
         # get drug categories
         drug_categories = soapService.get_drug_categories()
 
         json_data = json.loads(selected_drug)
-        model = json_data['drug'][0]
-        drug_id = model['id']
-        friendly_name = model['friendlyName']
-        description = model['description']
-        availability = model['availability']
-        category_id = model['drugCategory']['id']
-
-        drug = Drug(drug_id=drug_id, friendly_name=friendly_name, description=description, availability=availability)
-
-        form = UpdateDrugsForm(instance=drug, drug_categories=drug_categories, initial={'category_id': category_id})
+        # model = json_data['drug'][0]
+        # drug_id = model['id']
+        # friendly_name = model['friendlyName']
+        # description = model['description']
+        # availability = model['availability']
+        # category_id = model['drugCategory']['id']
+        form = UpdateDrugsForm(instance=drug)
     else:
-        form_class = UpdateDrugsForm
-        drug_categories = soapService.get_drug_categories()
-        form = form_class(data=request.POST, drug_categories=drug_categories, initial={'category_id': ''})
-
+        form = UpdateDrugsForm(request.POST)
         if form.is_valid():
-            drug_id = request.POST.get('drug_id', '')
-            friendly_name = request.POST.get('friendly_name', '')
-            description = request.POST.get('description', '')
-            availability = request.POST.get('availability', '')
-            category_id = request.POST.get('category', '')
+            id = form.cleaned_data['id']
+            friendly_name = form.cleaned_data['friendly_name']
+            availability = form.cleaned_data['availability']
+            description = form.cleaned_data['description']
+            price = form.cleaned_data['price']
+            category = form.cleaned_data['category']
+            # drug_id = request.POST.get('drug_id', '')
+            # friendly_name = request.POST.get('friendly_name', '')
+            # description = request.POST.get('description', '')
+            # availability = request.POST.get('availability', '')
+            # category_id = request.POST.get('category', '')
+            post = Drug.objects.update(id=id, friendly_name=friendly_name, availability=availability,
+                                       description=description, price=price, category=category)
+            request_data = {'id': drug_id, 'friendlyName': friendly_name, 'availability': availability,
+                            'description': description,
+                            'category': category}
+            soapService.update_drug(post)
         else:
             form.errors
             return HttpResponse('invalid')
-
-        request_data = {'id': drug_id, 'friendlyName': friendly_name, 'availability': availability,
-                        'description': description,
-                        'categoryId': category_id}
-
-        soapService.update_drug(request_data)
 
     return render(request, 'app/updateDrug.html', {
         'form': form,

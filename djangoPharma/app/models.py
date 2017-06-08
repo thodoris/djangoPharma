@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import drugs.models as DrugModel
 
 
 class UserAddress(models.Model):
@@ -54,16 +55,14 @@ class Order(models.Model):
 
     class Meta:
         verbose_name_plural = 'orders'
-        managed = True
 
 
 # Model for Order Details
 class OrderDetails(models.Model):
     order = models.OneToOneField(Order)
-    drug_id = models.IntegerField()
+    drug = models.ForeignKey(DrugModel.Drug)
     quantity = models.IntegerField()
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)
 
     class Meta:
         verbose_name_plural = 'orders_details'
-        managed = True

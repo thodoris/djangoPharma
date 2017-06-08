@@ -12,7 +12,7 @@
         </tr>
         {% for item in cart %}
         <tr>
-            <td>{{ item.drugs }}</td>
+            <td>{{ item.product.friendly_name }}</td>
             <td>{{ item.quantity }}</td>
             <td>{{ item.total_price }}</td>
         </tr>
