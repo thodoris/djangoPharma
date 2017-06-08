@@ -1,6 +1,7 @@
 from suds.client import Client
 from django.conf import settings
 import drugs.utils as utils
+import json
 
 #get soap wsdl endpoint from settings
 client = Client(settings.DJANGOPHARMA_SOAP_URL)
@@ -22,7 +23,8 @@ def get_drug_categories():
     response = client.service.getDrugCategories()
     # convert the xml to json
     json_data = utils.xml2json(response)
-    return json_data
+    drug_categories = json.loads(json_data)['drugCategory']
+    return drug_categories
 
 
 def search_drug(query):

@@ -13,6 +13,7 @@ from .forms import AddDrugsForm, UpdateDrugsForm
 import drugs.utils as utils
 import drugs.restService as restService
 import drugs.soapService as soapService
+import drugs.migrationService as migrationService
 import json
 
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
@@ -148,4 +149,5 @@ def update_drug(request, drug_id):
     })
 
 
-    # Create your views here.
+def manage_migrations(request):
+    migrationService.migrate_drug_categories()

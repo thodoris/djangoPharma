@@ -11,4 +11,5 @@ urlpatterns = [
     # ex: add drug
     url(r'^addDrug$', views.add_drug, name='add_drug'),
     url(r'^updateDrug/(?P<drug_id>[0-9]+)/$', views.update_drug, name='update_drug'),
+    url(r'^migrate$', views.manage_migrations, name='manage_migrations'),
     ]
