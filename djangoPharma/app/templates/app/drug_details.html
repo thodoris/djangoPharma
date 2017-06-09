@@ -35,6 +35,8 @@
             </table>
         </div>
     </div>
+    {% csrf_token %}
+    <input type="hidden" id="drugId" value="{{ drug.id }}">
     <div class="row">
         <div class="col-md-2">
             <div class="input-group number-spinner">
@@ -42,7 +44,7 @@
 					<button class="btn btn-default" data-dir="dwn"><span
                             class="glyphicon glyphicon-minus"></span></button>
 				</span>
-                <input type="text" class="form-control text-center" value="1">
+                <input type="text" id="quantity" class="form-control text-center" value="1">
                 <span class="input-group-btn">
 					<button class="btn btn-default" data-dir="up"><span
                             class="glyphicon glyphicon-plus"></span></button>
@@ -50,7 +52,18 @@
             </div>
         </div>
         <div class="col-md-2">
-            <button type="button" class="btn btn-warning">Add To Cart</button>
+            <button type="button" id="addToCart" class="btn btn-warning">Add To Cart</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="alert alert-success hidden" id="cart-alert-success">
+            <strong>Success!</strong> The drug has been added to the cart!
+        </div>
+     <div class="alert alert-danger hidden" id="cart-alert-fail">
+            <strong>Failure!</strong> The drug has been not been added to the cart! Please Try again later
         </div>
     </div>
 

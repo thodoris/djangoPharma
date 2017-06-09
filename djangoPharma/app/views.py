@@ -7,6 +7,7 @@ from datetime import datetime
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.template.context_processors import csrf
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
@@ -116,11 +117,18 @@ def registration_complete(request):
 def add_to_cart(request):
     # hardcoded values TODO remove
     # product = restService.get_drug_by_id('000090201')
-    drug = DrugModel.Drug.objects.get(id='1')
-    quantity = 5
-    cart = Cart(request)
-    # args: model, price, quantity
-    cart.add(drug, drug.price, quantity)
+    if request.method == 'POST':
+        try:
+            drug_id = request.POST.get('drug_id', '')
+            quantity = request.POST.get('quantity', '')
+            drug = DrugModel.Drug.objects.get(id=drug_id)
+            cart = Cart(request)
+            # args: model, price, quantity
+            cart.add(drug, drug.price, quantity)
+            # everything went correct
+            return HttpResponse(status=200)
+        except Exception as e:
+            return HttpResponse(status=500)
 
 
 def remove_from_cart(request):
