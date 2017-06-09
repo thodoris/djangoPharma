@@ -40,8 +40,9 @@ def test(request):
 
 
 def detail(request, drug_id):
-    response = utils.xml2json(client.service.findDrug(drug_id))
-    return HttpResponse(response)
+    drug = Drug.objects.get(pk=drug_id)
+    context = {'drug': drug}
+    return render(request, 'app/drug_details.html', context)
 
 
 def get_drug(drugid):

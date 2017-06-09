@@ -1,0 +1,22 @@
+{% extends 'app/base/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    <div>{{ drug.id }}</div>
+    <div>{{ drug.friendly_name }}</div>
+    <div>{{ drug.price }}</div>
+    <div>{{ drug.availability }}</div>
+    <div>{{ drug.description }}</div>
+    <div>{{ drug.category.name }}</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    {% load staticfiles %}
+    <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+
+{% endblock %}
