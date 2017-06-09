@@ -90,12 +90,14 @@ def about(request):
 
 def register(request):
     if request.method == 'POST':
-        user_form = UserForm(data=request.POST,prefix="user")
-        address_form = UserAddressForm(data=request.POST,prefix="address")
+        user_form = UserForm(data=request.POST, prefix="user")
+        address_form = UserAddressForm(data=request.POST, prefix="address")
 
         if user_form.is_valid() and address_form.is_valid():
-            new_user=user_form.save()
-            UserAddress.objects.create(user=new_user, street=address_form.cleaned_data['street'],streetno=address_form.cleaned_data['streetno'] , city=address_form.cleaned_data['city'] , zip = address_form.cleaned_data['zip'])
+            new_user = user_form.save()
+            UserAddress.objects.create(user=new_user, street=address_form.cleaned_data['street'],
+                                       streetno=address_form.cleaned_data['streetno'],
+                                       city=address_form.cleaned_data['city'], zip=address_form.cleaned_data['zip'])
             return HttpResponseRedirect('/accounts/register/complete')
         else:
             return render(request, 'registration/registration_form.html', {'form': user_form})
@@ -131,11 +133,33 @@ def add_to_cart(request):
             return HttpResponse(status=500)
 
 
+def update_cart(request):
+    if request.method == 'POST':
+        try:
+            drug_id = request.POST.get('drug_id', '')
+            quantity = request.POST.get('quantity', '')
+            drug = DrugModel.Drug.objects.get(id=drug_id)
+            cart = Cart(request)
+            # args: model, price, quantity
+            cart.update(drug, drug.price, quantity)
+            # everything went correct
+            return HttpResponse(status=200)
+        except Exception as e:
+            return HttpResponse(status=500)
+
+
 def remove_from_cart(request):
-    # hardcoded values TODO remove
-    drug = DrugModel.objects.get(id='1')
-    cart = Cart(request)
-    cart.remove(drug)
+    if request.method == 'POST':
+        try:
+            drug_id = request.POST.get('drug_id', '')
+            drug = DrugModel.Drug.objects.get(id=drug_id)
+            cart = Cart(request)
+            cart.remove(drug)
+            # everything went correct
+            return HttpResponse(status=200)
+        except Exception as e:
+            return HttpResponse(status=500)
+
 
 
 def get_cart(request):

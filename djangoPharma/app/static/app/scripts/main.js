@@ -28,9 +28,11 @@ $(document).ready(function () {
         });
     });
 
-      $('#updateCart').on('click', function () {
+    $('#updateCart').on('click', function () {
+        debugger;
         var quantity = $('#quantity').val();
-        var drug_id = $('#drugId').val();
+        // TODO here we will have many
+        var drug_id = $('.drug').val();
         var token = $('input[name=csrfmiddlewaretoken]').val();
         // hide the messages
         hideAlertResultMessages();
@@ -53,7 +55,30 @@ $(document).ready(function () {
         });
     });
 
-
+     $('#removeFromCart').on('click', function () {
+        debugger;
+        // TODO here we will have many
+        var drug_id = $('.drug').val();
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+        // hide the messages
+        hideAlertResultMessages();
+        var data = {
+            drug_id: drug_id
+        };
+        $.ajax({
+            type: "POST",
+            url: url + '/remove_from_cart',
+            data: data, beforeSend: function (xmlHTTPRequest) {
+                xmlHTTPRequest.setRequestHeader('X-CSRFToken', token)
+            },
+            success: function () {
+                $('#cart-alert-success').removeClass('hidden')
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $('#cart-alert-fail').removeClass('hidden')
+            }
+        });
+    });
 
     function hideAlertResultMessages() {
         $('#cart-alert-success').addClass('hidden');
