@@ -4,6 +4,81 @@
 {% block title %}{% endblock %}
 
 {% block content %}
+     {% csrf_token %}
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                {% for item in cart %}
+                    <tr>
+                        <div class="row">
+                            <div class="col-md-2">
+                                {{ item.product.friendly_name }}
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group number-spinner">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" data-dir="dwn"><span
+                                                class="glyphicon glyphicon-minus"></span></button>
+                                    </span>
+                                    <input type="text" id="quantity" class="form-control text-center" value="{{ item.quantity }}">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" data-dir="up"><span
+                                                class="glyphicon glyphicon-plus"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                 <button type="button" id="updateCart" class="btn btn-warning">Update</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" id="removeFromCart" class="btn btn-danger">Remove</button>
+                            </div>
+                        </div>
+{#                        <td>{{ item.product.friendly_name }}</td>#}
+{#                        <td>#}
+{#                            <div class="input-group number-spinner">#}
+{#				<span class="input-group-btn">#}
+{#					<button class="btn btn-default" data-dir="dwn"><span#}
+{#                            class="glyphicon glyphicon-minus"></span></button>#}
+{#				</span>#}
+{#                                <input type="text" id="quantity" class="form-control text-center" value="1">#}
+{#                                <span class="input-group-btn">#}
+{#					<button class="btn btn-default" data-dir="up"><span#}
+{#                            class="glyphicon glyphicon-plus"></span></button>#}
+{#				</span>#}
+{#                            </div>#}
+{#                        </td>#}
+{#                        <td>#}
+{#                            <button type="button" id="updateCart" class="btn btn-warning">Update</button>#}
+{#                        </td>#}
+{#                        <td>#}
+{#                            <button type="button" id="removeFromCart" class="btn btn-danger">Remove</button>#}
+{#                        </td>#}
+                    </tr>
+                    <tr>
+                        <td>Name:</td>
+                        <td>{{ drug.friendly_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Availability:</td>
+                        <td>{{ drug.availability }}</td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td>{{ drug.description }}</td>
+                    </tr>
+                    <tr>
+                        <td>Category:</td>
+                        <td>{{ drug.category.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Category:</td>
+                        <td>{{ drug.category.name }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
     <table>
         <tr>
             <th>Product</th>
@@ -11,11 +86,11 @@
             <th>Total Price</th>
         </tr>
         {% for item in cart %}
-        <tr>
-            <td>{{ item.product.friendly_name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.total_price }}</td>
-        </tr>
+            <tr>
+                <td>{{ item.product.friendly_name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.total_price }}</td>
+            </tr>
         {% endfor %}
     </table>
 {% endblock %}
