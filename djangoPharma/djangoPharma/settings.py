@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import posixpath
+import fakeredis
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -152,17 +153,18 @@ EMAIL_PORT = 587
 
 
 CACHES = {
-'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    },
-    "redis": {
+
+    "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+            "REDIS_CLIENT_CLASS": "fakeredis.FakeStrictRedis" #django_redis.client.DefaultClient"
         },
         "KEY_PREFIX": "djangoPharma"
-    }
+    },
+    'dev_default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
 }
 
 

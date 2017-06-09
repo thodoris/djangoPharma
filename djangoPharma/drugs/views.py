@@ -15,6 +15,7 @@ import drugs.restService as restService
 import drugs.soapService as soapService
 import drugs.migrationService as migrationService
 import json
+from django.core.cache import cache
 
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
@@ -28,15 +29,20 @@ def index(request):
     return HttpResponse(output)
 
 
-@cache_page(CACHE_TTL)
+
 def test(request):
-    drugs_data = json.loads(soapService.get_all_drugs())['drug']
-    for drug in drugs_data:
-        drugid = drug['id']
-        if drugid != '':
-            rest_data = restService.get_drug_by_id(drugid)
-            drug['rest'] = rest_data
-    return HttpResponse(drugs_data)
+    drugs_data = cache.get('drugs_data')
+    if drugs_data is None:
+        drugs_data = json.loads(soapService.get_all_drugs())['drug']
+        for drug in drugs_data:
+            drugid = drug['id']
+            if drugid != '':
+                rest_data = restService.get_drug_by_id(drugid)
+                drug['rest'] = rest_data
+        cache.add('drugs_data', drugs_data)
+    context = {'data': drugs_data}
+    return render(request, 'app/test.html', context)
+
 
 
 def detail(request, drug_id):
