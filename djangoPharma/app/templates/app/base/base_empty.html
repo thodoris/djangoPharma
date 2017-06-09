@@ -1,46 +1,49 @@
 {% extends 'app/base/bootstrap.html' %}
 {% load staticfiles %}
 {% load bootstrap3 %}
-{% block  bootstrap3_extra_head  %}
+{% block  bootstrap3_extra_head %}
     <!-- Vendor styles -->
-    <link rel="stylesheet"  href="{% static 'app/vendor/fontawesome/css/font-awesome.css' %}" />
-    <link rel="stylesheet"  href="{% static 'app/vendor/metisMenu/dist/metisMenu.css' %}" />
-    <link rel="stylesheet"  href="{% static 'app/vendor/animate.css/animate.css' %}" />
-    <link rel="stylesheet"  href="{% static 'app/vendor/sweetalert/lib/sweet-alert.css' %}" />
+    <link rel="stylesheet" href="{% static 'app/vendor/fontawesome/css/font-awesome.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/vendor/metisMenu/dist/metisMenu.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/vendor/animate.css/animate.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/vendor/sweetalert/lib/sweet-alert.css' %}"/>
 
     <!-- App styles -->
-    <link rel="stylesheet"  href="{% static 'app/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css' %}" />
-    <link rel="stylesheet"  href="{% static 'app/fonts/pe-icon-7-stroke/css/helper.css' %}" />
-    <link rel="stylesheet"  href="{% static 'app/styles/style.css' %}" />
-    <link rel="stylesheet"  href="{% static 'app/styles/site.css' %}" />
+    <link rel="stylesheet" href="{% static 'app/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/fonts/pe-icon-7-stroke/css/helper.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/styles/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/styles/site.css' %}"/>
 
 {% endblock %}
 
 {% block bootstrap3_content %}
 
-<div class="color-line"></div>
+    <div class="color-line"></div>
 
-<div class="back-link">
-    <a href="/" class="btn btn-primary">Back to Dashboard</a>
-</div>
+    <div class="back-link">
+        <a href="/" class="btn btn-primary">Back to Dashboard</a>
+    </div>
 
- {% block content %}(no content){% endblock %}
+    {% block content %}(no content){% endblock %}
 
 {% endblock %}
 
-{%  block bootstrap3_extra_script %}
-<!-- Vendor scripts -->
+{% block bootstrap3_extra_script %}
+    <!-- Vendor scripts -->
 
-<script src="{% static 'app/vendor/jquery-ui/jquery-ui.min.js' %}"> </script>
-<script src="{% static 'app/vendor/slimScroll/jquery.slimscroll.min.js' %}"> </script>
-<script src="{% static 'app/vendor/metisMenu/dist/metisMenu.min.js' %}"> </script>
-<script src="{% static 'app/vendor/iCheck/icheck.min.js' %}"> </script>
-<script src="{% static 'app/vendor/sparkline/index.js' %}"> </script>
-<script src="{% static 'app/vendor/sweetalert/lib/sweet-alert.min.js' %}"> </script>
+    <script src="{% static 'app/vendor/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'app/vendor/slimScroll/jquery.slimscroll.min.js' %}"></script>
+    <script src="{% static 'app/vendor/metisMenu/dist/metisMenu.min.js' %}"></script>
+    <script src="{% static 'app/vendor/iCheck/icheck.min.js' %}"></script>
+    <script src="{% static 'app/vendor/sparkline/index.js' %}"></script>
+    <script src="{% static 'app/vendor/sweetalert/lib/sweet-alert.min.js' %}"></script>
 
-<!-- App scripts -->
-<script src="{% static 'app/scripts/homer.js' %}"> </script>
+    <!-- App scripts -->
+    <script src="{% static 'app/scripts/homer.js' %}"></script>
+    <script src="{% static 'app/scripts/bootstrap-spinner.js' %}"></script>
+    <script src="{% static 'app/scripts/main.js' %}"></script>
 
-{% block custom_script %}{% endblock %}
+
+    {% block custom_script %}{% endblock %}
 
 {% endblock %}

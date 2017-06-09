@@ -4,20 +4,71 @@
 {% block title %}{% endblock %}
 
 {% block content %}
-    <table>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Total Price</th>
-        </tr>
-        {% for item in cart %}
-        <tr>
-            <td>{{ item.product.friendly_name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.total_price }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    {% csrf_token %}
+
+    {% for item in cart %}
+        <div class="panel panel-default">
+            <div class="panel-heading"> {{ item.product.friendly_name }}</div>
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="/static/app/images/depon_maximum.png" class="img-responsive" alt="Responsive image"
+                         style=" margin: 0 auto;">
+                </div>
+                <div class="col-md-10">
+                    <table class="table table-striped">
+                        <tr>
+                            <td>Drug ID:</td>
+                            <td>{{ item.product.id }}</td>
+                        </tr>
+                        <tr>
+                            <td>Name:</td>
+                            <td>{{ item.product.friendly_name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Availability:</td>
+                            <td>{{ item.product.availability }}</td>
+                        </tr>
+                        <tr>
+                            <td>Description:</td>
+                            <td>{{ item.product.description }}</td>
+                        </tr>
+                        <tr>
+                            <td>Category:</td>
+                            <td>{{ item.product.category.name }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <span>Quantity:</span>
+                    <div class="input-group number-spinner">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" data-dir="dwn"><span
+                                                class="glyphicon glyphicon-minus"></span></button>
+                                    </span>
+
+                        <input type="text" id="quantity" class="form-control text-center"
+                               value="{{ item.quantity }}">
+                        <span class="input-group-btn">
+                                        <button class="btn btn-default" data-dir="up"><span
+                                                class="glyphicon glyphicon-plus"></span></button>
+                                    </span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <span>Total Price:</span>{{ item.total_price }}
+                </div>
+                 <input type="hidden" class="drug" value="{{ item.product.id }}">
+                <div class="col-md-2">
+                    <button type="button" id="updateCart" class="btn btn-warning">Update</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" id="removeFromCart" class="btn btn-danger">Remove</button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}
 
 {% block scripts %}
