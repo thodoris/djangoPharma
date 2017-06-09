@@ -1,6 +1,7 @@
 {% extends 'app/base/bootstrap.html' %}
 {% load staticfiles %}
 {% load bootstrap3 %}
+{% load app_tags %}
 {% block  bootstrap3_extra_head  %}
     <!-- Vendor styles -->
     <link rel="stylesheet"  href="{% static 'app/vendor/fontawesome/css/font-awesome.css' %}" />
@@ -343,17 +344,7 @@
 <div class="small-header transition animated fadeIn">
     <div class="hpanel">
         <div class="panel-body">
-            <div id="hbreadcrumb" class="pull-right">
-                <ol class="hbreadcrumb breadcrumb">
-                    <li><a href="index.html">Dashboard</a></li>
-                    <li>
-                        <span>Forms</span>
-                    </li>
-                    <li class="active">
-                        <span>Forms elements </span>
-                    </li>
-                </ol>
-            </div>
+            {% breadcrumb_tag  %}
             <h2 class="font-light m-b-xs">
                 {% block title %}{% endblock %}
             </h2>
