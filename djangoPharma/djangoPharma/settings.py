@@ -125,11 +125,11 @@ STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
 
 BOOTSTRAP3 = {
 
-    # The URL to the jQuery JavaScript file
-    'jquery_url': '/static/app/scripts/jquery-3.2.1.min.js',
-    # The complete URL to the Bootstrap CSS file (None means no theme)
-    'theme_url': 'https://bootswatch.com/cosmo/bootstrap.min.css',
-    'javascript_in_head': True,
+    'base_url': '/static/app/vendor/bootstrap/dist',
+    'css_url': '/static/app/vendor/bootstrap/dist/css/bootstrap.min.css',
+    'javascript_url':'/static/app/vendor/bootstrap/dist/js/bootstrap.min.js',
+    'jquery_url': '/static/app/vendor/jquery/dist/jquery.min.js',
+    'javascript_in_head': False,
 }
 
 # Registration

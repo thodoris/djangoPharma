@@ -89,10 +89,15 @@ def about(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
-        if form.is_valid():
-            form.save()
+        user_form = UserForm(data=request.POST,prefix="user")
+        address_form = UserAddressForm(data=request.POST,prefix="address")
+
+        if user_form.is_valid() and address_form.is_valid():
+            new_user=user_form.save()
+            UserAddress.objects.create(user=new_user, street=address_form.cleaned_data['street'],streetno=address_form.cleaned_data['streetno'] , city=address_form.cleaned_data['city'] , zip = address_form.cleaned_data['zip'])
             return HttpResponseRedirect('/accounts/register/complete')
+        else:
+            return render(request, 'registration/registration_form.html', {'form': user_form})
 
     else:
         user_form = UserForm(prefix="user")

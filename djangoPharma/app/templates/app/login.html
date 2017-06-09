@@ -1,28 +1,35 @@
-{% extends 'app/base/base.html' %}
+{% extends 'app/base/base_empty.html' %}
 {% load bootstrap3 %}
 
 {% block title %}django-bootstrap3{% endblock %}
 
 {% block content %}
 
-<h2>{{ title }}</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-
-        <form  action="." role="form" class="form-horizontal" method="post">
-            {% csrf_token %}
-            {% bootstrap_form_errors form type='non_fields' %}
-            {% bootstrap_field form.username size='md' %}
-            {% bootstrap_field form.password placeholder='password' %}
-             <input type="hidden" name="next" value="/" />
-            {% buttons submit='Log in' reset="Cancel" %}{% endbuttons %}
-        </form>
-
-        </section>
+<div class="login-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center m-b-md">
+                <h3>PLEASE LOGIN TO APP</h3>
+                <small>This is the best app ever!</small>
+            </div>
+            <div class="hpanel">
+                <div class="panel-body">
+                          <form  action="." role="form" class="form-horizontal" method="post">
+                            {% csrf_token %}
+                            {% bootstrap_form_errors form type='non_fields' %}
+                            {% bootstrap_field form.username size='md' %}
+                            {% bootstrap_field form.password placeholder='password' %}
+                             <input type="hidden" name="next" value="/" />
+                            {% buttons submit='Log in' reset="Cancel" %}{% endbuttons %}
+                        </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm"></section>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <strong>DjangoPharma</strong> - Your Online Drugs Store <br/> 2017 Hua
+        </div>
     </div>
 </div>
 
