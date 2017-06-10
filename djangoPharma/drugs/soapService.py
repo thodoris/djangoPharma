@@ -50,12 +50,19 @@ def get_drug_by_category(category_id):
 
 
 def update_drug(drug):
-    response = client.service.updateDrug(drug)
+    # create the request for the WS
+    request_data = {'id': drug.id, 'friendlyName': drug.friendly_name,
+                    'availability': drug.availability,
+                    'description': drug.description,
+                    'price': str(drug.price),
+                    'categoryId': drug.category.id}
+    response = client.service.updateDrug(request_data)
     if response.ResponseCode == 'C':
         # convert the xml to json
         json_data = utils.xml2json(response)
         obj = json.loads(json_data)['drug']
-        return json_data
+        # WS returns a list of Drugs - for this call it will be always 1 element
+        return obj[0]
     else:
         return None
 
