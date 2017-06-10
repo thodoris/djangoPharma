@@ -56,6 +56,7 @@ def get_drug(drugid):
 
 
 def add_drug(request):
+    insert_succeed = None
     if request.method == 'GET':
         # get the drug IDS from the external Rest Service
         drugs_index = cacheService.get_rest_drugs()
@@ -66,18 +67,27 @@ def add_drug(request):
         id_choices = [(drug['id'], drug['name']) for drug in drugs_index]
         form = AddDrugsForm(request.POST, choices=id_choices)
         if form.is_valid():
-            # save the drug
-            drug = form.save()
-            # send to the SOAP WS for the insert
-            soapService.insert_drug(drug)
+            try:
+                with transaction.atomic():
+                    # save the drug
+                    drug = form.save()
+                    # send to the SOAP WS for the insert
+                    inserted_drug = soapService.insert_drug(drug)
+                    if inserted_drug is None:
+                        raise IntegrityError
+                    else:
+                        insert_succeed = True
+            except IntegrityError:
+                insert_succeed = False
         else:
-            return HttpResponse('invalid')
+            insert_succeed = False
 
     return render(request, 'app/addDrug.html', {
         'form': form,
         'title': 'Add new Drug',
         'message': 'Your application description page.',
         'year': datetime.now().year,
+        'result': insert_succeed
     })
 
 
