@@ -51,12 +51,14 @@ class UpdateDrugsForm(ModelForm):
     id = forms.CharField(label=_("Drug ID"), required=True, max_length=254,
                          widget=forms.TextInput({
                              'class': 'form-control',
-                             'placeholder': 'Drug ID'}))
+                             'placeholder': 'Drug ID',
+                             'readonly': 'readonly'}))
 
     friendly_name = forms.CharField(label=_("Friendly Name"), required=True, max_length=254,
                                     widget=forms.TextInput({
                                         'class': 'form-control',
-                                        'placeholder': 'Friendly name'}))
+                                        'placeholder': 'Friendly name',
+                                        'readonly': 'readonly'}))
 
     alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
 
@@ -73,7 +75,8 @@ class UpdateDrugsForm(ModelForm):
     price = forms.DecimalField(label=_("Price"), required=True, max_digits=5, decimal_places=2,
                                widget=forms.TextInput({
                                    'class': 'form-control',
-                                   'placeholder': 'Price'}))
+                                   'placeholder': 'Price',
+                                   'readonly': 'readonly'}))
 
     category = UserModelChoiceField(queryset=Category.objects.all(), widget=forms.Select({
         'class': 'form-control',

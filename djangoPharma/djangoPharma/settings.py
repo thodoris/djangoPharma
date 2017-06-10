@@ -139,7 +139,7 @@ REGISTRATION_AUTO_LOGIN = True  # Automatically log the user in.
 
 #Custom Application Settings
 DJANGOPHARMA_REST_URL = 'http://connect.opengov.gr:3000/drugs' #''http://test.hua.gr:8000/pharmacy'
-DJANGOPHARMA_SOAP_URL='http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl'
+DJANGOPHARMA_SOAP_URL='http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl'
 DJANGOPHARMA_CACHE_TTL = 60 * 15
 
 # mail server dummy setup

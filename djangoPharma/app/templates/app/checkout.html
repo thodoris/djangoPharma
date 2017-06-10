@@ -1,0 +1,105 @@
+{% extends 'app/base/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-md-3">
+            <table class="table table-striped">
+                <tr>
+                    <td>Name:</td>
+                    <td>{{ user.first_name }}</td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td>{{ user.last_name }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-3">
+            <table class="table details">
+                <tr>
+                    <td>City:</td>
+                    <td>{{ address.city }}</td>
+                </tr>
+                <tr>
+                    <td>Street:</td>
+                    <td>{{ address.street }}</td>
+                </tr>
+                <tr>
+                    <td>Street Number:</td>
+                    <td>{{ address.streetno }}</td>
+                </tr>
+                <tr>
+                    <td>ZipCode:</td>
+                    <td>{{ address.zip }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    {% for item in cart %}
+        <div class="row">
+            <div class="col-md2">
+                <span>Name: </span>{{ item.product.friendly_name }}
+            </div>
+            <div class="col-md2">
+                <span>Quantity: </span>{{ item.quantity }}
+            </div>
+            <div class="col-md2">
+                <span>Total Price: </span>{{ item.total_price }}
+            </div>
+        </div>
+    {% endfor %}
+
+      <form action="/submit_order" method="post" class="form-horizontal">
+    <div class="row">
+        <div class="col-md6">
+            <span>Payment Type</span>
+            <select class="form-control" name="paymentType">
+                <option value="1">From store</option>
+                <option value="2">Courier</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md6">
+            <span>shipmentType</span>
+            <select class="form-control" name="shipmentType">
+                <option value="1">Cash</option>
+                <option value="2">Bank Disposal</option>
+            </select>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-md6">
+            <span>Comments</span>
+            <textarea name="comments"></textarea>
+        </div>
+     </div>
+
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-3">
+                <button type="submit" id="submitOrder" class="btn btn-success">Submit Order</button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+
+    {% load staticfiles %}
+    <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+
+{% endblock %}
