@@ -25,3 +25,12 @@ class Drug(models.Model):
 
     def get_img_url(self):
         return self.imagePath
+
+    def fromjson(self, json):
+        self.id=json['id']
+        self.name = json['friendlyName']
+        self.description = json['description']
+        self.availability = json['availability']
+        self.imagePath = json['imagePath']
+        self.price = json['rest']['price_retail']
+        return self

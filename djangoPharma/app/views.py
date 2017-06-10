@@ -14,6 +14,8 @@ from django.shortcuts import redirect
 from django.template import Context
 from django.template.loader import get_template
 from django.template.loader import render_to_string
+
+import drugs.cacheService as cacheService
 from .forms import UserForm, UserAddressForm
 from .forms import ContactForm
 from cart.cart import Cart
@@ -27,6 +29,7 @@ import drugs.models as DrugModel
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
+    drugs_data = cacheService.get_all_drugs()
     return render(
         request,
         'app/index.html',

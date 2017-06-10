@@ -13,9 +13,10 @@ from .forms import AddDrugsForm, UpdateDrugsForm
 import drugs.utils as utils
 import drugs.restService as restService
 import drugs.soapService as soapService
+import drugs.cacheService as cacheService
 import drugs.migrationService as migrationService
 import json
-from django.core.cache import cache
+
 
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
@@ -23,30 +24,29 @@ CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
 
 # client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 
+def __getDrugAsModel(drug_id):
+    newdrug = Drug()
+    jsondrug = cacheService.get_drug(drug_id)
+    drug = Drug.fromjson(newdrug, jsondrug)
+    return drug
 
 def index(request):
     output = '<h1>Index</h1>'
     return HttpResponse(output)
 
 
-
 def test(request):
-    drugs_data = cache.get('drugs_data')
-    if drugs_data is None:
-        drugs_data = json.loads(soapService.get_all_drugs())['drug']
-        for drug in drugs_data:
-            drugid = drug['id']
-            if drugid != '':
-                rest_data = restService.get_drug_by_id(drugid)
-                drug['rest'] = rest_data
-        cache.add('drugs_data', drugs_data)
-    context = {'data': drugs_data}
-    return render(request, 'app/test.html', context)
-
+    drugs_data = cacheService.get_all_drugs()
+    if drugs_data is not None:
+        context = {'data': drugs_data}
+        return render(request, 'app/test.html', context)
+    else:
+        return render(request, 'app/error.html', {'error': 'Cannot get data',}, content_type='application/xhtml+xml')
 
 
 def detail(request, drug_id):
-    drug = Drug.objects.get(pk=drug_id)
+    #drug = Drug.objects.get(pk=drug_id)
+    drug = __getDrugAsModel(drug_id)
     context = {'drug': drug}
     return render(request, 'app/drug_details.html', context)
 
@@ -111,12 +111,13 @@ def add_drug(request):
 def update_drug(request, drug_id):
     if request.method == 'GET':
         # get the info from the SOAP WS
-        drug = Drug.objects.get(pk=drug_id)
+        #drug = Drug.objects.get(pk=drug_id)
+        drug = __getDrugAsModel(drug_id)
         selected_drug = soapService.get_drug(drug_id)
         # get drug categories
         drug_categories = soapService.get_drug_categories()
 
-        json_data = json.loads(selected_drug)
+        #json_data = json.loads(selected_drug)
         # model = json_data['drug'][0]
         # drug_id = model['id']
         # friendly_name = model['friendlyName']
