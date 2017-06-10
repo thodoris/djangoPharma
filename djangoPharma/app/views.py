@@ -186,6 +186,7 @@ def submit_order(request):
         comments = request.POST.get('comments', '')
         # submitted
         status = '2'
+        # TODO put transaction for commit multiple insertions
         # save order
         order = Order.objects.create(user=current_user, address=current_user_address, order_date=order_date,
                                      status=status, payment_type=payment_type, shipment_type=shipment_type,
@@ -204,19 +205,7 @@ def submit_order(request):
 
 def get_orders(request):
     if request.method == 'GET':
-        user = User.objects.get(pk=2)
-        orders = Order.objects.get(user=user)
-        return render_to_response('app/orders.html', dict(orders=orders))
-    elif request.method == 'POST':
-        cart = Cart(request)
-        user = User.objects.get(pk=3)
-        address = UserAddress.objects.get(pk=3)
-        order_date = datetime.datetime.now()
-        status = '1'
-        payment_type = '1'
-        shipment_type = '1'
-        comments = 'commmmments'
-
-        order = Order.objects.create(user=user, address=address, order_date=order_date,
-                                     status=status, payment_type=payment_type, shipment_type=shipment_type,
-                                     comments=comments)
+        # TODO remove hardcoded
+        user = User.objects.get(pk=1)
+        orders = Order.objects.filter(user=user)
+        return render(request, 'app/orders.html', dict(orders=orders))

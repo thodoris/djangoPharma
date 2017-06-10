@@ -29,7 +29,6 @@ def index(request):
     return HttpResponse(output)
 
 
-
 def test(request):
     drugs_data = cache.get('drugs_data')
     if drugs_data is None:
@@ -42,7 +41,6 @@ def test(request):
         cache.add('drugs_data', drugs_data)
     context = {'data': drugs_data}
     return render(request, 'app/test.html', context)
-
 
 
 def detail(request, drug_id):

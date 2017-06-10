@@ -41,7 +41,6 @@ urlpatterns = [
             'next_page': '/',
         },
         name='logout'),
-
     # include registration
     url(r'^accounts/register/$', app.views.register, name='register'),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
