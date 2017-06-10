@@ -59,7 +59,7 @@
                 <div class="col-md-2">
                     <span>Total Price:</span>{{ item.total_price }}
                 </div>
-                 <input type="hidden" class="drug" value="{{ item.product.id }}">
+                <input type="hidden" class="drug" value="{{ item.product.id }}">
                 <div class="col-md-2">
                     <button type="button" id="updateCart" class="btn btn-warning">Update</button>
                 </div>
@@ -69,6 +69,16 @@
             </div>
         </div>
     {% endfor %}
+
+    <form action="/checkout" method="post" class="form-horizontal">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-3">
+                <button type="submit" id="checkout" class="btn btn-success">Checkout</button>
+            </div>
+        </div>
+    </form>
+
 {% endblock %}
 
 {% block scripts %}

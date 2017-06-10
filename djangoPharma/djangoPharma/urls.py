@@ -55,4 +55,6 @@ urlpatterns = [
     url(r'^update_cart', app.views.update_cart, name='update_cart'),
     url(r'^remove_from_cart$', app.views.remove_from_cart, name='remove_from_cart'),
     url(r'^my_orders$', app.views.get_orders, name='my_orders'),
+    url(r'^checkout$', app.views.checkout, name='checkout'),
+    url(r'^submit_order', app.views.submit_order, name='submit_order'),
 ]

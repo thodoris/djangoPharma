@@ -161,9 +161,45 @@ def remove_from_cart(request):
             return HttpResponse(status=500)
 
 
-
 def get_cart(request):
-    return render_to_response('app/cart.html', dict(cart=Cart(request)))
+    cart = Cart(request)
+    return render(request, 'app/cart.html', dict(cart=cart))
+
+
+def checkout(request):
+    if request.method == 'POST' or True:
+        cart = Cart(request)
+        current_user = request.user
+        current_user_address = UserAddress.objects.get(user=current_user)
+        return render(request, 'app/checkout.html', dict(cart=cart, user=current_user, address=current_user_address))
+    else:
+        return HttpResponse(status=403)
+
+
+def submit_order(request):
+    if request.method == 'POST':
+        current_user = request.user
+        current_user_address = UserAddress.objects.get(user=current_user)
+        order_date = datetime.now()
+        shipment_type = request.POST.get('shipmentType', '')
+        payment_type = request.POST.get('paymentType', '')
+        comments = request.POST.get('comments', '')
+        # submitted
+        status = '2'
+        # save order
+        order = Order.objects.create(user=current_user, address=current_user_address, order_date=order_date,
+                                     status=status, payment_type=payment_type, shipment_type=shipment_type,
+                                     comments=comments)
+        # save order details
+        cart = Cart(request)
+        for item in cart.cart.item_set.all():
+            quantity = item.quantity
+            unit_price = item.total_price
+            drug = item.product
+            order_details = OrderDetails.objects.create(order=order, drug=drug,
+                                                        quantity=quantity, unit_price=unit_price)
+
+        return HttpResponse(200)
 
 
 def get_orders(request):
@@ -184,10 +220,3 @@ def get_orders(request):
         order = Order.objects.create(user=user, address=address, order_date=order_date,
                                      status=status, payment_type=payment_type, shipment_type=shipment_type,
                                      comments=comments)
-
-        for item in cart.cart.item_set.all():
-            quantity = item.quantity
-            unit_price = item.total_price
-            drug = item.product
-            order_details = OrderDetails.objects.create(order=order, drug=drug,
-                                                        quantity=quantity, unit_price=unit_price)
