@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'suit',
     'cart',
+    'clear_cache',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

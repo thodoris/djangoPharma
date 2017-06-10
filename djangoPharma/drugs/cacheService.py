@@ -1,7 +1,11 @@
 import drugs.restService as restService
 import drugs.soapService as soapService
+from django.conf import settings
 import json
 from django.core.cache import cache
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+
+CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
 
 CACHE_DRUGS_ALLDRUGS_KEY = 'DRUGS_ALLDRUGS'
 CACHE_DRUGS_SINGLEDRUG_KEY = 'DRUGS_SINGLEDRUG_'
@@ -10,9 +14,9 @@ CACHE_DRUGS_CATEGORIES_KEY='DRUGS_CATEGORIES'
 
 def __set_or_add(key,value,forceUpdate=False):
     if forceUpdate:
-        cache.set(key, value)
+        cache.set(key, value, CACHE_TTL)
     else:
-        cache.add(key,value)
+        cache.add(key,value, CACHE_TTL)
 
 
 def __update_item_in_all_drugs_cache(item):
@@ -29,6 +33,10 @@ def __update_item_in_all_drugs_cache(item):
     all_drugs.append(item)
     __set_or_add(key, item, True)
     __set_or_add(CACHE_DRUGS_ALLDRUGS_KEY, all_drugs, True)
+
+
+def clear_cache():
+    cache.clear()
 
 
 def get_drug(drugid, forceUpdate=False):

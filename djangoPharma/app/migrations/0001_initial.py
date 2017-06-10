@@ -9,7 +9,7 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    initial = True
+    initial = False
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
             name='UserAddress',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('street', models.TextField(blank=True, max_length=100)),
+                ('street', models.CharField(blank=True, max_length=100)),
                 ('streetno', models.CharField(blank=True, max_length=30)),
                 ('city', models.CharField(blank=True, max_length=30)),
                 ('zip', models.CharField(blank=True, max_length=5)),
