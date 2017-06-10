@@ -122,29 +122,20 @@ def update_drug(request, drug_id):
         # availability = model['availability']
         # category_id = model['drugCategory']['id']
         form = UpdateDrugsForm(instance=drug)
-    else:
-        form = UpdateDrugsForm(request.POST)
+    elif request.method == 'POST':
+        # get the drug
+        drug = Drug.objects.get(pk=drug_id)
+        form = UpdateDrugsForm(request.POST, instance=drug)
         if form.is_valid():
-            id = form.cleaned_data['id']
-            friendly_name = form.cleaned_data['friendly_name']
-            availability = form.cleaned_data['availability']
-            description = form.cleaned_data['description']
-            price = form.cleaned_data['price']
-            category = form.cleaned_data['category']
-            # drug_id = request.POST.get('drug_id', '')
-            # friendly_name = request.POST.get('friendly_name', '')
-            # description = request.POST.get('description', '')
-            # availability = request.POST.get('availability', '')
-            # category_id = request.POST.get('category', '')
-            post = Drug.objects.update(id=id, friendly_name=friendly_name, availability=availability,
-                                       description=description, price=price, category=category)
-            request_data = {'id': drug_id, 'friendlyName': friendly_name, 'availability': availability,
-                            'description': description,
-                            'category': category}
-            soapService.update_drug(post)
+            # send to the SOAP WS for the update
+            updated_drug = soapService.update_drug(drug)
+            if updated_drug is None:
+                return HttpResponse(500)
+            else:
+                # save the model
+                form.save()
         else:
-            form.errors
-            return HttpResponse('invalid')
+            return HttpResponse(dict=form.errors)
 
     return render(request, 'app/updateDrug.html', {
         'form': form,
