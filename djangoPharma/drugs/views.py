@@ -65,13 +65,14 @@ def insert_drug(drug):
 
 def add_drug(request):
     if request.method == 'GET':
-        drugs_info = soapService.get_drug_ids_and_names()
+        drugs_index = cacheService.get_rest_drugs()
+        id_choices= [(drug['id'],drug['name']) for drug in drugs_index]
         drug_categories = soapService.get_drug_categories()
         obj_generator = serializers.deserialize("json", drug_categories)
         # search_drug = soapService.search_drug('dep')
         all_drugs = ''  # restService.get_drugs()
         resp2 = restService.get_drug_by_id('000090201')
-        form = AddDrugsForm()
+        form = AddDrugsForm(choices=id_choices)
         # form = AddDrugsForm(drug_categories=drug_categories, all_drugs=all_drugs)
     elif request.method == 'POST':
         form = AddDrugsForm(request.POST)

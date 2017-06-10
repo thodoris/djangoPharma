@@ -46,6 +46,10 @@ class AddDrugsForm(ModelForm):
         model = Drug
         fields = ['id', 'friendly_name', 'availability', 'description', 'price', 'category']
 
+    def __init__(self, *args, **kwargs):
+        myChoices = kwargs.pop("choices")  # client is the parameter passed from views.py
+        super(AddDrugsForm, self).__init__(*args, **kwargs)
+        self.fields['id'] = forms.ChoiceField(label="Select Drug", choices=myChoices)
 
 class UpdateDrugsForm(ModelForm):
     id = forms.CharField(label=_("Drug ID"), required=True, max_length=254,

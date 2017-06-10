@@ -11,6 +11,16 @@ def get_drugs():
     return json_data
 
 
+def get_drugs_index():
+    json_data = get_drugs()
+    for drug in json_data:
+        del drug['barcode']
+        del drug['producer']
+        del drug['price_wholesale']
+        del drug['price_retail']
+    return json_data
+
+
 def get_drug_by_id(drug_id):
     urlpath = rest_api + '/' + drug_id
     rest_result = urlopen(urlpath)

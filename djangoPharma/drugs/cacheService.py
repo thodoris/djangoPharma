@@ -5,6 +5,7 @@ from django.core.cache import cache
 
 CACHE_DRUGS_ALLDRUGS_KEY = 'DRUGS_ALLDRUGS'
 CACHE_DRUGS_SINGLEDRUG_KEY = 'DRUGS_SINGLEDRUG_'
+CACHE_DRUGS_INDEX_KEY = 'DRUGS_INDEX'
 
 
 def __set_or_add(key,value,forceUpdate=False):
@@ -62,3 +63,13 @@ def get_all_drugs(forceUpdate=False):
     except:
         return None
 
+
+def get_rest_drugs():
+    try:
+        rest_index = cache.get(CACHE_DRUGS_INDEX_KEY)
+        if (rest_index is None):
+            rest_index = restService.get_drugs_index()
+            __set_or_add(CACHE_DRUGS_INDEX_KEY, rest_index,True)
+        return rest_index
+    except:
+        return None

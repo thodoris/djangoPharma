@@ -28,7 +28,6 @@ def get_drug_categories():
     drug_categories = json.loads(json_data)['drugCategory']
     return drug_categories
 
-
 def search_drug(query):
     response = client.service.searchForDrugs(query)
     # convert the xml to json
