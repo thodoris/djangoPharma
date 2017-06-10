@@ -74,11 +74,12 @@ def add_drug(request):
     if request.method == 'GET':
         id_choices = __getDrugIDsChoices()
         category_choices = __getCategoryChoices()
-        form = AddDrugsForm(idchoices=id_choices,categorychoices=category_choices)
+        form = AddDrugsForm(idchoices=id_choices, categorychoices=category_choices)
     elif request.method == 'POST':
         drugs_index = cacheService.get_rest_drugs()
         id_choices = [(drug['id'], drug['name']) for drug in drugs_index]
-        form = AddDrugsForm(request.POST, choices=id_choices)
+        form = AddDrugsForm(request.POST, idchoices=id_choices, categorychoices='')
+        # the function checks also if there is another record with the same id
         if form.is_valid():
             try:
                 with transaction.atomic():
@@ -87,13 +88,12 @@ def add_drug(request):
                     # send to the SOAP WS for the insert
                     inserted_drug = soapService.insert_drug(drug)
                     if inserted_drug is None:
-                        raise IntegrityError
+                        raise Exception
                     else:
-                        insert_succeed = True
-            except IntegrityError:
+                        # go to detail page
+                        return detail(request, drug.id)
+            except Exception:
                 insert_succeed = False
-        else:
-            insert_succeed = False
 
     return render(request, 'app/addDrug.html', {
         'form': form,
@@ -111,11 +111,11 @@ def update_drug(request, drug_id):
         drug = __getDrugAsModel(drug_id)
         # get drug categories
         category_choices = __getCategoryChoices()
-        form = UpdateDrugsForm(instance=drug,categorychoices=category_choices)
+        form = UpdateDrugsForm(instance=drug, categorychoices=category_choices)
     elif request.method == 'POST':
         # get the drug
         drug = Drug.objects.get(pk=drug_id)
-        form = UpdateDrugsForm(request.POST, instance=drug)
+        form = UpdateDrugsForm(request.POST, instance=drug, categorychoices='')
         if form.is_valid():
             # send to the SOAP WS for the update
             updated_drug = soapService.update_drug(drug)
@@ -139,3 +139,4 @@ def update_drug(request, drug_id):
 
 def manage_migrations(request):
     migrationService.migrate_drug_categories()
+    return HttpResponse(200)

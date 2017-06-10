@@ -60,7 +60,7 @@ def get_all_drugs(forceUpdate=False):
                     __set_or_add(CACHE_DRUGS_SINGLEDRUG_KEY + drugid, drug,forceUpdate)
             __set_or_add(CACHE_DRUGS_ALLDRUGS_KEY,drugs_data,forceUpdate)
         return drugs_data
-    except:
+    except Exception as e:
         return None
 
 

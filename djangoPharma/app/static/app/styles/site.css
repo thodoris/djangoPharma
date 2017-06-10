@@ -1,0 +1,8 @@
+ul.errorlist {
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    list-style-type: none;
+    padding: 8px;
+}
