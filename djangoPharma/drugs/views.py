@@ -30,6 +30,20 @@ def __getDrugAsModel(drug_id):
     return drug
 
 
+def __getCategoryChoices():
+    # get the drug categories from Cache
+    drug_categories = cacheService.get_drug_categories()
+    category_choices = [(category['id'], category['name']) for category in drug_categories]
+    return category_choices
+
+
+def __getDrugIDsChoices():
+    # get the drug IDS from Cache
+    drugs_index = cacheService.get_rest_drugs()
+    id_choices = [(drug['id'], drug['name']) for drug in drugs_index]
+    return id_choices
+
+
 def index(request):
     output = '<h1>Index</h1>'
     return HttpResponse(output)
@@ -58,10 +72,9 @@ def get_drug(drugid):
 def add_drug(request):
     insert_succeed = None
     if request.method == 'GET':
-        # get the drug IDS from the external Rest Service
-        drugs_index = cacheService.get_rest_drugs()
-        id_choices = [(drug['id'], drug['name']) for drug in drugs_index]
-        form = AddDrugsForm(choices=id_choices)
+        id_choices = __getDrugIDsChoices()
+        category_choices = __getCategoryChoices()
+        form = AddDrugsForm(idchoices=id_choices,categorychoices=category_choices)
     elif request.method == 'POST':
         drugs_index = cacheService.get_rest_drugs()
         id_choices = [(drug['id'], drug['name']) for drug in drugs_index]
@@ -94,21 +107,11 @@ def add_drug(request):
 def update_drug(request, drug_id):
     update_succeed = None
     if request.method == 'GET':
-        # get the info from the SOAP WS
-        # drug = Drug.objects.get(pk=drug_id)
+        # get drug info from Cache
         drug = __getDrugAsModel(drug_id)
-        selected_drug = soapService.get_drug(drug_id)
         # get drug categories
-        drug_categories = soapService.get_drug_categories()
-
-        # json_data = json.loads(selected_drug)
-        # model = json_data['drug'][0]
-        # drug_id = model['id']
-        # friendly_name = model['friendlyName']
-        # description = model['description']
-        # availability = model['availability']
-        # category_id = model['drugCategory']['id']
-        form = UpdateDrugsForm(instance=drug)
+        category_choices = __getCategoryChoices()
+        form = UpdateDrugsForm(instance=drug,categorychoices=category_choices)
     elif request.method == 'POST':
         # get the drug
         drug = Drug.objects.get(pk=drug_id)

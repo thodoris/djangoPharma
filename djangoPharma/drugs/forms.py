@@ -47,9 +47,15 @@ class AddDrugsForm(ModelForm):
         fields = ['id', 'friendly_name', 'availability', 'description', 'price', 'category']
 
     def __init__(self, *args, **kwargs):
-        myChoices = kwargs.pop("choices")  # client is the parameter passed from views.py
+        idChoices = kwargs.pop("idchoices")  # idchoices is the parameter passed from views.py
+        categoryChoices = kwargs.pop("categorychoices")  # categorychoices is the parameter passed from views.py
         super(AddDrugsForm, self).__init__(*args, **kwargs)
-        self.fields['id'] = forms.ChoiceField(label="Select Drug", choices=myChoices)
+        self.fields['id'] = forms.ChoiceField(label="Select Drug", choices=idChoices,widget=forms.Select({
+        'class': 'form-control',
+        'placeholder': 'Select Drug'}))
+        self.fields['category'] = forms.ChoiceField(label="Category", choices=categoryChoices, widget=forms.Select({
+            'class': 'form-control',
+            'placeholder': 'Category'}))
 
 class UpdateDrugsForm(ModelForm):
     id = forms.CharField(label=_("Drug ID"), required=True, max_length=254,
@@ -89,3 +95,10 @@ class UpdateDrugsForm(ModelForm):
     class Meta:
         model = Drug
         fields = ['id', 'friendly_name', 'availability', 'description', 'price', 'category']
+
+    def __init__(self, *args, **kwargs):
+        categoryChoices = kwargs.pop("categorychoices")  # categorychoices is the parameter passed from views.py
+        super(UpdateDrugsForm, self).__init__(*args, **kwargs)
+        self.fields['category'] = forms.ChoiceField(label="Category", choices=categoryChoices,widget=forms.Select({
+        'class': 'form-control',
+        'placeholder': 'Category'}))

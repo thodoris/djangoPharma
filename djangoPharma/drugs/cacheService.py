@@ -6,7 +6,7 @@ from django.core.cache import cache
 CACHE_DRUGS_ALLDRUGS_KEY = 'DRUGS_ALLDRUGS'
 CACHE_DRUGS_SINGLEDRUG_KEY = 'DRUGS_SINGLEDRUG_'
 CACHE_DRUGS_INDEX_KEY = 'DRUGS_INDEX'
-
+CACHE_DRUGS_CATEGORIES_KEY='DRUGS_CATEGORIES'
 
 def __set_or_add(key,value,forceUpdate=False):
     if forceUpdate:
@@ -71,5 +71,16 @@ def get_rest_drugs():
             rest_index = restService.get_drugs_index()
             __set_or_add(CACHE_DRUGS_INDEX_KEY, rest_index,True)
         return rest_index
+    except:
+        return None
+
+
+def get_drug_categories():
+    try:
+        categories_data = cache.get(CACHE_DRUGS_CATEGORIES_KEY)
+        if (categories_data is None):
+            categories_data = soapService.get_drug_categories()
+            __set_or_add(CACHE_DRUGS_CATEGORIES_KEY, categories_data, True)
+        return categories_data
     except:
         return None

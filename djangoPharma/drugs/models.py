@@ -9,6 +9,11 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'categories'
 
+    def fromjson(self, json):
+        self.id = json['id']
+        self.name = json['name']
+        return self
+
 
 # Model for Drug
 class Drug(models.Model):
@@ -33,4 +38,8 @@ class Drug(models.Model):
         self.availability = json['availability']
         self.imagePath = json['imagePath']
         self.price = json['rest']['price_retail']
+        newcategory = Category()
+        jsoncategory=json['drugCategory']
+        drugcategory = Category.fromjson(newcategory,jsoncategory)
+        self.category = drugcategory
         return self
