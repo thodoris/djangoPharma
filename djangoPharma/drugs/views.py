@@ -55,51 +55,23 @@ def get_drug(drugid):
     return client.service.findDrug(drugid)
 
 
-def insert_drug(drug):
-    request_data = {'id': drug.id, 'friendlyName': drug.friendly_name, 'availability': drug.availability,
-                    'description': drug.description,
-                    'categoryId': drug.category_id}
-    response = client.service.addDrug(request_data)
-
-    return HttpResponse(response)
-
-
 def add_drug(request):
     if request.method == 'GET':
+        # get the drug IDS from the external Rest Service
         drugs_index = cacheService.get_rest_drugs()
         id_choices = [(drug['id'], drug['name']) for drug in drugs_index]
-        drug_categories = soapService.get_drug_categories()
-        obj_generator = serializers.deserialize("json", drug_categories)
-        # search_drug = soapService.search_drug('dep')
-        all_drugs = ''  # restService.get_drugs()
-        resp2 = restService.get_drug_by_id('000090201')
         form = AddDrugsForm(choices=id_choices)
-        # form = AddDrugsForm(drug_categories=drug_categories, all_drugs=all_drugs)
     elif request.method == 'POST':
-        form = AddDrugsForm(request.POST)
+        drugs_index = cacheService.get_rest_drugs()
+        id_choices = [(drug['id'], drug['name']) for drug in drugs_index]
+        form = AddDrugsForm(request.POST, choices=id_choices)
         if form.is_valid():
-            id = form.cleaned_data['id']
-            friendly_name = form.cleaned_data['friendly_name']
-            availability = form.cleaned_data['availability']
-            description = form.cleaned_data['description']
-            price = form.cleaned_data['price']
-            category = form.cleaned_data['category']
-            # try:
-            #     with transaction.atomic():
-            post = Drug.objects.create(id=id, friendly_name=friendly_name, availability=availability,
-                                       description=description, price=price, category=category)
-            # update repository
-            insert_drug(post)
-            # except IntegrityError:
-            #     x = 0
-
-        # drug_categories = soapService.get_drug_categories()
+            # save the drug
+            drug = form.save()
+            # send to the SOAP WS for the insert
+            soapService.insert_drug(drug)
         else:
-            form.errors
             return HttpResponse('invalid')
-
-
-            #     return HttpResponseRedirect("/posts/" + str(post.id))
 
     return render(request, 'app/addDrug.html', {
         'form': form,
@@ -110,6 +82,7 @@ def add_drug(request):
 
 
 def update_drug(request, drug_id):
+    update_succeed = None
     if request.method == 'GET':
         # get the info from the SOAP WS
         # drug = Drug.objects.get(pk=drug_id)
@@ -134,18 +107,20 @@ def update_drug(request, drug_id):
             # send to the SOAP WS for the update
             updated_drug = soapService.update_drug(drug)
             if updated_drug is None:
-                return HttpResponse(500)
+                update_succeed = False
             else:
                 # save the model
                 form.save()
+                update_succeed = True
         else:
-            return HttpResponse(dict=form.errors)
+            update_succeed = False
 
     return render(request, 'app/updateDrug.html', {
         'form': form,
         'title': 'Update Drug',
         'message': 'Your application description page.',
         'year': datetime.now().year,
+        'result': update_succeed
     })
 
 

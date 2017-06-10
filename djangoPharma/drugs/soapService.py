@@ -28,6 +28,7 @@ def get_drug_categories():
     drug_categories = json.loads(json_data)['drugCategory']
     return drug_categories
 
+
 def search_drug(query):
     response = client.service.searchForDrugs(query)
     # convert the xml to json
@@ -37,9 +38,14 @@ def search_drug(query):
 
 def get_drug(drug_id):
     response = client.service.findDrug(drug_id)
-    # convert the xml to json
-    json_data = utils.xml2json(response)
-    return json_data
+    if response.ResponseCode == 'C':
+        # convert the xml to json
+        json_data = utils.xml2json(response)
+        obj = json.loads(json_data)['drug']
+        # WS returns a list of Drugs - for this call it will be always 1 element
+        return obj[0]
+    else:
+        return None
 
 
 def get_drug_by_category(category_id):
@@ -47,6 +53,24 @@ def get_drug_by_category(category_id):
     # convert the xml to json
     json_data = utils.xml2json(response)
     return json_data
+
+
+def insert_drug(drug):
+    # create the request for the WS
+    request_data = {'id': drug.id, 'friendlyName': drug.friendly_name,
+                    'availability': drug.availability,
+                    'description': drug.description,
+                    'price': str(drug.price),
+                    'categoryId': drug.category.id}
+    response = client.service.addDrug(request_data)
+    if response.ResponseCode == 'C':
+        # convert the xml to json
+        json_data = utils.xml2json(response)
+        obj = json.loads(json_data)['drug']
+        # WS returns a list of Drugs - for this call it will be always 1 element
+        return obj[0]
+    else:
+        return None
 
 
 def update_drug(drug):
@@ -65,4 +89,3 @@ def update_drug(drug):
         return obj[0]
     else:
         return None
-

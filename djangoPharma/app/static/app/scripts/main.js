@@ -55,7 +55,7 @@ $(document).ready(function () {
         });
     });
 
-     $('#removeFromCart').on('click', function () {
+    $('#removeFromCart').on('click', function () {
         debugger;
         // TODO here we will have many
         var drug_id = $('.drug').val();
@@ -79,6 +79,20 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('select[name=id]').on('change', function () {
+        var drugId = $(this).find(":selected").val();
+        debugger;
+            $.ajax({
+                type: "GET",
+                url: 'http://connect.opengov.gr:3000/drugs/' + drugId,
+                success: function (resp) {
+                    $('input[name=friendly_name]').val(resp.name);
+                    $('input[name=price]').val(resp.price_retail);
+                }
+            });
+    });
+
 
     function hideAlertResultMessages() {
         $('#cart-alert-success').addClass('hidden');

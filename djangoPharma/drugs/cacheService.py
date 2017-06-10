@@ -36,7 +36,7 @@ def get_drug(drugid, forceUpdate=False):
         key = CACHE_DRUGS_SINGLEDRUG_KEY + drugid
         drug= cache.get(key)
         if (drug is None or forceUpdate):
-            drug = json.loads(soapService.get_drug(drugid))['drug'][0]
+            drug = soapService.get_drug(drugid)
             if drugid != '':
                 rest_data = restService.get_drug_by_id(drugid)
                 drug['rest'] = rest_data
