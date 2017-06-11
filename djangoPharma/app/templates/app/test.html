@@ -24,10 +24,10 @@
 
      var item_template =
        '<div class="item">' +
-         '<img src="<%=/static/images/drugs/obj.imagePath %>">' +
+         '<img src="/static/app/images/drugs/<%=obj.imagePath %>">' +
          '<h4><%= obj.friendlyName %></h4>' +
          '<p class="tags">' +
-         '<% if (obj.friendlyName) {  %><%= obj.drugCategory.name %><% } %>' +
+         '<% if (obj.drugCategory.name) {  %><%= obj.drugCategory.name %><% } %>' +
          '<% if (obj.price) {  %>, <%= obj.rest.price_retail %><% } %>' +
          '</p>' +
          '<p class="desc"><%= obj.description %></p>' +
@@ -35,7 +35,7 @@
       var sfacet_settings = {
         items           : data,
         facets          : {
-                            'friendlyName' : 'What Category',
+                            'drugCategory.name' : 'What Category',
                             'availability'    : 'availability'
         },
         resultSelector  : '#results',

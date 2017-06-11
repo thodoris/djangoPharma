@@ -2,11 +2,11 @@ $(document).ready(function () {
 
     var url = 'http://localhost:8000';
     syncLocalDB();
-    function addDashboardMessage(msg) {
+    function addDashboardMessage(msg,type = 'info') {
         var now = new Date(Date.now());
         var formatted_time = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
 
-         $("#myMessages").append("<li><a><span>"+ formatted_time +"</span>:" + msg + "</a></li>");
+         $("#myMessages").append("<li class='"+type+"'><a><span>"+ formatted_time +"</span>  - " + msg + "</a></li>");
     }
 
     function syncLocalDB(){
@@ -18,7 +18,7 @@ $(document).ready(function () {
              addDashboardMessage('Sync local DB result:'+data.result)
             },
             error: function (xhr, textStatus, errorThrown) {
-                addDashboardMessage('Sync Error:'+data.error_message)
+                addDashboardMessage('Sync Error:'+data.error_message,'danger')
             }
         });
     }
