@@ -126,7 +126,7 @@ def add_to_cart(request):
         try:
             drug_id = request.POST.get('drug_id', '')
             quantity = request.POST.get('quantity', '')
-            drug = DrugModel.Drug.objects.get(id=drug_id)
+            drug = DrugModel.Drug.objects.get(pk=drug_id)
             cart = Cart(request)
             # args: model, price, quantity
             cart.add(drug, drug.price, quantity)
