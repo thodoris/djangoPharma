@@ -49,7 +49,7 @@ class AddDrugsForm(ModelForm):
 
     class Meta:
         model = Drug
-        fields = ['id', 'friendly_name', 'availability', 'description', 'price']
+        fields = ['id', 'friendly_name', 'availability', 'description', 'price','category']
 
     def __init__(self, *args, **kwargs):
         categoryChoices = kwargs.pop("categorychoices")  # categorychoices is the parameter passed from views.py

@@ -86,8 +86,8 @@ def add_drug(request):
     elif request.method == 'POST':
         id_choices = __getDrugIDsChoices()
         category_choices = __getCategoryChoices()
-        newCategory = Category(id=1,name='test')
-        form = AddDrugsForm(request.POST, categorychoices=None,category=newCategory)
+
+        form = AddDrugsForm(request.POST, categorychoices=None,category=None)
 
         # the function checks also if there is another record with the same id
         if form.is_valid():
@@ -105,6 +105,8 @@ def add_drug(request):
                     if inserted_drug is None:
                         raise Exception
                     else:
+                        # force update the cache
+                        cacheService.get_drug(drug.id, True)
                         # go to detail page
                         return detail(request, drug.id)
             except Exception:
@@ -141,6 +143,8 @@ def update_drug(request, drug_id):
             else:
                 # save the model
                 form.save()
+                #update the cache
+                cacheService.get_drug(drug.id , True)
                 update_succeed = True
         else:
             update_succeed = False
