@@ -148,7 +148,7 @@ def update_cart(request):
             drug = DrugModel.Drug.objects.get(id=drug_id)
             cart = Cart(request)
             # args: model, price, quantity
-            cart.update(drug, drug.price, quantity)
+            cart.update(drug, quantity, drug.price)
             # everything went correct
             return HttpResponse(status=200)
         except Exception as e:
@@ -178,7 +178,8 @@ def remove_from_cart(request):
 @login_required()
 def get_cart(request):
     cart = Cart(request)
-    return render(request, 'app/cart.html', dict(cart=cart))
+    cart_is_empty = cart.count() == 0
+    return render(request, 'app/cart.html', dict(cart=cart, cart_is_empty=cart_is_empty))
 
 
 @login_required()

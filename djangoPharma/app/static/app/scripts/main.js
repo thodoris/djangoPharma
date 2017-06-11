@@ -28,11 +28,9 @@ $(document).ready(function () {
         });
     });
 
-    $('#updateCart').on('click', function () {
-        debugger;
+    $('.updateCart').on('click', function (event) {
         var quantity = $('#quantity').val();
-        // TODO here we will have many
-        var drug_id = $('.drug').val();
+        var drug_id = $(event.currentTarget).attr('id');
         var token = $('input[name=csrfmiddlewaretoken]').val();
         // hide the messages
         hideAlertResultMessages();
@@ -55,10 +53,10 @@ $(document).ready(function () {
         });
     });
 
-    $('#removeFromCart').on('click', function () {
+    $('.removeFromCart').on('click', function () {
         debugger;
         // TODO here we will have many
-        var drug_id = $('.drug').val();
+        var drug_id = $(event.currentTarget).attr('id')
         var token = $('input[name=csrfmiddlewaretoken]').val();
         // hide the messages
         hideAlertResultMessages();

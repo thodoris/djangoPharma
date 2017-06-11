@@ -5,41 +5,53 @@
 {% block title %}{% endblock %}
 
 {% block content %}
-    <h3><span style="font-weight: bold">Drug: </span>{{ drug.friendly_name }}</h3>
-    <div class="row">
-        <div class="col-md-4">
-
-            <img src="{% static 'app/images/drugs/'%}{{drug.imagePath}} " class="img-responsive" alt="Responsive image"
-                 style=" margin: 0 auto;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h5><span style="font-weight: bold">Name: </span>{{ drug.friendly_name }}</h5>
         </div>
-        <div class="col-md-8">
-            <table class="table table-striped">
-                <tr>
-                    <td>Drug ID:</td>
-                    <td>{{ drug.id }}</td>
-                </tr>
-                <tr>
-                    <td>Name:</td>
-                    <td>{{ drug.friendly_name }}</td>
-                </tr>
-                <tr>
-                    <td>Availability:</td>
-                    <td>{{ drug.availability }}</td>
-                </tr>
-                <tr>
-                    <td>Description:</td>
-                    <td>{{ drug.description }}</td>
-                </tr>
-                <tr>
-                    <td>Category:</td>
-                    <td>{{ drug.category.name }}</td>
-                </tr>
-            </table>
+     <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{image_path}}" class="img-responsive" alt="Responsive image"
+                 style=" margin: 0 auto; width: 300px; height: 220px">
+            </div>
+            <div class="col-md-8">
+                <table class="table table-striped">
+                    <tr>
+                        <td>Drug ID:</td>
+                        <td>{{ drug.id }}</td>
+                    </tr>
+                    <tr>
+                        <td>Name:</td>
+                        <td>{{ drug.friendly_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Price:</td>
+                        <td>{{ drug.price | floatformat:2 }}<span> &euro;</span></td>
+                    </tr>
+                    <tr>
+                        <td>Availability:</td>
+                        <td>{{ drug.availability }}</td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td>{{ drug.description }}</td>
+                    </tr>
+                    <tr>
+                        <td>Category:</td>
+                        <td>{{ drug.category.name }}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
+     </div>
     </div>
     {% csrf_token %}
     <input type="hidden" id="drugId" value="{{ drug.id }}">
     <div class="row">
+    <div class="col-md-1">
+        <div class="quantity">Quantity: </div>
+    </div>
         <div class="col-md-2">
             <div class="input-group number-spinner">
 				<span class="input-group-btn">

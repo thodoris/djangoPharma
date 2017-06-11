@@ -6,3 +6,9 @@ ul.errorlist {
     list-style-type: none;
     padding: 8px;
 }
+
+.quantity {
+    font-weight: bold;
+    line-height: 2.8em;
+    text-align: right;
+}

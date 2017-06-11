@@ -6,12 +6,20 @@
 {% block content %}
     {% csrf_token %}
 
-    {% for item in cart %}
+    {% if cart_is_empty  %}
+        <div class="row">
+            <div class="col-md-12">
+                <h3>The cart is empty!</h3>
+            </div>
+        </div>
+    {% else %}
+      {%  for item in cart %}
+
         <div class="panel panel-default">
             <div class="panel-heading"> {{ item.product.friendly_name }}</div>
             <div class="row">
                 <div class="col-md-2">
-                    <img src="/static/app/images/depon_maximum.png" class="img-responsive" alt="Responsive image"
+                    <img src="{{ item.product.imagePath }}" class="img-responsive" alt="Responsive image"
                          style=" margin: 0 auto;">
                 </div>
                 <div class="col-md-10">
@@ -59,12 +67,11 @@
                 <div class="col-md-2">
                     <span>Total Price:</span>{{ item.total_price }}
                 </div>
-                <input type="hidden" class="drug" value="{{ item.product.id }}">
                 <div class="col-md-2">
-                    <button type="button" id="updateCart" class="btn btn-warning">Update</button>
+                    <button type="button" id="{{ item.product.id }}" class=" updateCart btn btn-warning">Update</button>
                 </div>
                 <div class="col-md-2">
-                    <button type="button" id="removeFromCart" class="btn btn-danger">Remove</button>
+                    <button type="button" id="{{ item.product.id }}" class="removeFromCart btn btn-danger">Remove</button>
                 </div>
             </div>
         </div>
@@ -78,6 +85,8 @@
             </div>
         </div>
     </form>
+
+ {% endif %}
 
 {% endblock %}
 
