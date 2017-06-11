@@ -8,6 +8,7 @@ import django.contrib.auth.views
 
 import app.forms
 import app.views
+import app.ajaxviews
 import drugs.urls
 
 # Uncomment the next lines to enable the admin:
@@ -56,4 +57,6 @@ urlpatterns = [
     url(r'^my_orders$', app.views.get_orders, name='my_orders'),
     url(r'^checkout$', app.views.checkout, name='checkout'),
     url(r'^submit_order', app.views.submit_order, name='submit_order'),
+    url(r'^ajax/syncdb', app.ajaxviews.syncdb, name='syncdb'),
+
 ]

@@ -156,7 +156,7 @@ def update_drug(request, drug_id):
 
 @user_passes_test(check_admin)
 def manage_migrations(request):
-    migrationService.migrate_drug_categories()
+    migrationService.synchronize_data()
     return HttpResponse(200)
 
 

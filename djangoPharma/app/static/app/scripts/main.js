@@ -1,7 +1,27 @@
 $(document).ready(function () {
 
     var url = 'http://localhost:8000';
+    syncLocalDB();
+    function addDashboardMessage(msg) {
+        var now = new Date(Date.now());
+        var formatted_time = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
 
+         $("#myMessages").append("<li><a><span>"+ formatted_time +"</span>:" + msg + "</a></li>");
+    }
+
+    function syncLocalDB(){
+        $.ajax({
+            type:'GET',
+          url: url + '/ajax/syncdb',
+          success: function (data) {
+
+             addDashboardMessage('Sync local DB result:'+data.result)
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                addDashboardMessage('Sync Error:'+data.error_message)
+            }
+        });
+    }
     // add to cart
     $('#addToCart').on('click', function () {
         var quantity = $('#quantity').val();

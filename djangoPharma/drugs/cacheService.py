@@ -11,6 +11,7 @@ CACHE_DRUGS_ALLDRUGS_KEY = 'DRUGS_ALLDRUGS'
 CACHE_DRUGS_SINGLEDRUG_KEY = 'DRUGS_SINGLEDRUG_'
 CACHE_DRUGS_INDEX_KEY = 'DRUGS_INDEX'
 CACHE_DRUGS_CATEGORIES_KEY='DRUGS_CATEGORIES'
+CACHE_LOCALDB_SYNCHRONIZED_KEY='LOCALDB_SYNCHRONIZED'
 
 def __set_or_add(key,value,forceUpdate=False):
     if forceUpdate:
@@ -38,6 +39,12 @@ def __update_item_in_all_drugs_cache(item):
 def clear_cache():
     cache.clear()
 
+def is_local_db_synchronized():
+    is_sync = cache.get(CACHE_LOCALDB_SYNCHRONIZED_KEY,False) == True
+    return is_sync
+
+def set_local_db_synchronized(is_sync):
+     cache.set(CACHE_LOCALDB_SYNCHRONIZED_KEY, is_sync,CACHE_TTL)
 
 def get_drug(drugid, forceUpdate=False):
     try:

@@ -25,7 +25,7 @@ from .models import UserAddress
 from .models import Order, OrderDetails
 import drugs.restService as restService
 import drugs.models as DrugModel
-
+import drugs.migrationService as migrationService
 
 def home(request):
     """Renders the home page."""

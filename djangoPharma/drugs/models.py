@@ -1,5 +1,5 @@
 from django.db import models
-
+from decimal import Decimal
 
 # Model for Category
 class Category(models.Model):
@@ -34,11 +34,11 @@ class Drug(models.Model):
 
     def fromjson(self, json):
         self.id=json['id']
-        self.name = json['friendlyName']
+        self.friendly_name = json['friendlyName']
         self.description = json['description']
-        self.availability = json['availability']
+        self.availability = int(json['availability'])
         self.imagePath = json['imagePath']
-        self.price = json['rest']['price_retail']
+        self.price = Decimal(json['price'])
         newcategory = Category()
         jsoncategory=json['drugCategory']
         drugcategory = Category.fromjson(newcategory,jsoncategory)
