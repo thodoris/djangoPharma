@@ -80,11 +80,11 @@ def add_drug(request):
     if request.method == 'GET':
         id_choices = __getDrugIDsChoices()
         category_choices = __getCategoryChoices()
-        form = AddDrugsForm(idchoices=id_choices, categorychoices=category_choices)
+        form = AddDrugsForm(categorychoices=category_choices)
     elif request.method == 'POST':
         drugs_index = cacheService.get_rest_drugs()
         id_choices = [(drug['id'], drug['name']) for drug in drugs_index]
-        form = AddDrugsForm(request.POST, idchoices=id_choices, categorychoices='')
+        form = AddDrugsForm(request.POST, categorychoices='')
         # the function checks also if there is another record with the same id
         if form.is_valid():
             try:
@@ -106,7 +106,8 @@ def add_drug(request):
         'title': 'Add new Drug',
         'message': 'Your application description page.',
         'year': datetime.now().year,
-        'result': insert_succeed
+        'result': insert_succeed,
+        'idchoices': id_choices
     })
 
 

@@ -14,12 +14,14 @@ class AddDrugsForm(ModelForm):
     id = forms.CharField(label=_("Drug ID"), required=True, max_length=254,
                          widget=forms.TextInput({
                              'class': 'form-control',
-                             'placeholder': 'Drug ID'}))
+                             'placeholder': 'Drug ID',
+                             'readonly': 'readonly'}))
 
     friendly_name = forms.CharField(label=_("Friendly Name"), required=True, max_length=254,
                                     widget=forms.TextInput({
                                         'class': 'form-control',
-                                        'placeholder': 'Friendly name'}))
+                                        'placeholder': 'Friendly name',
+                                        'readonly': 'readonly'}))
 
     alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
 
@@ -36,7 +38,8 @@ class AddDrugsForm(ModelForm):
     price = forms.DecimalField(label=_("Price"), required=True, max_digits=5, decimal_places=2,
                                widget=forms.TextInput({
                                    'class': 'form-control',
-                                   'placeholder': 'Price'}))
+                                   'placeholder': 'Price',
+                                   'readonly': 'readonly'}))
 
     category = UserModelChoiceField(queryset=Category.objects.all(), widget=forms.Select({
         'class': 'form-control',
@@ -49,12 +52,8 @@ class AddDrugsForm(ModelForm):
         fields = ['id', 'friendly_name', 'availability', 'description', 'price', 'category']
 
     def __init__(self, *args, **kwargs):
-        idChoices = kwargs.pop("idchoices")  # idchoices is the parameter passed from views.py
         categoryChoices = kwargs.pop("categorychoices")  # categorychoices is the parameter passed from views.py
         super(AddDrugsForm, self).__init__(*args, **kwargs)
-        self.fields['id'] = forms.ChoiceField(label="Select Drug", choices=idChoices,widget=forms.Select({
-        'class': 'form-control',
-        'placeholder': 'Select Drug'}))
         # self.fields['category'] = forms.ChoiceField(label="Category", choices=categoryChoices, widget=forms.Select({
         #     'class': 'form-control',
         #     'placeholder': 'Category'}))

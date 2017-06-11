@@ -10,8 +10,23 @@
         <div class="col-md-10">
             <section id="addDrugForm">
                 <form action='addDrug' method='post'>{% csrf_token %}
+                <p>
+                    <label for="id_id">Select Drug:</label>
+                    <select name="chooseDrug" class="form-control" placeholder="Select Drug" id="id_id">
+                        <option value="-1">-------</option>
+                        {% for drug in idchoices %}
+                            <option value="{{ drug.0 }}">{{ drug.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+                <div id="mainFields" class="hidden">
                     {{ form.as_p }}
-                    <input type='submit' value='Submit'/>
+                     <p>
+                        <input type='submit' value='Submit'/>
+                    </p>
+                </div>
+
+
                 </form>
             </section>
         </div>
