@@ -62,7 +62,7 @@ def insert_drug(drug):
                     'description': drug.description,
                     'price': str(drug.price),
                     'categoryId': drug.category.id,
-                    'imagePath': '/tmp/test.png'}
+                    'imagePath': drug.imagePath}
     response = client.service.addDrug(request_data)
     if response.ResponseCode == 'C':
         # convert the xml to json

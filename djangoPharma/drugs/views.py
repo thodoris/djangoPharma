@@ -17,6 +17,7 @@ import drugs.soapService as soapService
 import drugs.cacheService as cacheService
 import drugs.migrationService as migrationService
 import json
+import random
 
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
@@ -91,6 +92,11 @@ def add_drug(request):
                 with transaction.atomic():
                     # save the drug
                     drug = form.save()
+                    # save the random image
+                    random_image_path = get_random_image_for_drug()
+                    drug.imagePath = random_image_path
+                    # update only image field
+                    drug.save(update_fields=["imagePath"])
                     # send to the SOAP WS for the insert
                     inserted_drug = soapService.insert_drug(drug)
                     if inserted_drug is None:
@@ -149,3 +155,10 @@ def update_drug(request, drug_id):
 def manage_migrations(request):
     migrationService.migrate_drug_categories()
     return HttpResponse(200)
+
+
+def get_random_image_for_drug():
+    drug_images_nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+                        '13', '14', '15']
+    drug_number = random.choice(drug_images_nums)
+    return '/static/app/images/drugs/drug_' + drug_number + '.png'
