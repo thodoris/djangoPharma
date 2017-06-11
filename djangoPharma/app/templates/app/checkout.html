@@ -6,94 +6,142 @@
 {% block content %}
     {% csrf_token %}
 
+
     <div class="row">
-        <div class="col-md-3">
-            <table class="table table-striped">
-                <tr>
-                    <td>Name:</td>
-                    <td>{{ user.first_name }}</td>
-                </tr>
-                <tr>
-                    <td>Last Name:</td>
-                    <td>{{ user.last_name }}</td>
-                </tr>
-            </table>
+        <div class="col-md-4">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">User Details</div>
+                        <div class="panel-body">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Name:</td>
+                                    <td>{{ user.first_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last Name:</td>
+                                    <td>{{ user.last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Username:</td>
+                                    <td>{{ user.username }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">User Address</div>
+                        <div class="panel-body">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>City:</td>
+                                    <td>{{ address.city }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Street:</td>
+                                    <td>{{ address.street }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Street Number:</td>
+                                    <td>{{ address.streetno }}</td>
+                                </tr>
+                                <tr>
+                                    <td>ZipCode:</td>
+                                    <td>{{ address.zip }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Drugs</div>
+                <div class="panel-body">
+
+                    {% for item in cart %}
+                        <div class="row" style="margin-bottom: 15px">
+                            <div class="col-md-3">
+                                <img src="{{ item.product.image_path }}" class="img-responsive" alt="Responsive image"
+                                     style=" margin: 0 auto; width: 100px; height: 70px">
+                            </div>
+                            <div class="col-md-7" style="text-align: center">
+                                <span style="font-weight: bold">{{ item.product.friendly_name }}</span>
+                                <div style="font-size: smaller">
+                                    <span>Quantity: </span>{{ item.quantity }}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                {{ item.total_price }}
+                                <span> &euro;</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 
-
     <div class="row">
-        <div class="col-md-3">
-            <table class="table details">
-                <tr>
-                    <td>City:</td>
-                    <td>{{ address.city }}</td>
-                </tr>
-                <tr>
-                    <td>Street:</td>
-                    <td>{{ address.street }}</td>
-                </tr>
-                <tr>
-                    <td>Street Number:</td>
-                    <td>{{ address.streetno }}</td>
-                </tr>
-                <tr>
-                    <td>ZipCode:</td>
-                    <td>{{ address.zip }}</td>
-                </tr>
-            </table>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Addition Order Details</div>
+                <div class="panel-body">
+                    <form action="/submit_order" method="post" class="form-horizontal">
+                        <div class="row" style="margin-bottom: 15px">
+                            <div class="col-md-4">
+                                <span>Payment Type</span>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" name="paymentType">
+                                    <option value="1">From store</option>
+                                    <option value="2">Courier</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-bottom: 15px">
+                            <div class="col-md-4">
+                                <span>Shipment Type</span>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" name="shipmentType">
+                                    <option value="1">Cash</option>
+                                    <option value="2">Bank Disposal</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span>Comments</span>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea name="comments"></textarea>
+                            </div>
+                        </div>
+
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button type="submit" id="submitOrder" class="btn btn-success">Submit Order</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
-    {% for item in cart %}
-        <div class="row">
-            <div class="col-md2">
-                <span>Name: </span>{{ item.product.friendly_name }}
-            </div>
-            <div class="col-md2">
-                <span>Quantity: </span>{{ item.quantity }}
-            </div>
-            <div class="col-md2">
-                <span>Total Price: </span>{{ item.total_price }}
-            </div>
-        </div>
-    {% endfor %}
-
-      <form action="/submit_order" method="post" class="form-horizontal">
-    <div class="row">
-        <div class="col-md6">
-            <span>Payment Type</span>
-            <select class="form-control" name="paymentType">
-                <option value="1">From store</option>
-                <option value="2">Courier</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md6">
-            <span>shipmentType</span>
-            <select class="form-control" name="shipmentType">
-                <option value="1">Cash</option>
-                <option value="2">Bank Disposal</option>
-            </select>
-        </div>
-    </div>
-
-     <div class="row">
-        <div class="col-md6">
-            <span>Comments</span>
-            <textarea name="comments"></textarea>
-        </div>
-     </div>
-
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-md-3">
-                <button type="submit" id="submitOrder" class="btn btn-success">Submit Order</button>
-            </div>
-        </div>
-    </form>
 
 {% endblock %}
 
