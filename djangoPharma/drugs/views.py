@@ -67,7 +67,8 @@ def test(request):
 def detail(request, drug_id):
     # drug = Drug.objects.get(pk=drug_id)
     drug = __getDrugAsModel(drug_id)
-    context = {'drug': drug}
+    context = {'drug': drug,
+               'image_path': '/static/app/images/drugs/drug_' + drug.imagePath}
     return render(request, 'app/drug_details.html', context)
 
 
@@ -161,4 +162,4 @@ def get_random_image_for_drug():
     drug_images_nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
                         '13', '14', '15']
     drug_number = random.choice(drug_images_nums)
-    return '/static/app/images/drugs/drug_' + drug_number + '.png'
+    return drug_number + '.png'
