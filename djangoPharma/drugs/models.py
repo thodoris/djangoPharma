@@ -10,7 +10,7 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
     def fromjson(self, json):
-        self.id = json['id']
+        self.id = int(json['id'])
         self.name = json['name']
         return self
 
@@ -27,6 +27,7 @@ class Drug(models.Model):
 
     class Meta:
         verbose_name_plural = 'drugs'
+
 
     def get_img_url(self):
         return self.imagePath

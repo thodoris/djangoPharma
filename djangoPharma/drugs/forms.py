@@ -49,14 +49,19 @@ class AddDrugsForm(ModelForm):
 
     class Meta:
         model = Drug
-        fields = ['id', 'friendly_name', 'availability', 'description', 'price', 'category']
+        fields = ['id', 'friendly_name', 'availability', 'description', 'price']
 
     def __init__(self, *args, **kwargs):
         categoryChoices = kwargs.pop("categorychoices")  # categorychoices is the parameter passed from views.py
+        category = kwargs.pop("category")
         super(AddDrugsForm, self).__init__(*args, **kwargs)
-        # self.fields['category'] = forms.ChoiceField(label="Category", choices=categoryChoices, widget=forms.Select({
-        #     'class': 'form-control',
-        #     'placeholder': 'Category'}))
+        if category is not None:
+            self.category = kwargs.pop(category, None)
+        if categoryChoices is not None:
+            self.fields['category'] = forms.ChoiceField(label="Category", choices=categoryChoices, widget=forms.Select({
+                'class': 'form-control',
+                'placeholder': 'Category'}))
+
 
 class UpdateDrugsForm(ModelForm):
     id = forms.CharField(label=_("Drug ID"), required=True, max_length=254,

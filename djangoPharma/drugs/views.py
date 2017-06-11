@@ -35,7 +35,7 @@ def __getDrugAsModel(drug_id):
 def __getCategoryChoices():
     # get the drug categories from Cache
     drug_categories = cacheService.get_drug_categories()
-    category_choices = [(category['id'], category['name']) for category in drug_categories]
+    category_choices = [( int(category['id']), category['name']) for category in drug_categories]
     return category_choices
 
 
@@ -82,11 +82,13 @@ def add_drug(request):
     if request.method == 'GET':
         id_choices = __getDrugIDsChoices()
         category_choices = __getCategoryChoices()
-        form = AddDrugsForm(categorychoices=category_choices)
+        form = AddDrugsForm(categorychoices=category_choices,category=None)
     elif request.method == 'POST':
-        drugs_index = cacheService.get_rest_drugs()
-        id_choices = [(drug['id'], drug['name']) for drug in drugs_index]
-        form = AddDrugsForm(request.POST, categorychoices='')
+        id_choices = __getDrugIDsChoices()
+        category_choices = __getCategoryChoices()
+        newCategory = Category(id=1,name='test')
+        form = AddDrugsForm(request.POST, categorychoices=None,category=newCategory)
+
         # the function checks also if there is another record with the same id
         if form.is_valid():
             try:
