@@ -122,8 +122,6 @@ def registration_complete(request):
 
 @login_required()
 def add_to_cart(request):
-    # hardcoded values TODO remove
-    # product = restService.get_drug_by_id('000090201')
     if request.method == 'POST':
         try:
             drug_id = request.POST.get('drug_id', '')
@@ -136,6 +134,9 @@ def add_to_cart(request):
             return HttpResponse(status=200)
         except Exception as e:
             return HttpResponse(status=500)
+    else:
+        # home page
+        return redirect('/')
 
 
 @login_required()
@@ -152,6 +153,9 @@ def update_cart(request):
             return HttpResponse(status=200)
         except Exception as e:
             return HttpResponse(status=500)
+    else:
+        # home page
+        return redirect('/')
 
 
 @login_required()
@@ -166,6 +170,9 @@ def remove_from_cart(request):
             return HttpResponse(status=200)
         except Exception as e:
             return HttpResponse(status=500)
+    else:
+        # home page
+        return redirect('/')
 
 
 @login_required()
@@ -182,7 +189,8 @@ def checkout(request):
         current_user_address = UserAddress.objects.get(user=current_user)
         return render(request, 'app/checkout.html', dict(cart=cart, user=current_user, address=current_user_address))
     else:
-        return HttpResponse(status=403)
+        # home page
+        return redirect('/')
 
 
 @login_required()
@@ -211,6 +219,9 @@ def submit_order(request):
                                                         quantity=quantity, unit_price=unit_price)
 
         return HttpResponse(200)
+    else:
+        # home page
+        return redirect('/')
 
 
 @login_required()
