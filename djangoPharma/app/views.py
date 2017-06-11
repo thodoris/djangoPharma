@@ -14,6 +14,7 @@ from django.shortcuts import redirect
 from django.template import Context
 from django.template.loader import get_template
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 
 import drugs.cacheService as cacheService
 from .forms import UserForm, UserAddressForm
@@ -119,6 +120,7 @@ def registration_complete(request):
     return render('registration/registration_complete.html')
 
 
+@login_required()
 def add_to_cart(request):
     # hardcoded values TODO remove
     # product = restService.get_drug_by_id('000090201')
@@ -136,6 +138,7 @@ def add_to_cart(request):
             return HttpResponse(status=500)
 
 
+@login_required()
 def update_cart(request):
     if request.method == 'POST':
         try:
@@ -151,6 +154,7 @@ def update_cart(request):
             return HttpResponse(status=500)
 
 
+@login_required()
 def remove_from_cart(request):
     if request.method == 'POST':
         try:
@@ -164,11 +168,13 @@ def remove_from_cart(request):
             return HttpResponse(status=500)
 
 
+@login_required()
 def get_cart(request):
     cart = Cart(request)
     return render(request, 'app/cart.html', dict(cart=cart))
 
 
+@login_required()
 def checkout(request):
     if request.method == 'POST' or True:
         cart = Cart(request)
@@ -179,6 +185,7 @@ def checkout(request):
         return HttpResponse(status=403)
 
 
+@login_required()
 def submit_order(request):
     if request.method == 'POST':
         current_user = request.user
@@ -206,6 +213,7 @@ def submit_order(request):
         return HttpResponse(200)
 
 
+@login_required()
 def get_orders(request):
     if request.method == 'GET':
         # TODO remove hardcoded

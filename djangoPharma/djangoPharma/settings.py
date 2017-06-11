@@ -137,6 +137,7 @@ BOOTSTRAP3 = {
 # Registration
 ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window;
 REGISTRATION_AUTO_LOGIN = True  # Automatically log the user in.
+LOGIN_URL = '/login'
 
 #Custom Application Settings
 DJANGOPHARMA_REST_URL = 'http://connect.opengov.gr:3000/drugs' #''http://test.hua.gr:8000/pharmacy'

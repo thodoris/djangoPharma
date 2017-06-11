@@ -10,6 +10,7 @@ from datetime import datetime
 from .models import Drug, Category
 from django.core import serializers
 from .forms import AddDrugsForm, UpdateDrugsForm
+from django.contrib.auth.decorators import login_required, user_passes_test
 import drugs.utils as utils
 import drugs.restService as restService
 import drugs.soapService as soapService
@@ -44,6 +45,10 @@ def __getDrugIDsChoices():
     return id_choices
 
 
+def check_admin(user):
+    return user.is_superuser
+
+
 def index(request):
     output = '<h1>Index</h1>'
     return HttpResponse(output)
@@ -69,6 +74,7 @@ def get_drug(drugid):
     return client.service.findDrug(drugid)
 
 
+@user_passes_test(check_admin)
 def add_drug(request):
     insert_succeed = None
     if request.method == 'GET':
@@ -104,6 +110,7 @@ def add_drug(request):
     })
 
 
+@user_passes_test(check_admin)
 def update_drug(request, drug_id):
     update_succeed = None
     if request.method == 'GET':
@@ -137,6 +144,7 @@ def update_drug(request, drug_id):
     })
 
 
+@user_passes_test(check_admin)
 def manage_migrations(request):
     migrationService.migrate_drug_categories()
     return HttpResponse(200)
