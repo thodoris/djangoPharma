@@ -6,87 +6,127 @@
 {% block content %}
     {% csrf_token %}
 
-    {% if cart_is_empty  %}
+    {% if cart_is_empty %}
         <div class="row">
             <div class="col-md-12">
                 <h3>The cart is empty!</h3>
             </div>
         </div>
     {% else %}
-      {%  for item in cart %}
+        {% for item in cart %}
 
-        <div class="panel panel-default">
-            <div class="panel-heading"> {{ item.product.friendly_name }}</div>
-            <div class="row">
-                <div class="col-md-2">
-                    <img src="{{ item.product.imagePath }}" class="img-responsive" alt="Responsive image"
-                         style=" margin: 0 auto;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ item.product.friendly_name }}
                 </div>
-                <div class="col-md-10">
-                    <table class="table table-striped">
-                        <tr>
-                            <td>Drug ID:</td>
-                            <td>{{ item.product.id }}</td>
-                        </tr>
-                        <tr>
-                            <td>Name:</td>
-                            <td>{{ item.product.friendly_name }}</td>
-                        </tr>
-                        <tr>
-                            <td>Availability:</td>
-                            <td>{{ item.product.availability }}</td>
-                        </tr>
-                        <tr>
-                            <td>Description:</td>
-                            <td>{{ item.product.description }}</td>
-                        </tr>
-                        <tr>
-                            <td>Category:</td>
-                            <td>{{ item.product.category.name }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <span>Quantity:</span>
-                    <div class="input-group number-spinner">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="{{ item.product.imagePath }}" class="img-responsive" alt="Responsive image"
+                             style=" margin: 0 auto;">
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-striped">
+                            <tr>
+                                <td>ID:</td>
+                                <td>{{ item.product.id }}</td>
+                            </tr>
+                            <tr>
+                                <td>Price:</td>
+                                <td>{{ item.product.price }}</td>
+                            </tr>
+                            <tr>
+                                <td>Availability:</td>
+                                <td>{{ item.product.availability }}</td>
+                            </tr>
+                            <tr>
+                                <td>Description:</td>
+                                <td>{{ item.product.description }}</td>
+                            </tr>
+                            <tr>
+                                <td>Category:</td>
+                                <td>{{ item.product.category.name }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                         <div class="row">
+                            <div class="col-md-6">
+                                &nbsp;
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-md-6">
+                                &nbsp;
+                            </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-md-4 quantity">
+                                 <p>
+                                <span>Total Price:</span>
+                                 </p>
+                            </div>
+                            <div class="col-md-8" style="line-height: 2.8em;text-align: left">
+                                <p>
+                                    {{ item.total_price }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 quantity">
+                                <span>Quantity:</span>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="input-group number-spinner">
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" data-dir="dwn"><span
                                                 class="glyphicon glyphicon-minus"></span></button>
                                     </span>
 
-                        <input type="text" id="quantity" class="form-control text-center"
-                               value="{{ item.quantity }}">
-                        <span class="input-group-btn">
+                                    <input type="text" id="quantity" class="form-control text-center"
+                                           value="{{ item.quantity }}">
+                                    <span class="input-group-btn">
                                         <button class="btn btn-default" data-dir="up"><span
                                                 class="glyphicon glyphicon-plus"></span></button>
                                     </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                &nbsp;
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <span>Total Price:</span>{{ item.total_price }}
-                </div>
-                <div class="col-md-2">
-                    <button type="button" id="{{ item.product.id }}" class=" updateCart btn btn-warning">Update</button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" id="{{ item.product.id }}" class="removeFromCart btn btn-danger">Remove</button>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn-toolbar custom" role="toolbar" aria-label="">
+                            <div class="btn-group" role="group" aria-label="group1">
+                                <button type="button" id="{{ item.product.id }}" class=" updateCart btn btn-warning">
+                                    Update
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="group2">
+                                <button type="button" id="{{ item.product.id }}" class="removeFromCart btn btn-danger">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
 
-    <form action="/checkout" method="post" class="form-horizontal">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-md-3">
-                <button type="submit" id="checkout" class="btn btn-success">Checkout</button>
+        <form action="/checkout" method="post" class="form-horizontal">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-3">
+                    <button type="submit" id="checkout" class="btn btn-success">Checkout</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
- {% endif %}
+    {% endif %}
 
 {% endblock %}
 

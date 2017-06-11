@@ -12,3 +12,12 @@ ul.errorlist {
     line-height: 2.8em;
     text-align: right;
 }
+
+div.btn-toolbar.custom {
+    margin: 0px 0px 10px 5px;
+}
+
+.borderless tbody tr td, .borderless tbody tr> th {
+    border-top: none;
+
+}
