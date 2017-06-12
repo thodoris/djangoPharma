@@ -221,6 +221,8 @@ def submit_order(request):
                     drug = item.product
                     order_details = OrderDetails.objects.create(order=order, drug=drug,
                                                                 quantity=quantity, total_price=total_price)
+                # clear the cart
+                cart.clear()
         except Exception as e:
             return HttpResponse(500)
 
@@ -230,6 +232,7 @@ def submit_order(request):
         return redirect('/')
 
 
+@login_required()
 def submit_order_result(request):
     if request.method == 'GET':
         return render(request, 'app/submit_order_result.html')
@@ -240,7 +243,7 @@ def get_orders(request):
     if request.method == 'GET':
         current_user = request.user
         orders = Order.objects.filter(user=current_user)
+        # get a total order which contains all the included order details (drugs)
         for order in orders:
             order.attributes = OrderDetails.objects.filter(order_id=order.id)
-        # order_details = OrderDetails.objects.filter(order__in=orders)
         return render(request, 'app/orders.html', dict(orders=orders))
