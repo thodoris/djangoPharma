@@ -238,7 +238,9 @@ def submit_order_result(request):
 @login_required()
 def get_orders(request):
     if request.method == 'GET':
-        # TODO remove hardcoded
-        user = User.objects.get(pk=1)
-        orders = Order.objects.filter(user=user)
+        current_user = request.user
+        orders = Order.objects.filter(user=current_user)
+        for order in orders:
+            order.attributes = OrderDetails.objects.filter(order_id=order.id)
+        # order_details = OrderDetails.objects.filter(order__in=orders)
         return render(request, 'app/orders.html', dict(orders=orders))

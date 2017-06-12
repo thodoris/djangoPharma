@@ -4,24 +4,74 @@
 {% block title %}{% endblock %}
 
 {% block content %}
-    <table>
-        <tr>
-            <th>Order Date</th>
-            <th>Status</th>
-            <th>Payment Type</th>
-            <th>Shipment Type</th>
-            <th>Comments</th>
-        </tr>
-        {% for order in orders %}
-        <tr>
-            <td>{{ order.order_date }}</td>
-            <td>{{ order.status }}</td>
-            <td>{{ order.payment_type }}</td>
-            <td>{{ order.shipment_type }}</td>
-            <td>{{ order.comments }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+
+    <h4>My Orders</h4>
+
+    {% for order in orders %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span>Order ID: #</span>{{ order.id }}
+                    </div>
+                    <div class="panel-body">
+                         <div class="row">
+                              <div class="col-md-12">
+                                  <span style="font-weight: bold">Date Added: </span>
+                                  {{ order.order_date }}
+                              </div>
+                         </div>
+                        <div class="row">
+                              <div class="col-md-12">
+                                  <span style="font-weight: bold">Payment Type: </span>
+                                  {{ order.get_payment_type_display }}
+                              </div>
+                         </div>
+                        <div class="row">
+                              <div class="col-md-12">
+                                  <span style="font-weight: bold">Shipment Type: </span>
+                                  {{ order.get_shipment_type_display }}
+                              </div>
+                         </div>
+                         <div class="row">
+                              <div class="col-md-12">
+                                  <span style="font-weight: bold">Comments: </span>
+                                  {{ order.comments }}
+                              </div>
+                         </div>
+                         <div class="row">
+                              <div class="col-md-12">
+                                  <span style="font-weight: bold">Status: </span>
+                                  {{ order.get_status_display }}
+                              </div>
+                         </div>
+                         {% for order_detail in order.attributes %}
+                                <div class="row">
+                                      <div class="col-md-12">
+                                          <span style="font-weight: bold">Total Price: </span>
+                                          {{ order_detail.total_price }}
+                                      </div>
+                                 </div>
+                                  <div class="row">
+                                      <div class="col-md-12">
+                                          <span style="font-weight: bold">Quantity: </span>
+                                          {{ order_detail.quantity }}
+                                      </div>
+                                 </div>
+                             <div class="row">
+                                      <div class="col-md-12">
+                                          <span style="font-weight: bold">Drug: </span>
+                                          <a href="http://localhost:8000/drugs/{{ order_detail.drug.id }}">
+                                            {{ order_detail.drug.friendly_name }}
+                                          </a>
+                                      </div>
+                                 </div>
+                             {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}
 
 {% block scripts %}

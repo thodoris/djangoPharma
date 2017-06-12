@@ -56,6 +56,9 @@ class Order(models.Model):
     class Meta:
         verbose_name_plural = 'orders'
 
+    def get_payment_type(self):
+        return self.payment_type
+
 
 # Model for Order Details
 class OrderDetails(models.Model):
