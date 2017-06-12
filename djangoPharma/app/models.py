@@ -52,6 +52,7 @@ class Order(models.Model):
     payment_type = models.IntegerField(choices=PAYMENT_TYPE_ENUM, default=1)
     shipment_type = models.IntegerField(choices=SHIPMENT_TYPE_ENUM, default=1)
     comments = models.CharField(max_length=500)
+    total_price = models.DecimalField(max_digits=6, decimal_places=2)
 
     class Meta:
         verbose_name_plural = 'orders'
@@ -65,7 +66,7 @@ class OrderDetails(models.Model):
     order = models.ForeignKey(Order)
     drug = models.ForeignKey(DrugModel.Drug)
     quantity = models.IntegerField()
-    total_price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
 
     class Meta:
         verbose_name_plural = 'orders_details'

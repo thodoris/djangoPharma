@@ -59,6 +59,7 @@ urlpatterns = [
     url(r'^submit_order$', app.views.submit_order, name='submit_order'),
     url(r'^order_result$', app.views.submit_order_result, name='submit_order_result'),
     url(r'^ajax/syncdb', app.ajaxviews.syncdb, name='syncdb'),
-    url(r'^customer_orders$', app.views.get_customer_orders, name='customer_orders'),
+    url(r'^admin/orders$', app.views.get_customer_orders, name='customer_orders'),
+    url(r'^admin/orders/(?P<order_id>[0-9]+)/$', app.views.display_order, name='display_order'),
 
 ]

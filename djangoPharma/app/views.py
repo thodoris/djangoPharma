@@ -257,10 +257,16 @@ def get_orders(request):
 def get_customer_orders(request):
     if request.method == 'GET':
         orders = Order.objects.all()
-        # get a total order which contains all the included order details (drugs)
-        for order in orders:
-            order.attributes = OrderDetails.objects.filter(order_id=order.id)
-        return render(request, 'app/admin_customer_orders.html', dict(orders=orders))
+        return render(request, 'app/admin_customer_orders_list.html', dict(orders=orders))
+
+
+@user_passes_test(check_admin)
+def display_order(request, order_id):
+    if request.method == 'GET':
+        order = Order.objects.get(pk=order_id)
+        # get order details
+        order.attributes = OrderDetails.objects.filter(order_id=order.id)
+        return render(request, 'app/admin_customer_edit_order.html', dict(order=order))
 
 
 @user_passes_test(check_admin)
