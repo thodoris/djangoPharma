@@ -77,6 +77,26 @@
                 </div>
             </div>
         </div>
+         <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn-toolbar custom" role="toolbar" aria-label="">
+                             {% if order.status == 2 %}
+                            <div class="btn-group" role="group" aria-label="group1">
+                                <button type="button" id="{{ item.product.id }}" class=" deliverOrder btn btn-warning">
+                                    Deliver
+                                </button>
+                            </div>
+                            {% endif %}
+                        {% if order.status == 1 %}
+                            <div class="btn-group" role="group" aria-label="group2">
+                                <button type="button" id="{{ item.product.id }}" class="rejectOrder btn btn-danger">
+                                    Reject
+                                </button>
+                            </div>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
     {% endfor %}
 {% endblock %}
 
