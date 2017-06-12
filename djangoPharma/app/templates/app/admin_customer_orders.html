@@ -1,0 +1,88 @@
+{% extends 'app/base/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    <h4>My Orders</h4>
+
+    {% for order in orders %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span>Order ID: #</span>{{ order.id }}
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <td>Date Added:</td>
+                                        <td>{{ order.order_date }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Payment Type:</td>
+                                        <td>{{ order.get_payment_type_display }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shipment Type:</td>
+                                        <td>{{ order.get_shipment_type_display }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Comments:</td>
+                                        <td>{{ order.comments }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status:</td>
+                                        <td>{{ order.status }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    <h5>Drugs:</h5>
+                        <div class="row">
+                            {% for order_detail in order.attributes %}
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="font-weight: bold">
+                                            {{ order_detail.drug.friendly_name }}</div>
+                                        <div class="panel-body">
+                                            <div class="row" style="margin-bottom: 15px">
+                                                <div class="col-md-3">
+                                                    <img src="{{ order_detail.drug.imagePath }}" class="img-responsive"
+                                                         alt="Responsive image"
+                                                         style=" margin: 0 auto; width: 100px; height: 70px">
+                                                </div>
+                                                <div class="col-md-7" style="text-align: center">
+                                                    <span>Drug ID: #</span>
+                                                    <span style="font-weight: bold">{{ order_detail.drug.id }}</span>
+                                                    <div style="font-size: smaller">
+                                                        <span>Quantity: </span>{{ order_detail.quantity }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    {{ order_detail.total_price }}
+                                                    <span> &euro;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block scripts %}
+
+    {% load staticfiles %}
+    <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+
+{% endblock %}

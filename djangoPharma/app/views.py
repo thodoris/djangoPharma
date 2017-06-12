@@ -14,7 +14,7 @@ from django.shortcuts import redirect
 from django.template import Context
 from django.template.loader import get_template
 from django.template.loader import render_to_string
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 import drugs.cacheService as cacheService
 from .forms import UserForm, UserAddressForm
@@ -27,6 +27,10 @@ import drugs.restService as restService
 import drugs.models as DrugModel
 import drugs.migrationService as migrationService
 from django.db import transaction
+
+
+def check_admin(user):
+    return user.is_superuser
 
 
 def home(request):
@@ -247,3 +251,32 @@ def get_orders(request):
         for order in orders:
             order.attributes = OrderDetails.objects.filter(order_id=order.id)
         return render(request, 'app/orders.html', dict(orders=orders))
+
+
+@user_passes_test(check_admin)
+def get_customer_orders(request):
+    if request.method == 'GET':
+        orders = Order.objects.all()
+        # get a total order which contains all the included order details (drugs)
+        for order in orders:
+            order.attributes = OrderDetails.objects.filter(order_id=order.id)
+        return render(request, 'app/admin_customer_orders.html', dict(orders=orders))
+
+
+@user_passes_test(check_admin)
+def update_customer_order(request):
+    if request.method == 'POST':
+        try:
+            order_id = request.POST.get('orderId', '')
+            status = request.POST.get('status', '')
+            # fetch the model from database
+            order = Order.objects.get(pk=order_id)
+            # update only status field
+            order.status = status
+            order.save(update_fields=["status"])
+            return HttpResponse(200)
+        except Exception:
+            return HttpResponse(500)
+    else:
+        # home page
+        return redirect('/')
