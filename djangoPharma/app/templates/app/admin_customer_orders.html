@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    <h4>My Orders</h4>
+    <h4>Customer Orders</h4>
 
     {% for order in orders %}
         <div class="row">
@@ -16,32 +16,83 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-12">
-                                <table class="table table-striped">
-                                    <tr>
-                                        <td>Date Added:</td>
-                                        <td>{{ order.order_date }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Payment Type:</td>
-                                        <td>{{ order.get_payment_type_display }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Shipment Type:</td>
-                                        <td>{{ order.get_shipment_type_display }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Comments:</td>
-                                        <td>{{ order.comments }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status:</td>
-                                        <td>{{ order.status }}</td>
-                                    </tr>
-                                </table>
+                            <div class="col-md-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Order Details</div>
+                                    <div class="panel-body">
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <td>Date Added:</td>
+                                                <td>{{ order.order_date }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Payment Type:</td>
+                                                <td>{{ order.get_payment_type_display }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Shipment Type:</td>
+                                                <td>{{ order.get_shipment_type_display }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Comments:</td>
+                                                <td>{{ order.comments }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Status:</td>
+                                                <td>{{ order.status }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">User Details</div>
+                                    <div class="panel-body">
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <td>Name:</td>
+                                                <td>{{ order.user.first_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Last Name:</td>
+                                                <td>{{ order.user.last_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Username:</td>
+                                                <td>{{ order.user.username }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">User Address</div>
+                                    <div class="panel-body">
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <td>City:</td>
+                                                <td>{{ order.address.city }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Street:</td>
+                                                <td>{{ order.address.street }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Street Number:</td>
+                                                <td>{{ order.address.streetno }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>ZipCode:</td>
+                                                <td>{{ order.address.zip }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    <h5>Drugs:</h5>
+                        <h5>Drugs:</h5>
                         <div class="row">
                             {% for order_detail in order.attributes %}
                                 <div class="col-md-6">
@@ -51,7 +102,8 @@
                                         <div class="panel-body">
                                             <div class="row" style="margin-bottom: 15px">
                                                 <div class="col-md-3">
-                                                    <img src="{{ order_detail.drug.imagePath }}" class="img-responsive"
+                                                    <img src="{{ order_detail.drug.imagePath }}"
+                                                         class="img-responsive"
                                                          alt="Responsive image"
                                                          style=" margin: 0 auto; width: 100px; height: 70px">
                                                 </div>
@@ -71,32 +123,35 @@
                                     </div>
                                 </div>
                             {% endfor %}
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-         <div class="row">
-                    <div class="col-md-12">
-                        <div class="btn-toolbar custom" role="toolbar" aria-label="">
-                             {% if order.status == 2 %}
-                            <div class="btn-group" role="group" aria-label="group1">
-                                <button type="button" id="{{ item.product.id }}" class=" deliverOrder btn btn-warning">
-                                    Deliver
-                                </button>
-                            </div>
-                            {% endif %}
-                        {% if order.status == 1 %}
-                            <div class="btn-group" role="group" aria-label="group2">
-                                <button type="button" id="{{ item.product.id }}" class="rejectOrder btn btn-danger">
-                                    Reject
-                                </button>
-                            </div>
-                        {% endif %}
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-toolbar custom" role="toolbar" aria-label="">
+                    {% if order.status == 2 %}
+                        <div class="btn-group" role="group" aria-label="group1">
+                            <button type="button" id="{{ item.product.id }}" class=" deliverOrder btn btn-warning">
+                                Deliver
+                            </button>
                         </div>
-                    </div>
+                    {% endif %}
+                    {% if order.status == 1 %}
+                        <div class="btn-group" role="group" aria-label="group2">
+                            <button type="button" id="{{ item.product.id }}" class="rejectOrder btn btn-danger">
+                                Reject
+                            </button>
+                        </div>
+                    {% endif %}
                 </div>
+            </div>
+        </div>
     {% endfor %}
 {% endblock %}
 
