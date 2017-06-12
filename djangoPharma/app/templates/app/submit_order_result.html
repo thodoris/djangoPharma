@@ -1,0 +1,23 @@
+{% extends 'app/base/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Thank you for you order! You can check your order in "my orders" menu</h3>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    {% load staticfiles %}
+    <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+
+{% endblock %}

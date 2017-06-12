@@ -134,11 +134,20 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-3">
-                                <button type="submit" id="submitOrder" class="btn btn-success">Submit Order</button>
+                                <button type="button" id="submitOrder" class="btn btn-success">Submit Order</button>
                             </div>
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-danger hidden" id="checkout-fail">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                <strong>Failure!</strong> Please Try again later!
             </div>
         </div>
     </div>

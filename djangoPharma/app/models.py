@@ -59,10 +59,10 @@ class Order(models.Model):
 
 # Model for Order Details
 class OrderDetails(models.Model):
-    order = models.OneToOneField(Order)
+    order = models.ForeignKey(Order)
     drug = models.ForeignKey(DrugModel.Drug)
     quantity = models.IntegerField()
-    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
+    total_price = models.DecimalField(max_digits=6, decimal_places=2)
 
     class Meta:
         verbose_name_plural = 'orders_details'

@@ -26,6 +26,8 @@ from .models import Order, OrderDetails
 import drugs.restService as restService
 import drugs.models as DrugModel
 import drugs.migrationService as migrationService
+from django.db import transaction
+
 
 def home(request):
     """Renders the home page."""
@@ -203,26 +205,34 @@ def submit_order(request):
         shipment_type = request.POST.get('shipmentType', '')
         payment_type = request.POST.get('paymentType', '')
         comments = request.POST.get('comments', '')
-        # submitted
+        # submitted status
         status = '2'
-        # TODO put transaction for commit multiple insertions
-        # save order
-        order = Order.objects.create(user=current_user, address=current_user_address, order_date=order_date,
-                                     status=status, payment_type=payment_type, shipment_type=shipment_type,
-                                     comments=comments)
-        # save order details
-        cart = Cart(request)
-        for item in cart.cart.item_set.all():
-            quantity = item.quantity
-            unit_price = item.total_price
-            drug = item.product
-            order_details = OrderDetails.objects.create(order=order, drug=drug,
-                                                        quantity=quantity, unit_price=unit_price)
+        try:
+            with transaction.atomic():
+                # save order
+                order = Order.objects.create(user=current_user, address=current_user_address, order_date=order_date,
+                                             status=status, payment_type=payment_type, shipment_type=shipment_type,
+                                             comments=comments)
+                # save order details
+                cart = Cart(request)
+                for item in cart.cart.item_set.all():
+                    quantity = item.quantity
+                    total_price = item.total_price
+                    drug = item.product
+                    order_details = OrderDetails.objects.create(order=order, drug=drug,
+                                                                quantity=quantity, total_price=total_price)
+        except Exception as e:
+            return HttpResponse(500)
 
         return HttpResponse(200)
     else:
         # home page
         return redirect('/')
+
+
+def submit_order_result(request):
+    if request.method == 'GET':
+        return render(request, 'app/submit_order_result.html')
 
 
 @login_required()
