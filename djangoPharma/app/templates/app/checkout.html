@@ -72,7 +72,8 @@
                     {% for item in cart %}
                         <div class="row" style="margin-bottom: 15px">
                             <div class="col-md-3">
-                                <img src="{{ item.product.image_path }}" class="img-responsive" alt="Responsive image"
+                                <img src="/static/app/images/drugs/{{ item.product.imagePath }}" class="img-responsive"
+                                     alt="Responsive image"
                                      style=" margin: 0 auto; width: 100px; height: 70px">
                             </div>
                             <div class="col-md-7" style="text-align: center">
@@ -94,10 +95,11 @@
 
     <div class="row">
         <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Addition Order Details</div>
-                <div class="panel-body">
-                    <form action="/submit_order" method="post" class="form-horizontal">
+            <form action="/submit_order" method="post" class="form-horizontal">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Addition Order Details</div>
+                    <div class="panel-body">
+
                         <div class="row" style="margin-bottom: 15px">
                             <div class="col-md-4">
                                 <span>Payment Type</span>
@@ -132,14 +134,17 @@
                         </div>
 
                         {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-3">
-                                <button type="button" id="submitOrder" class="btn btn-success">Submit Order</button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button type="button" id="submitOrder" class="btn btn-success">Submit Order</button>
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-danger" href="/cart" role="button">Cancel</a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 

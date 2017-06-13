@@ -4,6 +4,16 @@
 {% block title %}{% endblock %}
 
 {% block content %}
+
+     <a class="btn btn-default" href="/my_orders" role="button">
+         <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> My Orders</a>
+
+    <div class="row">
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+    </div>
+
      <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -51,7 +61,7 @@
                                         <div class="panel-body">
                                             <div class="row" style="margin-bottom: 15px">
                                                 <div class="col-md-3">
-                                                    <img src="{{ order_detail.drug.imagePath }}" class="img-responsive"
+                                                    <img src="/static/app/images/drugs/{{ order_detail.drug.imagePath }}" class="img-responsive"
                                                          alt="Responsive image"
                                                          style=" margin: 0 auto; width: 100px; height: 70px">
                                                 </div>

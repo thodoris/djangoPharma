@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    <a class="btn btn-default" href="/my_orders/{{ order.id }}" role="button">
+    <a class="btn btn-default" href="/admin/orders" role="button">
          <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Orders</a>
 
     <h4><span>Order ID: #</span>{{ order.id }}</h4>
@@ -104,7 +104,7 @@
                             {% for order_detail in order.attributes %}
                                 <div class="row" style="margin-bottom: 15px">
                                     <div class="col-md-3">
-                                        <img src="{{ order_detail.drug.imagePath }}"
+                                        <img src="/static/app/images/drugs/{{ order_detail.drug.imagePath }}"
                                              class="img-responsive"
                                              alt="Responsive image"
                                              style=" margin: 0 auto; width: 100px; height: 70px">
