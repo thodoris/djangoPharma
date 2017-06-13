@@ -1,5 +1,6 @@
 {% extends 'app/base/base.html' %}
 {% load bootstrap3 %}
+{% load staticfiles %}
 
 {% block title %}{% endblock %}
 
@@ -90,9 +91,9 @@
     </div>
 {% endblock %}
 
-{% block scripts %}
+{% block custom_script %}
 
-    {% load staticfiles %}
+
     <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
 
 {% endblock %}

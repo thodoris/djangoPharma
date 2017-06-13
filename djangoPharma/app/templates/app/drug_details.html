@@ -4,6 +4,10 @@
 
 {% block title %}{% endblock %}
 
+{% block custom_style %}
+    <link rel="stylesheet"  href="{% static 'app/vendor/ladda/dist/ladda-themeless.min.css' %}" />
+{% endblock %}
+
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -12,6 +16,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-4">
+
                     <img src="{{ image_path }}" class="img-responsive" alt="Responsive image"
                          style=" margin: 0 auto; width: 300px; height: 220px">
                 </div>
@@ -66,7 +71,7 @@
             </div>
         </div>
         <div class="col-md-2">
-            <button type="button" id="addToCart" class="btn btn-warning">Add To Cart</button>
+            <button type="button" id="addToCart" class="ladda-button ladda-button-pharma btn btn-warning" data-style="expand-right">Add To Cart</button>
         </div>
     </div>
     <div class="row">
@@ -87,9 +92,34 @@
 
 {% endblock %}
 
-{% block scripts %}
+{% block custom_script %}
 
-    {% load staticfiles %}
+
     <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'app/vendor/ladda/dist/spin.min.js' %}"></script>
+    <script src="{% static 'app/vendor/ladda/dist/ladda.min.js' %}"></script>
+    <script src="{% static 'app/vendor/ladda/dist/ladda.jquery.min.js' %}"></script>
 
+    <script type="application/javascript">
+
+    $(document).ready(function () {
+      var l = $( '.ladda-button-pharma' ).ladda();
+      l.click(function(){
+
+          // Start loading
+          l.ladda( 'start' );
+
+          // Do something in backend and then stop ladda
+          // setTimeout() is only for demo purpose
+          setTimeout(function(){
+              l.ladda('stop');
+          },2000)
+
+      });
+
+    });
+
+
+
+    </script>
 {% endblock %}

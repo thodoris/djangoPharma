@@ -1,6 +1,22 @@
 /**
  * Created by THODORIS on 10/6/2017.
  */
+
+function flatten (obj) {
+  var newObj = {};
+  for (var key in obj) {
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+      var temp = flatten(obj[key])
+      for (var key2 in temp) {
+        newObj[key+"-"+key2] = temp[key2];
+      }
+    } else {
+      newObj[key] = obj[key];
+    }
+  }
+  return newObj;
+}
+
 ;(function(){
 
 /**

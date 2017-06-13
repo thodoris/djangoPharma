@@ -1,7 +1,7 @@
 import drugs.models as DrugModel
 from django.contrib.auth.models import User
 from django.db import models
-
+from decimal import Decimal
 
 class UserAddress(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -50,7 +50,7 @@ class Order(models.Model):
     payment_type = models.IntegerField(choices=PAYMENT_TYPE_ENUM, default=1)
     shipment_type = models.IntegerField(choices=SHIPMENT_TYPE_ENUM, default=1)
     comments = models.CharField(max_length=500)
-    total_price = models.DecimalField(max_digits=6, decimal_places=2)
+    total_price = models.DecimalField(max_digits=6, decimal_places=2,default=Decimal('0.00'))
 
     class Meta:
         verbose_name_plural = 'orders'
@@ -64,7 +64,7 @@ class OrderDetails(models.Model):
     order = models.ForeignKey(Order)
     drug = models.ForeignKey(DrugModel.Drug)
     quantity = models.IntegerField()
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2 , default=Decimal('0.00'))
 
     class Meta:
         verbose_name_plural = 'orders_details'
