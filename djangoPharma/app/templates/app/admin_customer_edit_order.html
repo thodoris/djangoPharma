@@ -1,0 +1,170 @@
+{% extends 'app/base/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    <a class="btn btn-default" href="/my_orders/{{ order.id }}" role="button">
+         <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Orders</a>
+
+    <h4><span>Order ID: #</span>{{ order.id }}</h4>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Order Details</div>
+                        <div class="panel-body">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Date Added:</td>
+                                    <td>{{ order.order_date }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Payment Type:</td>
+                                    <td>{{ order.get_payment_type_display }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Shipment Type:</td>
+                                    <td>{{ order.get_shipment_type_display }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Comments:</td>
+                                    <td>{{ order.comments }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Price:</td>
+                                    <td>{{ order.total_price }}<span> &euro;</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Status:</td>
+                                    <td>{{ order.get_status_display }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">User Details</div>
+                        <div class="panel-body">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Name:</td>
+                                    <td>{{ order.user.first_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last Name:</td>
+                                    <td>{{ order.user.last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Username:</td>
+                                    <td>{{ order.user.username }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">User Address</div>
+                        <div class="panel-body">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>City:</td>
+                                    <td>{{ order.address.city }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Street:</td>
+                                    <td>{{ order.address.street }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Street Number:</td>
+                                    <td>{{ order.address.streetno }}</td>
+                                </tr>
+                                <tr>
+                                    <td>ZipCode:</td>
+                                    <td>{{ order.address.zip }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>Drugs:</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="font-weight: bold">
+                            {{ order_detail.drug.friendly_name }}</div>
+                        <div class="panel-body">
+                            {% for order_detail in order.attributes %}
+                                <div class="row" style="margin-bottom: 15px">
+                                    <div class="col-md-3">
+                                        <img src="{{ order_detail.drug.imagePath }}"
+                                             class="img-responsive"
+                                             alt="Responsive image"
+                                             style=" margin: 0 auto; width: 100px; height: 70px">
+                                    </div>
+                                    <div class="col-md-7" style="text-align: center">
+                                        <span>Drug ID: #</span>
+                                        <span style="font-weight: bold">{{ order_detail.drug.id }}</span>
+                                        <div style="font-size: smaller">
+                                            <span>Quantity: </span>{{ order_detail.quantity }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{ order_detail.price }}
+                                        <span> &euro;</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="orderId" value="{{ order.id }}"/>
+
+    {% csrf_token %}
+
+    {% if statuses %}
+        <div class="row">
+            <div class="col-md-3">
+                  <span>Status: </span>
+                <select class="form-control" name="statusType">
+                    {% for status in statuses %}
+                        <option value="{{ status.0 }}">{{ status.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="col-md-3">
+                &nbsp;
+            </div>
+         </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <button type="button" id="updateOrder" class="btn btn-warning">
+                            Update Order
+                </button>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+
+    {% load staticfiles %}
+    <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+
+{% endblock %}

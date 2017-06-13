@@ -55,11 +55,13 @@ urlpatterns = [
     url(r'^update_cart', app.views.update_cart, name='update_cart'),
     url(r'^remove_from_cart$', app.views.remove_from_cart, name='remove_from_cart'),
     url(r'^my_orders$', app.views.get_orders, name='my_orders'),
+    url(r'^my_orders/(?P<order_id>[0-9]+)/$', app.views.display_my_order, name='my_orders_display'),
     url(r'^checkout$', app.views.checkout, name='checkout'),
     url(r'^submit_order$', app.views.submit_order, name='submit_order'),
     url(r'^order_result$', app.views.submit_order_result, name='submit_order_result'),
     url(r'^ajax/syncdb', app.ajaxviews.syncdb, name='syncdb'),
     url(r'^admin/orders$', app.views.get_customer_orders, name='customer_orders'),
     url(r'^admin/orders/(?P<order_id>[0-9]+)/$', app.views.display_order, name='display_order'),
+    url(r'^admin/orders/update$', app.views.update_customer_order, name='update_customer_order'),
 
 ]

@@ -247,10 +247,7 @@ def get_orders(request):
     if request.method == 'GET':
         current_user = request.user
         orders = Order.objects.filter(user=current_user)
-        # get a total order which contains all the included order details (drugs)
-        for order in orders:
-            order.attributes = OrderDetails.objects.filter(order_id=order.id)
-        return render(request, 'app/orders.html', dict(orders=orders))
+        return render(request, 'app/orders_list.html', dict(orders=orders))
 
 
 @user_passes_test(check_admin)
@@ -266,14 +263,20 @@ def display_order(request, order_id):
         order = Order.objects.get(pk=order_id)
         # get order details
         order.attributes = OrderDetails.objects.filter(order_id=order.id)
-        return render(request, 'app/admin_customer_edit_order.html', dict(order=order))
+        # get available statuses
+        available_status_list = ()
+        if order.status == 2:
+            available_status_list = ((3, 'Ready For Delivery'),  (4, 'Delivered'), (5, 'Rejected'))
+        elif order.status == 3:
+            available_status_list = (4, 'Delivered'), (5, 'Rejected')
+        return render(request, 'app/admin_customer_edit_order.html', dict(order=order, statuses=available_status_list))
 
 
 @user_passes_test(check_admin)
 def update_customer_order(request):
     if request.method == 'POST':
         try:
-            order_id = request.POST.get('orderId', '')
+            order_id = request.POST.get('order_id', '')
             status = request.POST.get('status', '')
             # fetch the model from database
             order = Order.objects.get(pk=order_id)
@@ -286,3 +289,11 @@ def update_customer_order(request):
     else:
         # home page
         return redirect('/')
+
+
+@login_required()
+def display_my_order(request, order_id):
+    if request.method == 'GET':
+        order = Order.objects.get(pk=order_id)
+        order.attributes = OrderDetails.objects.filter(order_id=order.id)
+        return render(request, 'app/order_display.html', dict(order=order))

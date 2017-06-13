@@ -170,4 +170,39 @@ $(document).ready(function () {
         });
     });
 
+    /*---------------- admin update order status -------------------------- */
+
+
+
+    $('#updateOrder').on('click', function () {
+        // hide the failure message
+        $('#update-fail').addClass('hidden');
+        // get the CSRF token
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+        // get values
+        var order_id = $('#orderId').val();
+        var status = $('select[name=statusType]').find(":selected").val();
+
+        var data = {
+            order_id: order_id,
+            status: status
+        };
+
+        $.ajax({
+            type: "POST",
+            url: url + '/admin/orders/update',
+            data: data, beforeSend: function (xmlHTTPRequest) {
+                xmlHTTPRequest.setRequestHeader('X-CSRFToken', token)
+            },
+            success: function () {
+               window.location = url + '/admin/orders';
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                //window.location = url + '/admin/orders';
+            }
+        });
+    });
+
+
+
 });
