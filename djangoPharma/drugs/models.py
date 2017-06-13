@@ -1,5 +1,7 @@
-from django.db import models
 from decimal import Decimal
+
+from django.db import models
+
 
 # Model for Category
 class Category(models.Model):
@@ -28,19 +30,18 @@ class Drug(models.Model):
     class Meta:
         verbose_name_plural = 'drugs'
 
-
     def get_img_url(self):
         return self.imagePath
 
     def fromjson(self, json):
-        self.id=json['id']
+        self.id = json['id']
         self.friendly_name = json['friendlyName']
         self.description = json['description']
         self.availability = int(json['availability'])
         self.imagePath = json['imagePath']
         self.price = Decimal(json['price'])
         newcategory = Category()
-        jsoncategory=json['drugCategory']
-        drugcategory = Category.fromjson(newcategory,jsoncategory)
+        jsoncategory = json['drugCategory']
+        drugcategory = Category.fromjson(newcategory, jsoncategory)
         self.category = drugcategory
         return self

@@ -1,23 +1,19 @@
-from django.shortcuts import render
-from django.shortcuts import render_to_response
-from django.http import HttpResponse
-from django.db import IntegrityError, transaction
-from django.core.cache.backends.base import DEFAULT_TIMEOUT
-from django.conf import settings
-from django.views.decorators.cache import cache_page
-from suds.client import Client
+import random
 from datetime import datetime
-from .models import Drug, Category
-from django.core import serializers
-from .forms import AddDrugsForm, UpdateDrugsForm
-from django.contrib.auth.decorators import login_required, user_passes_test
-import drugs.utils as utils
-import drugs.restService as restService
-import drugs.soapService as soapService
+
 import drugs.cacheService as cacheService
 import drugs.migrationService as migrationService
-import json
-import random
+import drugs.soapService as soapService
+from django.conf import settings
+from django.contrib.auth.decorators import user_passes_test
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.db import transaction
+from django.http import HttpResponse
+from django.shortcuts import render
+from suds.client import Client
+
+from .forms import AddDrugsForm, UpdateDrugsForm
+from .models import Drug
 
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)

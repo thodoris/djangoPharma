@@ -6,7 +6,7 @@
 {% block content %}
 
     <a class="btn btn-default" href="/admin/orders" role="button">
-         <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Orders</a>
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Orders</a>
 
     <h4><span>Order ID: #</span>{{ order.id }}</h4>
 
@@ -136,7 +136,7 @@
     {% if statuses %}
         <div class="row">
             <div class="col-md-3">
-                  <span>Status: </span>
+                <span>Status: </span>
                 <select class="form-control" name="statusType">
                     {% for status in statuses %}
                         <option value="{{ status.0 }}">{{ status.1 }}</option>
@@ -145,16 +145,16 @@
             </div>
         </div>
 
-         <div class="row">
+        <div class="row">
             <div class="col-md-3">
                 &nbsp;
             </div>
-         </div>
+        </div>
 
         <div class="row">
             <div class="col-md-3">
                 <button type="button" id="updateOrder" class="btn btn-warning">
-                            Update Order
+                    Update Order
                 </button>
             </div>
         </div>

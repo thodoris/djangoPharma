@@ -10,21 +10,21 @@
         <div class="col-md-10">
             <section id="addDrugForm">
                 <form action='addDrug' method='post'>{% csrf_token %}
-                <p>
-                    <label for="id_id">Select Drug:</label>
-                    <select name="chooseDrug" class="form-control" placeholder="Select Drug" id="id_id">
-                        <option value="-1">-------</option>
-                        {% for drug in idchoices %}
-                            <option value="{{ drug.0 }}">{{ drug.1 }}</option>
-                        {% endfor %}
-                    </select>
-                </p>
-                <div id="mainFields" class="hidden">
-                    {{ form.as_p }}
-                     <p>
-                        <input type='submit' value='Submit'/>
+                    <p>
+                        <label for="id_id">Select Drug:</label>
+                        <select name="chooseDrug" class="form-control" placeholder="Select Drug" id="id_id">
+                            <option value="-1">-------</option>
+                            {% for drug in idchoices %}
+                                <option value="{{ drug.0 }}">{{ drug.1 }}</option>
+                            {% endfor %}
+                        </select>
                     </p>
-                </div>
+                    <div id="mainFields" class="hidden">
+                        {{ form.as_p }}
+                        <p>
+                            <input type='submit' value='Submit'/>
+                        </p>
+                    </div>
 
 
                 </form>
@@ -35,20 +35,20 @@
         </div>
     </div>
 
-     <div class="row">
+    <div class="row">
         <div class="col-md-12">
             &nbsp;&nbsp;
         </div>
     </div>
 
     {% if result is not None %}
-         <div class="row">
-         {% if not result %}
-            <div class="alert alert-danger" id="cart-alert-fail">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-                <strong>Failure!</strong> The drug has been not been added! Please Try again later
-            </div>
-               {% endif %}
+        <div class="row">
+            {% if not result %}
+                <div class="alert alert-danger" id="cart-alert-fail">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                    <strong>Failure!</strong> The drug has been not been added! Please Try again later
+                </div>
+            {% endif %}
         </div>
     {% endif %}
 

@@ -2,12 +2,12 @@
 Definition of forms.
 """
 
+from app.models import UserAddress
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from registration.forms import RegistrationForm
-from app.models import UserAddress
 
 
 class BootstrapAuthenticationForm(AuthenticationForm):

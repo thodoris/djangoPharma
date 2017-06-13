@@ -1,7 +1,8 @@
-from suds.client import Client
-from django.conf import settings
-import drugs.utils as utils
 import json
+
+import drugs.utils as utils
+from django.conf import settings
+from suds.client import Client
 
 # get soap wsdl endpoint from settings
 client = Client(settings.DJANGOPHARMA_SOAP_URL)

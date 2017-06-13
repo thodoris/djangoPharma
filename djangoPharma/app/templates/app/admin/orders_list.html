@@ -27,7 +27,8 @@
                         <td>{{ order.order_date }}</td>
                         <td>{{ order.total_price }}<span> &euro;</span></td>
                         <td>{{ order.get_status_display }}</td>
-                        <td><a class="btn btn-sm btn-primary" href="/admin/orders/{{ order.id }}" role="button">View/Edit</a></td>
+                        <td><a class="btn btn-sm btn-primary" href="/admin/orders/{{ order.id }}" role="button">View/Edit</a>
+                        </td>
                     </tr>
                 {% endfor %}
             </table>

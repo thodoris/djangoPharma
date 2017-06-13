@@ -5,33 +5,33 @@
 
 {% block content %}
 
-<div class="login-container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="text-center m-b-md">
-                <h3>PLEASE LOGIN TO APP</h3>
-                <small>This is the best app ever!</small>
-            </div>
-            <div class="hpanel">
-                <div class="panel-body">
-                          <form  action="." role="form" class="form-horizontal" method="post">
+    <div class="login-container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center m-b-md">
+                    <h3>PLEASE LOGIN TO APP</h3>
+                    <small>This is the best app ever!</small>
+                </div>
+                <div class="hpanel">
+                    <div class="panel-body">
+                        <form action="." role="form" class="form-horizontal" method="post">
                             {% csrf_token %}
                             {% bootstrap_form_errors form type='non_fields' %}
                             {% bootstrap_field form.username size='md' %}
                             {% bootstrap_field form.password placeholder='password' %}
-                             <input type="hidden" name="next" value="/" />
+                            <input type="hidden" name="next" value="/"/>
                             {% buttons submit='Log in' reset="Cancel" %}{% endbuttons %}
                         </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <strong>DjangoPharma</strong> - Your Online Drugs Store <br/> 2017 Hua
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <strong>DjangoPharma</strong> - Your Online Drugs Store <br/> 2017 Hua
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
 

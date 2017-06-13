@@ -1,8 +1,9 @@
-from django.forms import ModelForm
-from .models import Drug, Category
 from django import forms
-from django.utils.translation import ugettext_lazy as _
 from django.core.validators import RegexValidator
+from django.forms import ModelForm
+from django.utils.translation import ugettext_lazy as _
+
+from .models import Drug, Category
 
 
 class UserModelChoiceField(forms.ModelChoiceField):
@@ -49,7 +50,7 @@ class AddDrugsForm(ModelForm):
 
     class Meta:
         model = Drug
-        fields = ['id', 'friendly_name', 'availability', 'description', 'price','category']
+        fields = ['id', 'friendly_name', 'availability', 'description', 'price', 'category']
 
     def __init__(self, *args, **kwargs):
         categoryChoices = kwargs.pop("categorychoices")  # categorychoices is the parameter passed from views.py

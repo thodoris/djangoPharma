@@ -2,31 +2,25 @@
 Definition of views.
 """
 
-from django.http import HttpRequest
 from datetime import datetime
-from django.shortcuts import render
-from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect
-from django.http import HttpResponse
-from django.template.context_processors import csrf
-from django.core.mail import EmailMessage
-from django.shortcuts import redirect
-from django.template import Context
-from django.template.loader import get_template
-from django.template.loader import render_to_string
-from django.contrib.auth.decorators import login_required, user_passes_test
 
 import drugs.cacheService as cacheService
-from .forms import UserForm, UserAddressForm
-from .forms import ContactForm
-from cart.cart import Cart
-from django.contrib.auth.models import User
-from .models import UserAddress
-from .models import Order, OrderDetails
-import drugs.restService as restService
 import drugs.models as DrugModel
-import drugs.migrationService as migrationService
+from cart.cart import Cart
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.mail import EmailMessage
 from django.db import transaction
+from django.http import HttpRequest
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.template.loader import render_to_string
+
+from .forms import ContactForm
+from .forms import UserForm, UserAddressForm
+from .models import Order, OrderDetails
+from .models import UserAddress
 
 
 def check_admin(user):
@@ -266,7 +260,7 @@ def display_order(request, order_id):
         # get available statuses
         available_status_list = ()
         if order.status == 2:
-            available_status_list = ((3, 'Ready For Delivery'),  (4, 'Delivered'), (5, 'Rejected'))
+            available_status_list = ((3, 'Ready For Delivery'), (4, 'Delivered'), (5, 'Rejected'))
         elif order.status == 3:
             available_status_list = (4, 'Delivered'), (5, 'Rejected')
         return render(request, 'app/admin/edit_order.html', dict(order=order, statuses=available_status_list))
