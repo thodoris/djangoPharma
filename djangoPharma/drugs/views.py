@@ -111,7 +111,7 @@ def add_drug(request):
             except Exception:
                 insert_succeed = False
 
-    return render(request, 'app/addDrug.html', {
+    return render(request, 'app/admin/addDrug.html', {
         'form': form,
         'title': 'Add new Drug',
         'message': 'Your application description page.',
@@ -148,7 +148,7 @@ def update_drug(request, drug_id):
         else:
             update_succeed = False
 
-    return render(request, 'app/updateDrug.html', {
+    return render(request, 'app/admin/updateDrug.html', {
         'form': form,
         'title': 'Update Drug',
         'message': 'Your application description page.',

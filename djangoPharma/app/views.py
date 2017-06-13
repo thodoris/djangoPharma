@@ -254,7 +254,7 @@ def get_orders(request):
 def get_customer_orders(request):
     if request.method == 'GET':
         orders = Order.objects.all()
-        return render(request, 'app/admin_customer_orders_list.html', dict(orders=orders))
+        return render(request, 'app/admin/orders_list.html', dict(orders=orders))
 
 
 @user_passes_test(check_admin)
@@ -269,7 +269,7 @@ def display_order(request, order_id):
             available_status_list = ((3, 'Ready For Delivery'),  (4, 'Delivered'), (5, 'Rejected'))
         elif order.status == 3:
             available_status_list = (4, 'Delivered'), (5, 'Rejected')
-        return render(request, 'app/admin_customer_edit_order.html', dict(order=order, statuses=available_status_list))
+        return render(request, 'app/admin/edit_order.html', dict(order=order, statuses=available_status_list))
 
 
 @user_passes_test(check_admin)
@@ -296,4 +296,4 @@ def display_my_order(request, order_id):
     if request.method == 'GET':
         order = Order.objects.get(pk=order_id)
         order.attributes = OrderDetails.objects.filter(order_id=order.id)
-        return render(request, 'app/order_display.html', dict(order=order))
+        return render(request, 'app/display_order.html', dict(order=order))
