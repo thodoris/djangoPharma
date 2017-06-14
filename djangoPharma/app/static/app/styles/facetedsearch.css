@@ -4,8 +4,12 @@
 
 #results.col-lg-4{
     min-height:250px;
+
 }
 
+div.search_drug_description {
+    height:300px!important;
+}
 
 .facetsearch {
         display: inline-block;
@@ -16,25 +20,7 @@
       .activefacet {
         color: red;
       }
-      .bottomline {
-        padding: 10px 0 10px 0;
-        font-weight: bold;
-      }
-      .bottomline .orderby,
-      .bottomline .facettotalcount {
-        display: inline-block;
-      }
-      .bottomline .orderby ul,
-      .bottomline .orderby li {
-        display: inline;
-        padding: 0;
-      }
-      .bottomline .orderby-title {
-        margin: 0 0 0 10px;
-      }
-      .bottomline .deselectstartover {
-        float: right;
-      }
+
       #language {
         width: 400px;
       }
@@ -44,19 +30,10 @@
         -moz-column-count: 2;
         -o-column-count: 2;
       }
-      .item {
-        width: 150px;
-        height: 250px;
-        margin: 0 10px 10px 0;
-        display: inline-block;
-        vertical-align: top;
-      }
-      .item h4 {
-        font-size: 1.2em;
-      }
-      .item .tags {
-        font-weight: bold;
-        color: gray;
+
+      #deselectstartover{
+           cursor: pointer;
+           color: #0c0c0c;
       }
       #showmorebutton {
         border: 1px solid #AAA;

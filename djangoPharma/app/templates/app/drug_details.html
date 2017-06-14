@@ -102,21 +102,34 @@
 
     <script type="application/javascript">
 
-    $(document).ready(function () {
-      var l = $( '.ladda-button-pharma' ).ladda();
-      l.click(function(){
-
-          // Start loading
-          l.ladda( 'start' );
-
-          // Do something in backend and then stop ladda
-          // setTimeout() is only for demo purpose
-          setTimeout(function(){
-              l.ladda('stop');
-          },2000)
-
-      });
-
+            // add to cart
+    $('#addToCart').on('click', function () {
+         var l = $( '.ladda-button-pharma' ).ladda();
+         l.ladda( 'start' );
+        var quantity = $('#quantity').val();
+        var drug_id = $('#drugId').val();
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+        // hide the messages
+        hideAlertResultMessages();
+        var data = {
+            quantity: quantity,
+            drug_id: drug_id
+        };
+        $.ajax({
+            type: "POST",
+            url: url + '/add_to_cart',
+            data: data, beforeSend: function (xmlHTTPRequest) {
+                xmlHTTPRequest.setRequestHeader('X-CSRFToken', token)
+            },
+            success: function () {
+                $('#cart-alert-success').removeClass('hidden')
+                l.ladda('stop');
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $('#cart-alert-fail').removeClass('hidden')
+                l.ladda('stop');
+            }
+        });
     });
 
 

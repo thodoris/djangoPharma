@@ -1,6 +1,12 @@
+    function hideAlertResultMessages() {
+        $('#cart-alert-success').addClass('hidden');
+        $('#cart-alert-fail').addClass('hidden');
+    }
+
+
 $(document).ready(function () {
 
-    var url = 'http://localhost:8000';
+
     syncLocalDB();
     function addDashboardMessage(msg, type) {
         if (!type) {
@@ -26,31 +32,6 @@ $(document).ready(function () {
         });
     }
 
-    // add to cart
-    $('#addToCart').on('click', function () {
-        var quantity = $('#quantity').val();
-        var drug_id = $('#drugId').val();
-        var token = $('input[name=csrfmiddlewaretoken]').val();
-        // hide the messages
-        hideAlertResultMessages();
-        var data = {
-            quantity: quantity,
-            drug_id: drug_id
-        };
-        $.ajax({
-            type: "POST",
-            url: url + '/add_to_cart',
-            data: data, beforeSend: function (xmlHTTPRequest) {
-                xmlHTTPRequest.setRequestHeader('X-CSRFToken', token)
-            },
-            success: function () {
-                $('#cart-alert-success').removeClass('hidden')
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                $('#cart-alert-fail').removeClass('hidden')
-            }
-        });
-    });
 
     $('.updateCart').on('click', function (event) {
         var quantity = $('#quantity').val();
@@ -101,10 +82,6 @@ $(document).ready(function () {
         });
     });
 
-    function hideAlertResultMessages() {
-        $('#cart-alert-success').addClass('hidden');
-        $('#cart-alert-fail').addClass('hidden');
-    }
 
     /* ------------  add drug functionality     -------------------------------- */
 

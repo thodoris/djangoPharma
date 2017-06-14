@@ -18,6 +18,12 @@
 
 {% block custom_style %}{% endblock %}
 
+<script type="application/javascript">
+
+    var url = '{{BASE_URL}}';
+
+</script>
+
 {% endblock %}
 
 {% block bootstrap3_content %}
@@ -247,9 +253,9 @@
                 <a href="#"><span class="nav-label">Manage Store</span><span class="fa arrow"></span> </a>
                 <ul class="nav nav-second-level">
                     <li><a href="/drugs/addDrug">Add Drug</a></li>
-                    <li><a href="/orders/manage/pending">Pending Orders</a></li>
-                    <li><a href="buttons.html">Completed orders</a></li>
-                    <li><a href="components.html">All orders</a></li>
+                    <li><a href="/orders/pending">Pending Orders</a></li>
+                    <li><a href="/orders/completed">Completed orders</a></li>
+                    <li><a href="/orders/all">All orders</a></li>
                 </ul>
             </li>
 
@@ -428,6 +434,8 @@
 {% endblock %}
 
 {%  block bootstrap3_extra_script %}
+
+
 <!-- Vendor scripts -->
 
 <script src="{% static 'app/vendor/jquery-ui/jquery-ui.min.js' %}"> </script>
