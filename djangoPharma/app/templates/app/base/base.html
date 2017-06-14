@@ -86,8 +86,8 @@
                 <li class="dropdown" title="Shopping Cart">
                     <a class="dropdown-toggle label-menu-corner" href="#" data-toggle="dropdown">
                         <i class="pe-7s-portfolio"></i>
-                        {% if not user_cart.cart_is_empty %}
-                        <span class="label label-success">{{ user_cart.cart|length }}</span>
+                        {% if not store_context.cart_is_empty %}
+                        <span class="label label-success">{{ store_context.cart|length }}</span>
                         {% endif %}
                     </a>
 
@@ -96,7 +96,7 @@
                         <table>
                             <tbody>
 
-                               {% if user_cart.cart_is_empty %}
+                               {% if store_context.cart_is_empty %}
 
                                <tr>
                                 <td colspan="3">
@@ -109,7 +109,7 @@
                                 </tr>
                                {% else %}
                                <tr>
-                                       {% for item in user_cart.cart %}
+                                       {% for item in store_context.cart %}
                                        <td>
                                         <a href="/cart" class="contact-panel">
                                           <img src="/static/app/images/drugs/{{ item.product.imagePath }}" class="img-circle m-b"/>
@@ -261,13 +261,12 @@
             </li>
             <li class="active">
                 <a href="#"><span class="nav-label">Categories</span><span class="fa arrow"></span> </a>
-                <ul class="nav nav-second-level">
-                    <li class="active"><a href="forms_elements.html">Forms elements</a></li>
-                    <li><a href="forms_extended.html">Forms extended</a></li>
-                    <li><a href="text_editor.html">Text editor</a></li>
-                    <li><a href="wizard.html">Wizard</a></li>
-                    <li><a href="validation.html">Validation</a></li>
-                </ul>
+            
+            <ul class="nav nav-second-level">
+            {% for drugcategory in store_context.drug_categories %} 
+               <li><a href="/drugs/category/{{ drugcategory.id }}">{{drugcategory.name}}</a></li>
+            {% endfor %}
+            </ul>
             </li>
             <li>
                 <a href="options.html"> <span class="nav-label">Store</span></a>

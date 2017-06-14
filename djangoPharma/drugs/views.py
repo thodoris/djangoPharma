@@ -1,6 +1,6 @@
 import random
 from datetime import datetime
-
+from django.views.generic import ListView
 import drugs.cacheService as cacheService
 import drugs.migrationService as migrationService
 import drugs.soapService as soapService
@@ -9,11 +9,11 @@ from django.contrib.auth.decorators import user_passes_test
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render , get_object_or_404
 from suds.client import Client
 
 from .forms import AddDrugsForm, UpdateDrugsForm
-from .models import Drug
+from .models import Drug,Category
 
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
@@ -165,3 +165,12 @@ def get_random_image_for_drug():
                         '099880107', '175990402']
     drug_number = random.choice(drug_images_nums)
     return drug_number + '.png'
+
+
+class CategoryDrugsList(ListView):
+
+    template_name = 'drugs/drugs_by_category.html'
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, id=self.args[0])
+        return Drug.objects.filter(category=self.category)
