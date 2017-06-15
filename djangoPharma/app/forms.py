@@ -47,8 +47,11 @@ class UserAddressForm(forms.ModelForm):
 
 
 class ContactForm(forms.Form):
-    contact_email = forms.EmailField(required=True)
-    content = forms.CharField(
-        required=True,
-        widget=forms.Textarea
-    )
+    contact_email = forms.EmailField(required=True, label=_("Email"),
+                                     widget=forms.EmailInput({
+                                         'class': 'form-control',
+                                         'placeholder': 'Email'}))
+    content = forms.CharField(label=_("Your Message"), required=True, max_length=999,
+                              widget=forms.Textarea({
+                                  'class': 'form-control',
+                                  'placeholder': 'Your Message'}))
