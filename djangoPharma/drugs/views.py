@@ -55,7 +55,7 @@ def detail(request, drug_id):
     drug = __getDrugAsModel(drug_id)
     context = {'drug': drug,
                'image_path': '/static/app/images/drugs/' + drug.imagePath}
-    return render(request, 'app/drug_details.html', context)
+    return render(request, 'drugs/drug_details.html', context)
 
 
 def get_drug(drugid):

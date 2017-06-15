@@ -38,7 +38,6 @@ def home(request):
         return render(request, 'app/error.html', {'error': 'Cannot get data', }, content_type='application/xhtml+xml')
 
 
-
 def contact(request):
     """Renders the contact page."""
     assert isinstance(request, HttpRequest)
@@ -51,29 +50,34 @@ def contact(request):
         if form.is_valid():
             contact_email = request.POST.get('contact_email', '')
             form_content = request.POST.get('content', '')
+            try:
+                content = render_to_string('app/contact_info.txt', {
+                    'contact_email': contact_email,
+                    'form_content': form_content,
+                })
 
-        content = render_to_string('app/contact_info.txt', {
-            'contact_email': contact_email,
-            'form_content': form_content,
-        })
+                subject = 'Contact Info Message'
+                from_address = 'e-pharmacy@no-reply.com'
+                email = EmailMessage(subject, content, from_address, ['mymail@info.com'],
+                                     headers={'Reply-To': contact_email})
+                email.send()
+                email_sent = True
+            except Exception:
+                email_sent = False
 
-        subject = 'Contact Info Message'
-        from_address = 'e-pharmacy@no-reply.com'
-        email = EmailMessage(subject, content, from_address, ['mymail@info.com'], headers={'Reply-To': contact_email})
-        email.send()
+            return render(request, 'app/contact_result.html', dict(email_sent=email_sent))
 
-        # return redirect('app/contact.html')
-
-    return render(
-        request,
-        'app/contact.html',
-        {
-            'form': form_class,
-            'title': 'Contact',
-            'message': 'Your contact page.',
-            'year': datetime.now().year,
-        }
-    )
+    else:
+        return render(
+            request,
+            'app/contact.html',
+            {
+                'form': form_class,
+                'title': 'Contact',
+                'message': 'Your contact page.',
+                'year': datetime.now().year,
+            }
+        )
 
 
 def about(request):
