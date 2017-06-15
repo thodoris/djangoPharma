@@ -167,4 +167,39 @@
     {% load staticfiles %}
     <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
 
+    <script type="application/javascript">
+
+     $('#submitOrder').on('click', function () {
+        // hide the failure message
+        $('#checkout-fail').addClass('hidden');
+        // get the CSRF token
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+        // get values
+        var paymentType = $('select[name=paymentType]').find(":selected").val();
+        var shipmentType = $('select[name=shipmentType]').find(":selected").val();
+        var comments = $('textarea[name=comments]').val();
+
+        var data = {
+            paymentType: paymentType,
+            shipmentType: shipmentType,
+            comments: comments
+        };
+
+        $.ajax({
+            type: "POST",
+            url: '/submit_order',
+            data: data, beforeSend: function (xmlHTTPRequest) {
+                xmlHTTPRequest.setRequestHeader('X-CSRFToken', token)
+            },
+            success: function () {
+                debugger;
+               window.location = '/submit_order_result';
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $('#checkout-fail').removeClass('hidden');
+            }
+        });
+    });
+    </script>
+
 {% endblock %}

@@ -139,4 +139,62 @@
     {% load staticfiles %}
     <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
 
+      <script type="application/javascript">
+
+       $('.updateCart').on('click', function (event) {
+        var quantity = $('#quantity').val();
+        var drug_id = $(event.currentTarget).attr('id');
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+        // hide the messages
+        hideAlertResultMessages();
+        var data = {
+            quantity: quantity,
+            drug_id: drug_id
+        };
+        $.ajax({
+            type: "POST",
+            url: '/update_cart',
+            data: data, beforeSend: function (xmlHTTPRequest) {
+                xmlHTTPRequest.setRequestHeader('X-CSRFToken', token)
+            },
+            success: function () {
+                $('#cart-alert-success').removeClass('hidden')
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $('#cart-alert-fail').removeClass('hidden')
+            }
+        });
+    });
+
+    $('.removeFromCart').on('click', function () {
+        debugger;
+        var drug_id = $(event.currentTarget).attr('id')
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+        // hide the messages
+        hideAlertResultMessages();
+        var data = {
+            drug_id: drug_id
+        };
+        $.ajax({
+            type: "POST",
+            url: url + '/remove_from_cart',
+            data: data, beforeSend: function (xmlHTTPRequest) {
+                xmlHTTPRequest.setRequestHeader('X-CSRFToken', token)
+            },
+            success: function () {
+                $('#cart-alert-success').removeClass('hidden')
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $('#cart-alert-fail').removeClass('hidden')
+            }
+        });
+    });
+
+     function hideAlertResultMessages() {
+        $('#cart-alert-success').addClass('hidden');
+        $('#cart-alert-fail').addClass('hidden');
+    }
+
+    </script>
+
 {% endblock %}

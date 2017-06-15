@@ -117,7 +117,7 @@
         };
         $.ajax({
             type: "POST",
-            url: url + '/add_to_cart',
+            url: '/add_to_cart',
             data: data, beforeSend: function (xmlHTTPRequest) {
                 xmlHTTPRequest.setRequestHeader('X-CSRFToken', token)
             },
@@ -131,6 +131,11 @@
             }
         });
     });
+
+    function hideAlertResultMessages() {
+        $('#cart-alert-success').addClass('hidden');
+        $('#cart-alert-fail').addClass('hidden');
+    }
 
 
 
