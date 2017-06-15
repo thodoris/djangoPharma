@@ -122,59 +122,8 @@ def registration_complete(request):
     return render('registration/registration_complete.html')
 
 
-@login_required()
-def add_to_cart(request):
-    if request.method == 'POST':
-        try:
-            drug_id = request.POST.get('drug_id', '')
-            quantity = request.POST.get('quantity', '')
-            drug = DrugModel.Drug.objects.get(pk=drug_id)
-            cart = Cart(request)
-            # args: model, price, quantity
-            cart.add(drug, drug.price, quantity)
-            # everything went correct
-            return HttpResponse(status=200)
-        except Exception as e:
-            return HttpResponse(status=500)
-    else:
-        # home page
-        return redirect('/')
 
 
-@login_required()
-def update_cart(request):
-    if request.method == 'POST':
-        try:
-            drug_id = request.POST.get('drug_id', '')
-            quantity = request.POST.get('quantity', '')
-            drug = DrugModel.Drug.objects.get(id=drug_id)
-            cart = Cart(request)
-            # args: model, price, quantity
-            cart.update(drug, quantity, drug.price)
-            # everything went correct
-            return HttpResponse(status=200)
-        except Exception as e:
-            return HttpResponse(status=500)
-    else:
-        # home page
-        return redirect('/')
-
-
-@login_required()
-def remove_from_cart(request):
-    if request.method == 'POST':
-        try:
-            drug_id = request.POST.get('drug_id', '')
-            drug = DrugModel.Drug.objects.get(id=drug_id)
-            cart = Cart(request)
-            cart.remove(drug)
-            # everything went correct
-            return HttpResponse(status=200)
-        except Exception as e:
-            return HttpResponse(status=500)
-    else:
-        # home page
-        return redirect('/')
 
 
 @login_required()
@@ -195,41 +144,6 @@ def checkout(request):
         # home page
         return redirect('/')
 
-
-@login_required()
-def submit_order(request):
-    if request.method == 'POST':
-        current_user = request.user
-        current_user_address = UserAddress.objects.get(user=current_user)
-        order_date = datetime.now()
-        shipment_type = request.POST.get('shipmentType', '')
-        payment_type = request.POST.get('paymentType', '')
-        comments = request.POST.get('comments', '')
-        # submitted status
-        status = '2'
-        try:
-            with transaction.atomic():
-                # save order
-                order = Order.objects.create(user=current_user, address=current_user_address, order_date=order_date,
-                                             status=status, payment_type=payment_type, shipment_type=shipment_type,
-                                             comments=comments)
-                # save order details
-                cart = Cart(request)
-                for item in cart.cart.item_set.all():
-                    quantity = item.quantity
-                    total_price = item.total_price
-                    drug = item.product
-                    order_details = OrderDetails.objects.create(order=order, drug=drug,
-                                                                quantity=quantity, total_price=total_price)
-                # clear the cart
-                cart.clear()
-        except Exception as e:
-            return HttpResponse(500)
-
-        return HttpResponse(200)
-    else:
-        # home page
-        return redirect('/')
 
 
 @login_required()
@@ -268,23 +182,6 @@ def display_order(request, order_id):
         return render(request, 'app/admin/edit_order.html', dict(order=order, statuses=available_status_list))
 
 
-@user_passes_test(check_admin)
-def update_customer_order(request):
-    if request.method == 'POST':
-        try:
-            order_id = request.POST.get('order_id', '')
-            status = request.POST.get('status', '')
-            # fetch the model from database
-            order = Order.objects.get(pk=order_id)
-            # update only status field
-            order.status = status
-            order.save(update_fields=["status"])
-            return HttpResponse(200)
-        except Exception:
-            return HttpResponse(500)
-    else:
-        # home page
-        return redirect('/')
 
 
 @login_required()
