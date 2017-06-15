@@ -1,7 +1,7 @@
 
 1. Safely remove makemigrations methos from  code/views/urls
 2. Implement Search Drug in Home Page (thodoris)
-3. Add Content (texts / images) to About & Help Pages (fotis) -> About US has been fixed, pending is Help Pages
+3. Add Content (texts / images) to About & Help Pages (fotis) -> About US has been fixed, Help will not be implemented
 4. Add Contact Page that send an email (Fotis) --> FIXED, problem with sending email TODO investigate
 4. Implement "/account/Profile"  (Account) (thodoris)
 5. Implement "/account/ChangePassword" (Change Password) (thodoris)
