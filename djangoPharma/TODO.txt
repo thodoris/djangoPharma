@@ -1,7 +1,8 @@
 
 1. Safely remove makemigrations methos from  code/views/urls
 2. Implement Search Drug in Home Page (thodoris)
-3. Add Content (texts / images) to About & Help Pages4
+3. Add Content (texts / images) to About & Help Pages
+4. Add Contact Page that send an email
 4. Implement "/account/Profile"  (Account) (thodoris)
 5. Implement "/account/ChangePassword" (Change Password) (thodoris)
 6. Implement /drugs/category/add , drugs/category/update
