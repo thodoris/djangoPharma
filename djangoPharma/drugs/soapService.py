@@ -5,7 +5,9 @@ from django.conf import settings
 from suds.client import Client
 
 # get soap wsdl endpoint from settings
-client = Client(settings.DJANGOPHARMA_SOAP_URL)
+client = Client(settings.DJANGOPHARMA_SOAP_URL,
+                headers={'username': settings.WS_USERNAME,
+                         'password': settings.WS_PASSWORD})
 
 
 def get_all_drugs():

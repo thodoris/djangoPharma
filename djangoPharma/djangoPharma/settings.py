@@ -146,6 +146,10 @@ DJANGOPHARMA_REST_URL = 'http://connect.opengov.gr:3000/drugs' #''http://test.hu
 DJANGOPHARMA_SOAP_URL='http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl'
 DJANGOPHARMA_CACHE_TTL = 60 * 15
 
+# authentication properties for WS
+WS_USERNAME = 'admin'
+WS_PASSWORD = 'admin'
+
 # mail server dummy setup
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = 'DjangoPharma <noreply@djangopharma.com>'
