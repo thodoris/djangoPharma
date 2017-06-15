@@ -83,34 +83,6 @@ $(document).ready(function () {
     });
 
 
-    /* ------------  add drug functionality     -------------------------------- */
-
-    $('select[name=chooseDrug]').on('change', function () {
-        var drugId = $(this).find(":selected").val();
-        if (!drugId || drugId === '-1') {
-            // clear all fields
-            $('input[name=id]').val('');
-            $('input[name=friendly_name]').val('');
-            $('input[name=price]').val('');
-            $('input[name=description]').val('');
-            $('input[name=availability]').val('');
-            $('select[name=category]').find("option:selected").removeAttr("selected");
-            $('form #mainFields').addClass('hidden');
-        }
-        // for the selected drug fetch the details for the form
-        $.ajax({
-            type: "GET",
-            url: 'http://connect.opengov.gr:3000/drugs/' + drugId,
-            success: function (resp) {
-                // fill the values in the form
-                $('input[name=id]').val(resp.id);
-                $('input[name=friendly_name]').val(resp.name);
-                $('input[name=price]').val(resp.price_retail);
-                // show the form
-                $('form #mainFields').removeClass('hidden');
-            }
-        });
-    });
 
     /*------------------------- Submit Order ----------------------- */
 

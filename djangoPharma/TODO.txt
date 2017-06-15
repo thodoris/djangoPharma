@@ -10,7 +10,7 @@
 8. Move all drug related templates to /app/templates/drugs folder
 9. clean main.js (move page specific code to the page ---see drug_details.html for an implemented example)
 10. Implement orders filtering using the example @ /drugs/views.py (class CategoryDrugsList(ListView):)
-11. Change select box in AddDrug -> select2 with autocomplete (thodoris)
+DONE 11. Change select box in AddDrug -> select2 with autocomplete (thodoris)  DONE
 12. move all app ajax views from views.py to ajaxviews.py
 
 

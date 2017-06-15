@@ -1,38 +1,50 @@
 {% extends 'app/base/base.html' %}
 {% load bootstrap3 %}
+{% load staticfiles %}
 
 {% block title %}{% endblock %}
+{% block custom_style %}
+    <link rel="stylesheet"  href="{% static 'app/vendor/select2/dist/css/select2.min.css' %}" />
+     <link rel="stylesheet"  href="{% static 'app/vendor/select2-bootstrap/select2-bootstrap.css' %}" />
+{% endblock %}
 
 {% block content %}
 
     <h2>{{ title }}</h2>
     <div class="row">
-        <div class="col-md-10">
-            <section id="addDrugForm">
+        <div class="col-md-12">
+
                 <form action='addDrug' method='post'>{% csrf_token %}
-                    <p>
-                        <label for="id_id">Select Drug:</label>
-                        <select name="chooseDrug" class="form-control" placeholder="Select Drug" id="id_id">
+                    <div class="hpanel">
+                <div class="panel-heading">
+                    Add Drug
+                </div>
+                <div class="panel-body">
+
+
+                    <h5>Choose Drug</h5>
+					 <select name="chooseDrug" class="form-control" placeholder="Select Drug" id="id_chooseDrug"  style="width: 100%">
                             <option value="-1">-------</option>
                             {% for drug in idchoices %}
                                 <option value="{{ drug.0 }}">{{ drug.1 }}</option>
                             {% endfor %}
                         </select>
-                    </p>
+                    </select>
+
+
+
+                </div>
+            </div>
                     <div id="mainFields" class="hidden">
                         {{ form.as_p }}
                         <p>
                             <input type='submit' value='Submit'/>
                         </p>
                     </div>
-
-
                 </form>
-            </section>
+
         </div>
-        <div class="col-md-4">
-            <section id="socialLoginForm"></section>
-        </div>
+
     </div>
 
     <div class="row">
@@ -55,9 +67,47 @@
 {% endblock %}
 
 
-{% block scripts %}
+{% block custom_script %}
 
-    {% load staticfiles %}
-    <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+
+    <script src="{% static 'app/vendor/select2/dist/js/select2.min.js' %}"></script>
+     <script type="application/javascript">
+
+     $('#id_chooseDrug').on('change', function () {
+        var drugId = $(this).find(":selected").val();
+        if (!drugId || drugId === '-1') {
+            // clear all fields
+            $('input[name=id]').val('');
+            $('input[name=friendly_name]').val('');
+            $('input[name=price]').val('');
+            $('input[name=description]').val('');
+            $('input[name=availability]').val('');
+            $('select[name=category]').find("option:selected").removeAttr("selected");
+            $('form #mainFields').addClass('hidden');
+        }
+        // for the selected drug fetch the details for the form
+        $.ajax({
+            type: "GET",
+            url: 'http://connect.opengov.gr:3000/drugs/' + drugId,
+            success: function (resp) {
+                // fill the values in the form
+                $('input[name=id]').val(resp.id);
+                $('input[name=friendly_name]').val(resp.name);
+                $('input[name=price]').val(resp.price_retail);
+                // show the form
+                $('form #mainFields').removeClass('hidden');
+            }
+        });
+    });
+
+
+     $(document).ready(function () {
+         $("#id_chooseDrug").select2({width: "100%"}) ;
+     });
+
+
+     </script>
+
+
 
 {% endblock %}
