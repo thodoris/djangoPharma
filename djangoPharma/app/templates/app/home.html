@@ -40,9 +40,9 @@
                     <div class="hpanel">
                         <div class="panel-body">
                             <div class="input-group">
-                                <input class="form-control" type="text" placeholder="Search drugs..">
+                                <input id="search_drugs" class="form-control" type="text" placeholder="Search drugs.." >
                                 <div class="input-group-btn">
-                                    <button class="btn btn-default"><i class="fa fa-search"></i></button>
+                                    <button  id="btn_search_drugs" class="btn btn-default" ><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -61,6 +61,16 @@
     <script src="{% static 'app/vendor/facetedsearch/facetedsearch.js' %}"></script>
 
     <script type="text/javascript">
+
+    function doSearch(s){
+
+    }
+
+    $("#btn_search_drugs").click(function () {
+        s=$('#search_drugs').val();
+       $.facetUpdateSearch('friendlyName',s);
+});
+
         var data = {{ data|safe }};
         jQuery.each( data, function( i, val ) {
           data[i] = flatten(val);
@@ -89,7 +99,8 @@
             items: data,
             facets: {
                 'drugCategory-name': 'Category',
-                'availability': 'Availability'
+                'availability': 'Availability',
+                '_friendlyName' : '_friendlyName'
             },
             resultSelector: '#results',
             facetSelector: '#facets',
@@ -100,9 +111,12 @@
             countTemplate      : '<div class=facettotalcount><%= count %> Results</div>',
             deselectTemplate   : '<div id="deselectstartover"><button class="deselectstartoverbtn btn-xs btn-danger  btn-circle" type="button"><i class="fa fa-times"></i></button>Clear all filters</div>',
             orderByOptions: {'friendlyName': 'name', 'availability': 'availability'}
-        }
+        };
+
+
+
         $(function () {
-            $.facetelize(sfacet_settings);
+           $.facetelize(sfacet_settings);
         });
     </script>
 {% endblock %}

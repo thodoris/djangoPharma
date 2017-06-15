@@ -82,6 +82,19 @@ jQuery.facetUpdate = function() {
   updateResults();
 }
 
+jQuery.facetUpdateSearch = function(facetname,filtervalue) {
+
+  var filter =  {'facetname': facetname, 'filtername': filtervalue};
+
+  delete settings.state.filters[facetname];
+
+   toggleFilter(filter.facetname, filter.filtername,search=true);
+   // $(settings.facetSelector).trigger("facetedsearchfacetclick", filter);
+   order();
+   updateFacetUI();
+   updateResults();
+};
+
 /**
  * The following section contains the logic of the faceted search
  */
@@ -137,7 +150,7 @@ function resetFacetCount() {
  * set filters and stores the results in the settings.currentResults.
  * The number of items in each filter from each facet is also updated
  */
-function filter() {
+function filter(search=false) {
   // first apply the filters to the items
   settings.currentResults = _.select(settings.items, function(item) {
     var filtersApply = true;
@@ -148,9 +161,16 @@ function filter() {
            filtersApply = false;
          }
       } else {
-        if (filter.length && _.indexOf(filter, item[facet]) == -1) {
+        if ((filter.length && _.indexOf(filter, item[facet]) == -1)  ) {
           filtersApply = false;
         }
+        if  (search=true ) {
+            var item_val = (item[facet]).toUpperCase();
+            var filter_val = (filter[0]).toUpperCase();
+            if (item_val.startsWith(filter_val)) {
+                filtersApply = true;
+            }
+        } //end (search=true )
       }
     });
     return filtersApply;
@@ -203,7 +223,7 @@ function order() {
  * depending on what they were beforehand. This causes the items to
  * be filtered again and the UI is updated accordingly.
  */
-function toggleFilter(key, value) {
+function toggleFilter(key, value , search=false) {
   settings.state.filters[key] = settings.state.filters[key] || [] ;
   if (_.indexOf(settings.state.filters[key], value) == -1) {
     settings.state.filters[key].push(value);
@@ -213,7 +233,7 @@ function toggleFilter(key, value) {
       delete settings.state.filters[key];
     }
   }
-  filter();
+  filter(search);
 }
 
 /**
@@ -230,22 +250,25 @@ function createFacetUI() {
 
   $(settings.facetSelector).html("");
   _.each(settings.facets, function(facettitle, facet) {
-    var facetHtml     = $(containertemplate({id: facet}));
-    var facetItem     = {title: facettitle};
-    var facetItemHtml = $(titletemplate(facetItem));
+      if (!facet.startsWith('_')) {
+          var facetHtml = $(containertemplate({id: facet}));
+          var facetItem = {title: facettitle};
+          var facetItemHtml = $(titletemplate(facetItem));
 
-    facetHtml.append(facetItemHtml);
-    var facetlist = $(settings.facetListContainer);
-    _.each(settings.facetStore[facet], function(filter, filtername){
-      var item = {id: filter.id, name: filtername, count: filter.count};
-      var filteritem  = $(itemtemplate(item));
-      if (_.indexOf(settings.state.filters[facet], filtername) >= 0) {
-        filteritem.addClass("activefacet");
-      }
-      facetlist.append(filteritem);
-    });
-    facetHtml.append(facetlist);
-    $(settings.facetSelector).append(facetHtml);
+          facetHtml.append(facetItemHtml);
+          var facetlist = $(settings.facetListContainer);
+          _.each(settings.facetStore[facet], function (filter, filtername) {
+
+              var item = {id: filter.id, name: filtername, count: filter.count};
+              var filteritem = $(itemtemplate(item));
+              if (_.indexOf(settings.state.filters[facet], filtername) >= 0) {
+                  filteritem.addClass("activefacet");
+              }
+              facetlist.append(filteritem);
+          });
+          facetHtml.append(facetlist);
+          $(settings.facetSelector).append(facetHtml);
+  } //end  if (!facet.startsWith('_'))
   });
   // add the click event handler to each facet item:
   $('.facetitem').click(function(event){
