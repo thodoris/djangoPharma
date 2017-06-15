@@ -91,3 +91,28 @@ def update_drug(drug):
         return obj[0]
     else:
         return None
+
+
+def insert_drug_category(category):
+    # create the request for the WS
+    request_data = {'id': category.id, 'name': category.name,
+                    'description': category.description}
+    response = client.service.addDrugCategory(request_data)
+    # the response does not contain the drug category
+    if response.ResponseCode == 'C':
+        return True
+    else:
+        return False
+
+
+def update_drug_category(category):
+    # create the request for the WS
+    request_data = {'id': category.id, 'name': category.name,
+                    'description': category.description}
+    response = client.service.updateDrugCategory(request_data)
+    # the response does not contain the drug category
+    if response.ResponseCode == 'C':
+        return True
+    else:
+        return False
+

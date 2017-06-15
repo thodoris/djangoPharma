@@ -9,11 +9,11 @@ from django.contrib.auth.decorators import user_passes_test
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import render , get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from suds.client import Client
 
-from .forms import AddDrugsForm, UpdateDrugsForm
-from .models import Drug,Category
+from .forms import AddDrugsForm, UpdateDrugsForm, AddDrugCategoryForm, UpdateDrugCategoryForm
+from .models import Drug, Category
 
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
@@ -150,6 +150,86 @@ def manage_migrations(request):
     return HttpResponse(200)
 
 
+@user_passes_test(check_admin)
+def add_drug_category(request):
+    if request.method == 'GET':
+        form = AddDrugCategoryForm()
+        return render(
+            request,
+            'app/admin/addDrugCategory.html',
+            {
+                'form': form,
+                'title': 'Add Drug Category',
+                'year': datetime.now().year,
+            }
+        )
+    elif request.method == 'POST':
+        form = AddDrugCategoryForm(request.POST)
+        if form.is_valid():
+            try:
+                with transaction.atomic():
+                    category = form.save()
+                    inserted_drug_category = soapService.insert_drug_category(category)
+                    if inserted_drug_category is False:
+                        raise Exception
+                    else:
+                        x = 0
+                        # force update the cache TODO for drug category
+                        # cacheService.get_drug(drug.id)
+                        # go to update page
+                        request.method = 'GET'
+                        return update_drug_category(request, category.id)
+            except Exception:
+                insert_succeed = False
+
+        return render(
+            request,
+            'app/admin/addDrugCategory.html',
+            {
+                'form': form,
+                'title': 'Add Drug Category',
+                'year': datetime.now().year,
+            }
+        )
+
+
+@user_passes_test(check_admin)
+def update_drug_category(request, drug_category_id):
+    update_succeed = None
+    if request.method == 'GET':
+        # get drug  category info from Cache TODO
+        # drug = __getDrugAsModel(drug_id)
+        drug_category = Category.objects.get(pk=drug_category_id)
+        form = UpdateDrugCategoryForm(instance=drug_category)
+    elif request.method == 'POST':
+        # get the drug category
+        drug_category = Category.objects.get(pk=drug_category_id)
+        form = UpdateDrugCategoryForm(request.POST, instance=drug_category)
+        if form.is_valid():
+            # send to the SOAP WS for the update
+            updated_drug = soapService.update_drug_category(drug_category)
+            if updated_drug is None:
+                update_succeed = False
+            else:
+                # save the model
+                form.save()
+                # update the cache TODO for drug category
+                # cacheService.get_drug(drug.id, True)
+                update_succeed = True
+        else:
+            update_succeed = False
+
+    return render(
+        request,
+        'app/admin/updateDrugCategory.html',
+        {
+            'form': form,
+            'title': 'Update Drug Category',
+            'year': datetime.now().year,
+        }
+    )
+
+
 # the image for the drug will be one of the static images in the application, random each time
 def get_random_image_for_drug():
     drug_images_nums = ['000840105', '023280101', '038260201', '041670301', '093360302',
@@ -159,7 +239,6 @@ def get_random_image_for_drug():
 
 
 class CategoryDrugsList(ListView):
-
     template_name = 'drugs/drugs_by_category.html'
 
     def get_queryset(self):

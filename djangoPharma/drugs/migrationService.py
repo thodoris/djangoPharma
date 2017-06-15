@@ -18,7 +18,7 @@ def synchronize_data():
                 for category in drug_categories:
                     # save the drug category
                     obj, created = Category.objects.update_or_create(id=int(category['id']), defaults={
-                        'name': category['name']})
+                        'name': category['name'], 'description': category['description']})
                     obj.save()
                 for drug in drugs:
                     # save the drug category

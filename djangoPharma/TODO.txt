@@ -5,7 +5,7 @@
 4. Add Contact Page that send an email (Fotis) --> FIXED, problem with sending email TODO investigate
 4. Implement "/account/Profile"  (Account) (thodoris)
 5. Implement "/account/ChangePassword" (Change Password) (thodoris)
-6. Implement /drugs/category/add , drugs/category/update
+6. Implement /drugs/category/add , drugs/category/update (fotis) --> FIXED
 7. Consider DELETE functionality for Drugs & Drug Categories
      WILL NOT BE IMPLEMENTED -> cannot delete drug because of the connection with database, only solution is to
     add a flag deleted and display only them with deleted = false, which has work with the model and affects

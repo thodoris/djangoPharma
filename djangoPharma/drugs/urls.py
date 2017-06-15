@@ -15,4 +15,6 @@ urlpatterns = [
     # ex: /drugs/updateDrug
     url(r'^updateDrug/(?P<drug_id>[0-9]+)/$', views.update_drug, name='update_drug'),
     url(r'^migrate$', views.manage_migrations, name='manage_migrations'),
+    url(r'^addDrugCategory$', views.add_drug_category, name='add_drug_category'),
+    url(r'^updateDrugCategory/(?P<drug_category_id>[0-9]+)/$', views.update_drug_category, name='update_drug_category'),
 ]

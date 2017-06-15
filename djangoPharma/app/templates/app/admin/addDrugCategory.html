@@ -1,0 +1,50 @@
+{% extends 'app/base/base.html' %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    <h2>{{ title }}</h2>
+    <div class="row">
+        <div class="col-md-12">
+
+                <form action='addDrugCategory' method='post'>{% csrf_token %}
+                        {{ form.as_p }}
+                        <p>
+                            <input type='submit' value='Submit'/>
+                        </p>
+                </form>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            &nbsp;&nbsp;
+        </div>
+    </div>
+
+    {% if result is not None %}
+        <div class="row">
+            {% if not result %}
+                <div class="alert alert-danger" id="cart-alert-fail">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                    <strong>Failure!</strong> The drug has been not been added! Please Try again later
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block custom_script %}
+
+
+    <script src="{% static 'app/vendor/select2/dist/js/select2.min.js' %}"></script>
+
+
+{% endblock %}

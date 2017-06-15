@@ -109,3 +109,45 @@ class UpdateDrugsForm(ModelForm):
         # self.fields['category'] = forms.ChoiceField(label="Category", choices=categoryChoices,widget=forms.Select({
         # 'class': 'form-control',
         # 'placeholder': 'Category'}))
+
+
+class AddDrugCategoryForm(ModelForm):
+    id = forms.IntegerField(label=_("Category ID"), required=True,
+                            widget=forms.TextInput({
+                                'class': 'form-control',
+                                'placeholder': 'Category ID'}))
+
+    name = forms.CharField(label=_("Category Name"), required=True, max_length=50,
+                           widget=forms.TextInput({
+                               'class': 'form-control',
+                               'placeholder': 'Category Name'}))
+
+    description = forms.CharField(label=_("Category Description"), required=True, max_length=500,
+                                  widget=forms.TextInput({
+                                      'class': 'form-control',
+                                      'placeholder': 'Category Description'}))
+
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'description']
+
+
+class UpdateDrugCategoryForm(ModelForm):
+    id = forms.IntegerField(label=_("Category ID"), required=True,
+                            widget=forms.TextInput({
+                                'class': 'form-control',
+                                'placeholder': 'Category ID'}))
+
+    name = forms.CharField(label=_("Category Name"), required=True, max_length=50,
+                           widget=forms.TextInput({
+                               'class': 'form-control',
+                               'placeholder': 'Category Name'}))
+
+    description = forms.CharField(label=_("Category Description"), required=True, max_length=500,
+                                  widget=forms.TextInput({
+                                      'class': 'form-control',
+                                      'placeholder': 'Category Description'}))
+
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'description']
