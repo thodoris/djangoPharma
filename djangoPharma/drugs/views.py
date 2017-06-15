@@ -51,15 +51,6 @@ def index(request):
     return HttpResponse(output)
 
 
-def test(request):
-    drugs_data = cacheService.get_all_drugs()
-    if drugs_data is not None:
-        context = {'data': drugs_data}
-        return render(request, 'app/test.html', context)
-    else:
-        return render(request, 'app/error.html', {'error': 'Cannot get data', }, content_type='application/xhtml+xml')
-
-
 def detail(request, drug_id):
     drug = __getDrugAsModel(drug_id)
     context = {'drug': drug,

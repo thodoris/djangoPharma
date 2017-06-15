@@ -1,0 +1,14 @@
+
+1. Safely remove makemigrations methos from  code/views/urls
+2. Implement Search Drug in Home Page
+3. Add Content (texts / images) to About & Help Pages4
+4. Implement "/account/Profile"  (Account)
+5. Implement "/account/ChangePassword" (Change Password)
+6. Implement /drugs/category/add , drugs/category/update
+7. Consider DELETE functionallity for Drugs & Drug Categories
+8. Move all drug related templates to /app/templates/drugs folder
+9. clean main.js (move page specific code to the page ---see drug_details.html for an implemented example)
+10. Implement orders filtering using the example @ /drugs/views.py (class CategoryDrugsList(ListView):)
+
+
+

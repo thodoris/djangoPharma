@@ -31,14 +31,12 @@ def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
     drugs_data = cacheService.get_all_drugs()
-    return render(
-        request,
-        'app/index.html',
-        {
-            'title': 'Home Page',
-            'year': datetime.now().year,
-        }
-    )
+    if drugs_data is not None:
+        context = {'data': drugs_data}
+        return render(request, 'app/home.html', context)
+    else:
+        return render(request, 'app/error.html', {'error': 'Cannot get data', }, content_type='application/xhtml+xml')
+
 
 
 def contact(request):
