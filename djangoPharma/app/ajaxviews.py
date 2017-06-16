@@ -106,12 +106,18 @@ def submit_order(request):
                                              comments=comments)
                 # save order details
                 cart = Cart(request)
+                total_price = 0
                 for item in cart.cart.item_set.all():
                     quantity = item.quantity
-                    total_price = item.total_price
+                    price = item.total_price
                     drug = item.product
                     order_details = OrderDetails.objects.create(order=order, drug=drug,
-                                                                quantity=quantity, total_price=total_price)
+                                                                quantity=quantity, price=price)
+                    total_price += price
+
+                # save the total order price
+                order.total_price = total_price
+                order.save()
                 # clear the cart
                 cart.clear()
         except Exception as e:

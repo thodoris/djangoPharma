@@ -162,7 +162,7 @@
 
 {% endblock %}
 
-{% block scripts %}
+{% block custom_script %}
 
     {% load staticfiles %}
     <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
@@ -172,6 +172,7 @@
      $('#submitOrder').on('click', function () {
         // hide the failure message
         $('#checkout-fail').addClass('hidden');
+        debugger;
         // get the CSRF token
         var token = $('input[name=csrfmiddlewaretoken]').val();
         // get values
@@ -192,8 +193,7 @@
                 xmlHTTPRequest.setRequestHeader('X-CSRFToken', token)
             },
             success: function () {
-                debugger;
-               window.location = '/submit_order_result';
+               window.location = '/order_result';
             },
             error: function (xhr, textStatus, errorThrown) {
                 $('#checkout-fail').removeClass('hidden');
