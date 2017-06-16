@@ -5,6 +5,8 @@ Definition of urls for djangoPharma.
 from datetime import datetime
 from django.conf.urls import url
 import django.contrib.auth.views
+from django.contrib.auth import views as auth_views
+
 
 import app.forms
 import app.views
@@ -24,24 +26,15 @@ urlpatterns = [
     url(r'^$', app.views.home, name='home'),
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about', app.views.about, name='about'),
-    url(r'^login/$',
-        django.contrib.auth.views.login,
-        {
-            'template_name': 'app/login.html',
-            'authentication_form': app.forms.BootstrapAuthenticationForm,
-            'extra_context':
-            {
-                'title': 'Log in',
-                'year': datetime.now().year,
-            }
-        },
-        name='login'),
-    url(r'^logout$',
-        django.contrib.auth.views.logout,
-        {
-            'next_page': '/',
-        },
-        name='logout'),
+
+    #auth
+    url(r'^logout$',auth_views.LogoutView.as_view(next_page= '/')),
+    url(r'^login/$', auth_views.LoginView.as_view(template_name='app/login.html',authentication_form=app.forms.BootstrapAuthenticationForm , extra_context={'title': 'Log in', 'year': datetime.now().year} )),
+    url('^accounts/change-password/$', auth_views.PasswordChangeView.as_view()),
+    url('^accounts/change-password/done$', auth_views.PasswordChangeDoneView.as_view()),
+    url('^accounts/password-reset$', auth_views.PasswordResetView.as_view()),
+    url('^accounts/password-reset/done$', auth_views.PasswordResetDoneView.as_view()),
+
     # include registration
     url(r'^accounts/register/$', app.views.register, name='register'),
     url(r'^accounts/', include('registration.backends.hmac.urls')),

@@ -1,15 +1,3 @@
-#results.col-lg-4:nth-child(3n+1){
-    clear: left;
-}
-
-#results.col-lg-4{
-    min-height:250px;
-
-}
-
-div.search_drug_description {
-    height:300px!important;
-}
 
 .facetsearch {
         display: inline-block;
@@ -30,8 +18,11 @@ div.search_drug_description {
         -moz-column-count: 2;
         -o-column-count: 2;
       }
+        .facetitem , .orderbyitem {
+            cursor: pointer;
+        }
 
-      #deselectstartover{
+      #deselectstartover {
            cursor: pointer;
            color: #0c0c0c;
       }

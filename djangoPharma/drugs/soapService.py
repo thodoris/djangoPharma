@@ -4,7 +4,7 @@ import drugs.utils as utils
 from django.conf import settings
 from suds.client import Client
 
-# get soap wsdl endpoint from settings
+# get soap wsdl endpoint from settings (use WS Authentication)
 client = Client(settings.DJANGOPHARMA_SOAP_URL,
                 headers={'username': settings.WS_USERNAME,
                          'password': settings.WS_PASSWORD})

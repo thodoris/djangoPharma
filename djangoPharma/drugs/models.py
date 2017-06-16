@@ -7,7 +7,7 @@ from django.db import models
 class Category(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length=500)
+    description = models.CharField(max_length=500,default='')
 
     class Meta:
         verbose_name_plural = 'categories'

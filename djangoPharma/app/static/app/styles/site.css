@@ -21,3 +21,18 @@ div.btn-toolbar.custom {
     border-top: none;
 
 }
+
+/*drug result panels customizations*/
+
+#results.col-lg-4:nth-child(3n+1){
+    clear: left;
+}
+
+#results.col-lg-4{
+    min-height:250px;
+
+}
+
+div.panel_drug_description {
+    height:300px!important;
+}

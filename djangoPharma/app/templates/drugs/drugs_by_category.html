@@ -2,8 +2,12 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
 
-{% block title %}{% endblock %}
+{% block title %}
+    {{   store_context.drug_categories.1.name  }}
+{% endblock %}
+{% block subtitle %} {{   store_context.drug_categories.1.description  }} {% endblock %}
 
+{{ request.GET.url }}
 
 {% block content %}
 
@@ -13,15 +17,15 @@
 
              <div class="col-lg-4">
                 <div class="hpanel hblue contact-panel">
-                    <div class="panel-body">
+                    <div class="panel-body panel_drug_description">
                     <img alt="logo" class="img-circle m-b" src="/static/app/images/drugs/{{obj.imagePath }}">
-                    <h3><a href="">{{ obj.friendlyName }}</a</h3>
-                    <div class="text-muted font-bold m-b-xs">{{ obj.id }}</div>+
+                    <h3><a href="/drugs/{{ obj.id }}">{{ obj.friendly_name }}</a></h3>
+                    <div class="text-muted font-bold m-b-xs">{{ obj.id }}</div>
                     <p>{{ obj.description }}</p>
                     </div>
                         <div class="panel-footer contact-footer">
                             <div class="row">
-                                <div class="col-md-4 border-right"> <div class="contact-stat"><span>Price: </span> <strong> {{ obj.price }}</strong></div> </div>
+                                <div class="col-md-4 border-right"> <div class="contact-stat"><span>Price: </span>  <strong> &euro;{{ obj.price }}</strong></div> </div>
                                 <div class="col-md-4 border-right"> <div class="contact-stat"><span>Availability: </span> <strong> {{ obj.price }}</strong></div> </div>
                                 <div class="col-md-4"> <div class="contact-stat"> <a type="button" class="btn btn-info" href="/drugs/{{ obj.id }}" ><i class="fa fa-paste"></i> Details </a>  </div> </div>
                             </div>
