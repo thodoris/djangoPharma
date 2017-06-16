@@ -1,15 +1,12 @@
 
-1. Safely remove makemigrations methods from  code/views/urls , check if def migrate_drug_categories(): in migrationService is necessary (is used) ?
 2. get correct category name & description in drugs_by_category.html (thodoris)
 3. Add Contact Page that send an email (Fotis) --> FIXED, problem with sending email TODO investigate
 4. Implement "/account/Profile"  (Account) (thodoris)
-5. Implement "/account/ChangePassword" (Change Password) (thodoris) FIXED
 6. Implement orders filtering using the example @ /drugs/views.py (class CategoryDrugsList(ListView):)
-7. fix availability & price format in front page (thodoris) FIXED
 8. clear search box when clearing filters (thodoris)
 9. use cache in AddDrugCategory & updateDrugCategory (thodoris)
-10. add UI element to drug_details to allow EDIT Drug (check if user is stuff & add button to the drugs UI)
-11. add UI element somewhere to allow EDIT Category
+10. add UI element to drug_details to allow EDIT Drug (check if user is stuff & add button to the drugs UI) (fotis)
+11. add UI element somewhere to allow EDIT Category (Fotis)
 
 
 
