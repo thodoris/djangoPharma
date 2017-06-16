@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import posixpath
+
 import fakeredis
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -141,8 +142,8 @@ ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window;
 REGISTRATION_AUTO_LOGIN = True  # Automatically log the user in.
 LOGIN_URL = '/login'
 
-#Custom Application Settings
-DJANGOPHARMA_REST_URL = 'http://connect.opengov.gr:3000/drugs' #''http://test.hua.gr:8000/pharmacy'
+# Custom Application Settings
+DJANGOPHARMA_REST_URL = 'http://connect.opengov.gr:3000/drugs'
 DJANGOPHARMA_SOAP_URL='http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl'
 DJANGOPHARMA_CACHE_TTL = 60 * 15
 
@@ -166,7 +167,7 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
-            "REDIS_CLIENT_CLASS": "fakeredis.FakeStrictRedis" #django_redis.client.DefaultClient"
+            "REDIS_CLIENT_CLASS": "fakeredis.FakeStrictRedis"
         },
         "KEY_PREFIX": "djangoPharma"
     },

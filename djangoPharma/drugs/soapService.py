@@ -10,35 +10,41 @@ client = Client(settings.DJANGOPHARMA_SOAP_URL,
                          'password': settings.WS_PASSWORD})
 
 
+# get all drugs
 def get_all_drugs():
     response = client.service.fetchAllDrugs()
-    # convert the xml to json
-    json_data = utils.xml2json(response)
-    return json_data
+    if response.ResponseCode == 'C':
+        # convert the xml to json
+        json_data = utils.xml2json(response)
+        return json_data
+    else:
+        return None
 
 
-def get_drug_ids_and_names():
-    response = client.service.getDrugIdsAndNames()
-    # convert the xml to json
-    json_data = utils.xml2json(response)
-    return json_data
-
-
+# get drug categories
 def get_drug_categories():
     response = client.service.getDrugCategories()
-    # convert the xml to json
-    json_data = utils.xml2json(response)
-    drug_categories = json.loads(json_data)['drugCategory']
-    return drug_categories
+    if response.ResponseCode == 'C':
+        # convert the xml to json
+        json_data = utils.xml2json(response)
+        drug_categories = json.loads(json_data)['drugCategory']
+        return drug_categories
+    else:
+        return None
 
 
+# search for drugs based on the given query
 def search_drug(query):
     response = client.service.searchForDrugs(query)
-    # convert the xml to json
-    json_data = utils.xml2json(response)
-    return json_data
+    if response.ResponseCode == 'C':
+        # convert the xml to json
+        json_data = utils.xml2json(response)
+        return json_data
+    else:
+        return None
 
 
+# get drug
 def get_drug(drug_id):
     response = client.service.findDrug(drug_id)
     if response.ResponseCode == 'C':
@@ -53,11 +59,15 @@ def get_drug(drug_id):
 
 def get_drug_by_category(category_id):
     response = client.service.fetchDrugsByCategory(category_id)
-    # convert the xml to json
-    json_data = utils.xml2json(response)
-    return json_data
+    if response.ResponseCode == 'C':
+        # convert the xml to json
+        json_data = utils.xml2json(response)
+        return json_data
+    else:
+        return None
 
 
+# add drug
 def insert_drug(drug):
     # create the request for the WS
     request_data = {'id': drug.id, 'friendlyName': drug.friendly_name,
@@ -77,6 +87,7 @@ def insert_drug(drug):
         return None
 
 
+# update drug
 def update_drug(drug):
     # create the request for the WS
     request_data = {'id': drug.id, 'friendlyName': drug.friendly_name,
@@ -95,6 +106,7 @@ def update_drug(drug):
         return None
 
 
+# insert drug category
 def insert_drug_category(category):
     # create the request for the WS
     request_data = {'id': category.id, 'name': category.name,
@@ -107,6 +119,7 @@ def insert_drug_category(category):
         return False
 
 
+# update drug category
 def update_drug_category(category):
     # create the request for the WS
     request_data = {'id': category.id, 'name': category.name,
@@ -117,4 +130,3 @@ def update_drug_category(category):
         return True
     else:
         return False
-

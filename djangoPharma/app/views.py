@@ -5,13 +5,10 @@ Definition of views.
 from datetime import datetime
 
 import drugs.cacheService as cacheService
-import drugs.models as DrugModel
 from cart.cart import Cart
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import EmailMessage
-from django.db import transaction
 from django.http import HttpRequest
-from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -22,7 +19,7 @@ from .forms import UserForm, UserAddressForm
 from .models import Order, OrderDetails
 from .models import UserAddress
 
-
+# check if the user is admin
 def check_admin(user):
     return user.is_superuser
 
@@ -122,10 +119,6 @@ def registration_complete(request):
     return render('registration/registration_complete.html')
 
 
-
-
-
-
 @login_required()
 def get_cart(request):
     cart = Cart(request)
@@ -143,7 +136,6 @@ def checkout(request):
     else:
         # home page
         return redirect('/')
-
 
 
 @login_required()
@@ -180,8 +172,6 @@ def display_order(request, order_id):
         elif order.status == 3:
             available_status_list = (4, 'Delivered'), (5, 'Rejected')
         return render(request, 'app/admin/edit_order.html', dict(order=order, statuses=available_status_list))
-
-
 
 
 @login_required()
