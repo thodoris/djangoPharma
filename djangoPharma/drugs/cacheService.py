@@ -95,12 +95,23 @@ def get_rest_drugs():
         return None
 
 
-def get_drug_categories():
+def get_drug_categories(forceUpdate=False):
     try:
         categories_data = cache.get(CACHE_DRUGS_CATEGORIES_KEY)
-        if (categories_data is None):
+        if (categories_data is None or forceUpdate == True):
             categories_data = soapService.get_drug_categories()
             __set_or_add(CACHE_DRUGS_CATEGORIES_KEY, categories_data, True)
         return categories_data
+    except:
+        return None
+
+def get_drug_category(drug_category_id, forceUpdate=False):
+    try:
+        categories_data=get_drug_categories(forceUpdate)
+        for category in categories_data:
+            categoryid = category['id']
+            if categoryid == drug_category_id:
+                return category
+        return None
     except:
         return None

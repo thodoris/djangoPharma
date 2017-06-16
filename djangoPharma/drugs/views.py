@@ -27,6 +27,12 @@ def __getDrugAsModel(drug_id):
     return drug
 
 
+def __getDrugCategoryAsModel(category_id):
+    newcategory= Category()
+    jsondrugcategory = cacheService.get_drug_category(category_id)
+    category = Category.fromjson(newcategory, jsondrugcategory)
+    return category
+
 def __getCategoryChoices():
     # get the drug categories from Cache
     drug_categories = cacheService.get_drug_categories()
@@ -125,7 +131,7 @@ def update_drug(request, drug_id):
                 # save the model
                 form.save()
                 # update the cache
-                cacheService.get_drug(drug.id, True)
+                cacheService.get_drug(drug.id, True)  # passing True to forceUpdate parameter , updates the cache
                 update_succeed = True
         else:
             update_succeed = False
@@ -174,9 +180,7 @@ def add_drug_category(request):
                     if inserted_drug_category is False:
                         raise Exception
                     else:
-                        x = 0
-                        # force update the cache TODO for drug category
-                        # cacheService.get_drug(drug.id)
+                        cacheService.get_drug_categories(True) #True forces update of cache from Soap
                         # go to update page
                         request.method = 'GET'
                         return update_drug_category(request, category.id)
@@ -190,6 +194,7 @@ def add_drug_category(request):
                 'form': form,
                 'title': 'Add Drug Category',
                 'year': datetime.now().year,
+                'result': insert_succeed
             }
         )
 
@@ -198,9 +203,7 @@ def add_drug_category(request):
 def update_drug_category(request, drug_category_id):
     update_succeed = None
     if request.method == 'GET':
-        # get drug  category info from Cache TODO
-        # drug = __getDrugAsModel(drug_id)
-        drug_category = Category.objects.get(pk=drug_category_id)
+        drug_category = __getDrugCategoryAsModel(drug_category_id)
         form = UpdateDrugCategoryForm(instance=drug_category)
     elif request.method == 'POST':
         # get the drug category
@@ -208,14 +211,14 @@ def update_drug_category(request, drug_category_id):
         form = UpdateDrugCategoryForm(request.POST, instance=drug_category)
         if form.is_valid():
             # send to the SOAP WS for the update
-            updated_drug = soapService.update_drug_category(drug_category)
-            if updated_drug is None:
+            updated_drug_category = soapService.update_drug_category(drug_category)
+            if updated_drug_category is None:
                 update_succeed = False
             else:
                 # save the model
                 form.save()
-                # update the cache TODO for drug category
-                # cacheService.get_drug(drug.id, True)
+                # update the cache
+                cacheService.get_drug_category(drug_category.id, True) # passing True to forceUpdate parameter , updates the cache
                 update_succeed = True
         else:
             update_succeed = False
@@ -227,6 +230,7 @@ def update_drug_category(request, drug_category_id):
             'form': form,
             'title': 'Update Drug Category',
             'year': datetime.now().year,
+            'result': update_succeed
         }
     )
 

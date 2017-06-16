@@ -2,9 +2,8 @@
 2. get correct category name & description in drugs_by_category.html (thodoris)
 3. Add Contact Page that send an email (Fotis) --> FIXED, problem with sending email TODO investigate
 4. Implement "/account/Profile"  (Account) (thodoris)
-6. Implement orders filtering using the example @ /drugs/views.py (class CategoryDrugsList(ListView):)
 8. clear search box when clearing filters (thodoris)
-9. use cache in AddDrugCategory & updateDrugCategory (thodoris)
+
 
 
 
