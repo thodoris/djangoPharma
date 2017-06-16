@@ -24,7 +24,7 @@ def syncdb(request):
         'result': result
     }
     if data['result'] is None:
-        data['error_message'] = 'An error occured while synchronizing local DB'
+        data['error_message'] = 'An error occurred while synchronizing local DB'
     return JsonResponse(data)
 
 
@@ -46,6 +46,8 @@ def add_to_cart(request):
         # home page
         return redirect('/')
 
+
+# ----------- cart ajax calls -------------------
 
 @login_required()
 def update_cart(request):
@@ -83,6 +85,8 @@ def remove_from_cart(request):
         return redirect('/')
 
 
+# ----------- order ajax calls -------------------
+
 @login_required()
 def submit_order(request):
     if request.method == 'POST':
@@ -102,18 +106,24 @@ def submit_order(request):
                                              comments=comments)
                 # save order details
                 cart = Cart(request)
+                total_price = 0
                 for item in cart.cart.item_set.all():
                     quantity = item.quantity
-                    total_price = item.total_price
+                    price = item.total_price
                     drug = item.product
                     order_details = OrderDetails.objects.create(order=order, drug=drug,
-                                                                quantity=quantity, total_price=total_price)
+                                                                quantity=quantity, price=price)
+                    total_price += price
+
+                # save the total order price
+                order.total_price = total_price
+                order.save()
                 # clear the cart
                 cart.clear()
         except Exception as e:
-            return HttpResponse(500)
+            return HttpResponse(status=500)
 
-        return HttpResponse(200)
+        return HttpResponse(status=200)
     else:
         # home page
         return redirect('/')
@@ -130,9 +140,9 @@ def update_customer_order(request):
             # update only status field
             order.status = status
             order.save(update_fields=["status"])
-            return HttpResponse(200)
+            return HttpResponse(status=200)
         except Exception:
-            return HttpResponse(500)
+            return HttpResponse(status=500)
     else:
         # home page
         return redirect('/')

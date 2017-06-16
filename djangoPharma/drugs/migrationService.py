@@ -8,9 +8,8 @@ from .models import Drug, Category
 
 
 def synchronize_data():
-    # TODO: check if synchronize has already done
     # get the drug categories from Cache
-    if cacheService.is_local_db_synchronized() == False:
+    if not cacheService.is_local_db_synchronized():
         drug_categories = cacheService.get_drug_categories()
         drugs = cacheService.get_all_drugs()
         try:

@@ -26,11 +26,11 @@ class UserForm(RegistrationForm):
     email = forms.EmailField(label=_("Email"), required=True, widget=forms.TextInput({
         'class': 'form-control',
         'placeholder': 'Email'}))
-    first_name = forms.CharField(label=_("Firstname"), required=False, max_length=254,
+    first_name = forms.CharField(label=_("First name"), required=False, max_length=254,
                                  widget=forms.TextInput({
                                      'class': 'form-control',
                                      'placeholder': 'First name'}))
-    last_name = forms.CharField(label=_("Lastname"), required=False, max_length=254,
+    last_name = forms.CharField(label=_("Last name"), required=False, max_length=254,
                                 widget=forms.TextInput({
                                     'class': 'form-control',
                                     'placeholder': 'Last name'}))

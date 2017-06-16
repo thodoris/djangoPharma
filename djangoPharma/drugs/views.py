@@ -1,6 +1,6 @@
 import random
 from datetime import datetime
-from django.views.generic import ListView
+
 import drugs.cacheService as cacheService
 import drugs.migrationService as migrationService
 import drugs.soapService as soapService
@@ -10,6 +10,7 @@ from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView
 from suds.client import Client
 
 from .forms import AddDrugsForm, UpdateDrugsForm, AddDrugCategoryForm, UpdateDrugCategoryForm
@@ -18,8 +19,6 @@ from .models import Drug, Category
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
 
-
-# client = Client('http://localhost:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 
 def __getDrugAsModel(drug_id):
     newdrug = Drug()
@@ -58,8 +57,8 @@ def detail(request, drug_id):
     return render(request, 'drugs/drug_details.html', context)
 
 
-def get_drug(drugid):
-    return client.service.findDrug(drugid)
+def get_drug(drug_id):
+    return client.service.findDrug(drug_id)
 
 
 @user_passes_test(check_admin)
@@ -71,8 +70,6 @@ def add_drug(request):
         form = AddDrugsForm(categorychoices=category_choices, category=None)
     elif request.method == 'POST':
         id_choices = __getDrugIDsChoices()
-        category_choices = __getCategoryChoices()
-
         form = AddDrugsForm(request.POST, categorychoices=None, category=None)
 
         # the function checks also if there is another record with the same id

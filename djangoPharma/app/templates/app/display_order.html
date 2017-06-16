@@ -47,7 +47,7 @@
                                 </tr>
                                 <tr>
                                     <td>Status:</td>
-                                    <td>{{ order.status }}</td>
+                                    <td>{{ order.get_status_display  }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -75,7 +75,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
-                                                {{ order_detail.total_price }}
+                                                {{ order_detail.price }}
                                                 <span> &euro;</span>
                                             </div>
                                         </div>

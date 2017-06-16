@@ -7,6 +7,7 @@ from .models import Drug, Category
 
 
 class UserModelChoiceField(forms.ModelChoiceField):
+    # return the name instead of the object in the select option list
     def label_from_instance(self, obj):
         return obj.name
 
@@ -104,12 +105,7 @@ class UpdateDrugsForm(ModelForm):
         fields = ['id', 'friendly_name', 'availability', 'description', 'price', 'category']
 
     def __init__(self, *args, **kwargs):
-        categoryChoices = kwargs.pop("categorychoices")  # categorychoices is the parameter passed from views.py
         super(UpdateDrugsForm, self).__init__(*args, **kwargs)
-        # self.fields['category'] = forms.ChoiceField(label="Category", choices=categoryChoices,widget=forms.Select({
-        # 'class': 'form-control',
-        # 'placeholder': 'Category'}))
-
 
 class AddDrugCategoryForm(ModelForm):
     id = forms.IntegerField(label=_("Category ID"), required=True,
