@@ -1,0 +1,40 @@
+{% extends 'app/base/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    <h4>Drug Categories</h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>&nbsp;</th>
+                </tr>
+                {% for category in categories %}
+                    <tr>
+                        <td>#{{ category.id }}</td>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.description }}</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="/drugs/drugCategories/{{ category.id }}" role="button">
+                                Update</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+    {% load staticfiles %}
+    <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+
+{% endblock %}

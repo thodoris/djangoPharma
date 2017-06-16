@@ -5,8 +5,6 @@
 6. Implement orders filtering using the example @ /drugs/views.py (class CategoryDrugsList(ListView):)
 8. clear search box when clearing filters (thodoris)
 9. use cache in AddDrugCategory & updateDrugCategory (thodoris)
-10. add UI element to drug_details to allow EDIT Drug (check if user is stuff & add button to the drugs UI) (fotis)
-11. add UI element somewhere to allow EDIT Category (Fotis)
 
 
 

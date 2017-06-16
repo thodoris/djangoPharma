@@ -111,13 +111,11 @@ def update_drug(request, drug_id):
     if request.method == 'GET':
         # get drug info from Cache
         drug = __getDrugAsModel(drug_id)
-        # get drug categories
-        category_choices = __getCategoryChoices()
-        form = UpdateDrugsForm(instance=drug, categorychoices=category_choices)
+        form = UpdateDrugsForm(instance=drug)
     elif request.method == 'POST':
         # get the drug
         drug = Drug.objects.get(pk=drug_id)
-        form = UpdateDrugsForm(request.POST, instance=drug, categorychoices='')
+        form = UpdateDrugsForm(request.POST, instance=drug)
         if form.is_valid():
             # send to the SOAP WS for the update
             updated_drug = soapService.update_drug(drug)
@@ -145,6 +143,12 @@ def update_drug(request, drug_id):
 def manage_migrations(request):
     migrationService.synchronize_data()
     return HttpResponse(200)
+
+
+@user_passes_test(check_admin)
+def display_drug_categories(request):
+    categories = Category.objects.all()
+    return render(request, 'app/admin/drugCategoriesList.html', dict(categories=categories))
 
 
 @user_passes_test(check_admin)

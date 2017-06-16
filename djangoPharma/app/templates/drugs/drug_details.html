@@ -5,7 +5,7 @@
 {% block title %}{% endblock %}
 
 {% block custom_style %}
-    <link rel="stylesheet"  href="{% static 'app/vendor/ladda/dist/ladda-themeless.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'app/vendor/ladda/dist/ladda-themeless.min.css' %}"/>
 {% endblock %}
 
 {% block content %}
@@ -44,7 +44,7 @@
                         </tr>
                         <tr>
                             <td>Category:</td>
-                            <td> <a href="/drugs/category/{{ drug.category.id }}" >{{ drug.category.name }}</a></td>
+                            <td><a href="/drugs/category/{{ drug.category.id }}">{{ drug.category.name }}</a></td>
                         </tr>
                     </table>
                 </div>
@@ -53,27 +53,39 @@
     </div>
     {% csrf_token %}
     <input type="hidden" id="drugId" value="{{ drug.id }}">
-    <div class="row">
-        <div class="col-md-1">
-            <div class="quantity">Quantity:</div>
-        </div>
-        <div class="col-md-2">
-            <div class="input-group number-spinner">
+    {% if request and user.is_authenticated and not user.is_staff %}
+        <div class="row">
+            <div class="col-md-1">
+                <div class="quantity">Quantity:</div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group number-spinner">
 				<span class="input-group-btn">
 					<button class="btn btn-default" data-dir="dwn"><span
                             class="glyphicon glyphicon-minus"></span></button>
 				</span>
-                <input type="text" id="quantity" class="form-control text-center" value="1">
-                <span class="input-group-btn">
+                    <input type="text" id="quantity" class="form-control text-center" value="1">
+                    <span class="input-group-btn">
 					<button class="btn btn-default" data-dir="up"><span
                             class="glyphicon glyphicon-plus"></span></button>
 				</span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="button" id="addToCart" class="ladda-button ladda-button-pharma btn btn-warning"
+                        data-style="expand-right">Add To Cart
+                </button>
             </div>
         </div>
+    {% endif %}
+    {% if request and user.is_authenticated and user.is_staff  %}
+    <div class="row">
         <div class="col-md-2">
-            <button type="button" id="addToCart" class="ladda-button ladda-button-pharma btn btn-warning" data-style="expand-right">Add To Cart</button>
+            <a class="btn btn-success" href="/drugs/updateDrug/{{ drug.id }}" role="button">
+                Edit Drug</a>
         </div>
     </div>
+    {% endif %}
     <div class="row">
         <div class="col-md-12">&nbsp;</div>
     </div>
@@ -102,41 +114,40 @@
 
     <script type="application/javascript">
 
-            // add to cart
-    $('#addToCart').on('click', function () {
-         var l = $( '.ladda-button-pharma' ).ladda();
-         l.ladda( 'start' );
-        var quantity = $('#quantity').val();
-        var drug_id = $('#drugId').val();
-        var token = $('input[name=csrfmiddlewaretoken]').val();
-        // hide the messages
-        hideAlertResultMessages();
-        var data = {
-            quantity: quantity,
-            drug_id: drug_id
-        };
-        $.ajax({
-            type: "POST",
-            url: '/add_to_cart',
-            data: data, beforeSend: function (xmlHTTPRequest) {
-                xmlHTTPRequest.setRequestHeader('X-CSRFToken', token)
-            },
-            success: function () {
-                $('#cart-alert-success').removeClass('hidden')
-                l.ladda('stop');
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                $('#cart-alert-fail').removeClass('hidden')
-                l.ladda('stop');
-            }
+        // add to cart
+        $('#addToCart').on('click', function () {
+            var l = $('.ladda-button-pharma').ladda();
+            l.ladda('start');
+            var quantity = $('#quantity').val();
+            var drug_id = $('#drugId').val();
+            var token = $('input[name=csrfmiddlewaretoken]').val();
+            // hide the messages
+            hideAlertResultMessages();
+            var data = {
+                quantity: quantity,
+                drug_id: drug_id
+            };
+            $.ajax({
+                type: "POST",
+                url: '/add_to_cart',
+                data: data, beforeSend: function (xmlHTTPRequest) {
+                    xmlHTTPRequest.setRequestHeader('X-CSRFToken', token)
+                },
+                success: function () {
+                    $('#cart-alert-success').removeClass('hidden')
+                    l.ladda('stop');
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    $('#cart-alert-fail').removeClass('hidden')
+                    l.ladda('stop');
+                }
+            });
         });
-    });
 
-    function hideAlertResultMessages() {
-        $('#cart-alert-success').addClass('hidden');
-        $('#cart-alert-fail').addClass('hidden');
-    }
-
+        function hideAlertResultMessages() {
+            $('#cart-alert-success').addClass('hidden');
+            $('#cart-alert-fail').addClass('hidden');
+        }
 
 
     </script>
