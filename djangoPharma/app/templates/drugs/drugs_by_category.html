@@ -2,10 +2,8 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
 
-{% block title %}
-    {{   store_context.drug_categories.1.name  }}
-{% endblock %}
-{% block subtitle %} {{   store_context.drug_categories.1.description  }} {% endblock %}
+{% block title %} {{   category_name  }} {% endblock %}
+{% block subtitle %}  {{   category_desc }} {% endblock %}
 
 {{ request.GET.url }}
 

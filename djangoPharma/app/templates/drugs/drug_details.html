@@ -2,7 +2,8 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
 
-{% block title %}{% endblock %}
+{% block title %} {{  drug.friendly_name }} {% endblock %}
+{% block subtitle %}  {{   drug.id }} {% endblock %}
 
 {% block custom_style %}
     <link rel="stylesheet" href="{% static 'app/vendor/ladda/dist/ladda-themeless.min.css' %}"/>

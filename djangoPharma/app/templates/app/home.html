@@ -3,8 +3,8 @@
 {% load staticfiles %}
 
 
-{% block title %}django-bootstrap3{% endblock %}
-{% block subtitle %}About our APP{% endblock %}
+{% block title %}DjangoPharma{% endblock %}
+{% block subtitle %}Search our online store{% endblock %}
 
 {% block custom_style %}
     <link rel="stylesheet"  href="{% static 'app/styles/facetedsearch.css' %}" />
@@ -111,6 +111,11 @@
 
         $(function () {
            $.facetelize(sfacet_settings);
+
+            $(sfacet_settings.resultSelector).bind("facetedsearchresultupdate", function(){
+             $('#search_drugs').val('');
+        });
+
         });
     </script>
 {% endblock %}

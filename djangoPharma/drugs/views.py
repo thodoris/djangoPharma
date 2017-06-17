@@ -252,3 +252,9 @@ class CategoryDrugsList(ListView):
     def get_queryset(self):
         self.category = get_object_or_404(Category, id=self.args[0])
         return Drug.objects.filter(category=self.category)
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryDrugsList, self).get_context_data(**kwargs)
+        context['category_name'] = self.category.name
+        context['category_desc'] = self.category.description
+        return context
