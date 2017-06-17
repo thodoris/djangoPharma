@@ -28,10 +28,11 @@ def __getDrugAsModel(drug_id):
 
 
 def __getDrugCategoryAsModel(category_id):
-    newcategory= Category()
+    newcategory = Category()
     jsondrugcategory = cacheService.get_drug_category(category_id)
     category = Category.fromjson(newcategory, jsondrugcategory)
     return category
+
 
 def __getCategoryChoices():
     # get the drug categories from Cache
@@ -47,6 +48,7 @@ def __getDrugIDsChoices():
     return id_choices
 
 
+# check if the logged in user is the admin
 def check_admin(user):
     return user.is_superuser
 
@@ -180,7 +182,7 @@ def add_drug_category(request):
                     if inserted_drug_category is False:
                         raise Exception
                     else:
-                        cacheService.get_drug_categories(True) #True forces update of cache from Soap
+                        cacheService.get_drug_categories(True)  # True forces update of cache from Soap
                         # go to update page
                         request.method = 'GET'
                         return update_drug_category(request, category.id)
@@ -218,7 +220,8 @@ def update_drug_category(request, drug_category_id):
                 # save the model
                 form.save()
                 # update the cache
-                cacheService.get_drug_category(drug_category.id, True) # passing True to forceUpdate parameter , updates the cache
+                cacheService.get_drug_category(drug_category.id,
+                                               True)  # passing True to forceUpdate parameter , updates the cache
                 update_succeed = True
         else:
             update_succeed = False

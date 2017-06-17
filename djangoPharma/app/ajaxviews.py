@@ -17,6 +17,16 @@ def check_admin(user):
     return user.is_superuser
 
 
+# check if the user is staff user
+def check_back_office_user(user):
+    return user.is_staff
+
+
+# check if user is a simple user
+def check_simple_user(user):
+    return not user.is_staff
+
+
 def syncdb(request):
     """Renders the home page."""
     result = migrationService.synchronize_data()
@@ -29,11 +39,14 @@ def syncdb(request):
 
 
 @login_required()
+@user_passes_test(check_simple_user)
 def add_to_cart(request):
     if request.method == 'POST':
         try:
+            # get from the request the id and quantity
             drug_id = request.POST.get('drug_id', '')
             quantity = request.POST.get('quantity', '')
+            # fetch the object with the specific id
             drug = DrugModel.Drug.objects.get(pk=drug_id)
             cart = Cart(request)
             # args: model, price, quantity
@@ -50,11 +63,14 @@ def add_to_cart(request):
 # ----------- cart ajax calls -------------------
 
 @login_required()
+@user_passes_test(check_simple_user)
 def update_cart(request):
     if request.method == 'POST':
         try:
+            # get from the request the id and quantity
             drug_id = request.POST.get('drug_id', '')
             quantity = request.POST.get('quantity', '')
+            # fetch the object with the specific id
             drug = DrugModel.Drug.objects.get(id=drug_id)
             cart = Cart(request)
             # args: model, price, quantity
@@ -69,12 +85,15 @@ def update_cart(request):
 
 
 @login_required()
+@user_passes_test(check_simple_user)
 def remove_from_cart(request):
     if request.method == 'POST':
         try:
             drug_id = request.POST.get('drug_id', '')
+            # fetch the object with the specific id
             drug = DrugModel.Drug.objects.get(id=drug_id)
             cart = Cart(request)
+            # remove from cart
             cart.remove(drug)
             # everything went correct
             return HttpResponse(status=200)
@@ -88,10 +107,13 @@ def remove_from_cart(request):
 # ----------- order ajax calls -------------------
 
 @login_required()
+@user_passes_test(check_simple_user)
 def submit_order(request):
     if request.method == 'POST':
+        # get logged in user
         current_user = request.user
         current_user_address = UserAddress.objects.get(user=current_user)
+        # get the date now
         order_date = datetime.now()
         shipment_type = request.POST.get('shipmentType', '')
         payment_type = request.POST.get('paymentType', '')
@@ -129,7 +151,7 @@ def submit_order(request):
         return redirect('/')
 
 
-@user_passes_test(check_admin)
+@user_passes_test(check_back_office_user)
 def update_customer_order(request):
     if request.method == 'POST':
         try:
