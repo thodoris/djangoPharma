@@ -146,4 +146,5 @@ class UpdateDrugCategoryForm(ModelForm):
 
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description']
+        fields = ['name', 'description']
+
