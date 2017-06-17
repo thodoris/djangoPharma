@@ -26,15 +26,18 @@
     </div>
     {% if result is not None %}
         <div class="row">
-
+            {% if result %}
             <div class="alert alert-success" id="cart-alert-success">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-                <strong>Success!</strong> The drug has been added to the cart!
+                <strong>Success!</strong> The drug has been updated!
             </div>
+                {% endif %}
+            {% if not result %}
             <div class="alert alert-danger" id="cart-alert-fail">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-                <strong>Failure!</strong> The drug has been not been added to the cart! Please Try again later
+                <strong>Failure!</strong> The drug has been not been updated! Please Try again later
             </div>
+                {% endif %}
         </div>
     {% endif %}
 

@@ -171,9 +171,9 @@ def add_drug_category(request):
                         raise Exception
                     else:
                         cacheService.get_drug_categories(True)  # True forces update of cache from Soap
-                        # go to update page
+                        # go to list page
                         request.method = 'GET'
-                        return update_drug_category(request, category.id)
+                        return display_drug_categories(request, category.id)
             except Exception:
                 insert_succeed = False
 
