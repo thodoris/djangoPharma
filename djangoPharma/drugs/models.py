@@ -23,7 +23,7 @@ class Category(models.Model):
 class Drug(models.Model):
     id = models.CharField(max_length=40, primary_key=True)
     friendly_name = models.CharField(max_length=100)
-    description = models.CharField(max_length=100)
+    description = models.CharField(max_length=500)
     availability = models.IntegerField()
     imagePath = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=6, decimal_places=2)

@@ -194,8 +194,8 @@
 
                         </a>
                         <ul class="dropdown-menu animated flipInX m-t-xs">
-                            <li><a href="/account/Profile">Account</a></li>
-                             <li><a href="/account/ChangePassword">Change Password</a></li>
+                            <li><a href="/account/Profile">Manage Profile</a></li>
+                             <li><a href="accounts/change-password">Change Password</a></li>
                              <li class="divider"></li>
                             <li><a href="/my_orders">Orders</a></li>
                             <li class="divider"></li>
@@ -246,9 +246,7 @@
             <li>
                 <a href="/"> <span class="nav-label">Home</span> <span class="label label-success pull-right">v.1</span> </a>
             </li>
-            <li>
-                <a href="analytics.html"> <span class="nav-label">Offers</span><span class="label label-warning pull-right">NEW</span> </a>
-            </li>
+
             {% if request.user|has_group:"employees"  or request.user|has_group:"admins" %}
                 <li>
                 <a href="#"><span class="nav-label">Manage Store</span><span class="fa arrow"></span> </a>
