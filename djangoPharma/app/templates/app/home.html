@@ -25,9 +25,7 @@
                         </small>
                     </div>
 
-
                         <div id="facets"></div>
-
 
                 </div>
 
@@ -53,7 +51,6 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
 
 {% block custom_script %}
@@ -62,9 +59,6 @@
 
     <script type="text/javascript">
 
-    function doSearch(s){
-
-    }
 
     $("#btn_search_drugs").click(function () {
         s=$('#search_drugs').val();
@@ -110,7 +104,7 @@
             bottomContainer    : '<div class="form-group bottomline"></div>',
             countTemplate      : '<div class=facettotalcount><%= count %> Results</div>',
             deselectTemplate   : '<div id="deselectstartover"><button class="deselectstartoverbtn btn-xs btn-danger  btn-circle" type="button"><i class="fa fa-times"></i></button>Clear all filters</div>',
-            orderByOptions: {'friendlyName': 'name', 'availability': 'availability'}
+            orderByOptions     : {'friendlyName': 'name', 'availability': 'availability'}
         };
 
 

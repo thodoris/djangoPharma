@@ -29,7 +29,7 @@ def __getDrugAsModel(drug_id):
 
 def __getDrugCategoryAsModel(category_id):
     newcategory = Category()
-    jsondrugcategory = cacheService.get_drug_category(category_id)
+    jsondrugcategory = cacheService.get_drug_category(int(category_id))
     category = Category.fromjson(newcategory, jsondrugcategory)
     return category
 
