@@ -9,8 +9,9 @@
 8. Fix add Drug category : Id should not be displayed
 9. Fix Update Drug Category : Check messages after update
 10. Clear categories (Delete test categories)
-11. Fix description length on Drug (thodoris) FIXED
+11. Fix description length on Drug. change model & make migrations  (thodoris) FIXED
 12. FIX error Failure! The drug has been not been added to the cart! Please Try again later  , in many places
+
 
 
 

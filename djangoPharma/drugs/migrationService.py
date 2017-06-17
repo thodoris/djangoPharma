@@ -7,6 +7,8 @@ from django.db import transaction
 from .models import Drug, Category
 
 
+# synchronize local DB with the Store (SOAP)
+# updates the cache
 def synchronize_data():
     # get the drug categories from Cache
     if not cacheService.is_local_db_synchronized():

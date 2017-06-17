@@ -33,17 +33,6 @@ def get_drug_categories():
         return None
 
 
-# search for drugs based on the given query
-def search_drug(query):
-    response = client.service.searchForDrugs(query)
-    if response.ResponseCode == 'C':
-        # convert the xml to json
-        json_data = utils.xml2json(response)
-        return json_data
-    else:
-        return None
-
-
 # get drug
 def get_drug(drug_id):
     response = client.service.findDrug(drug_id)
@@ -53,16 +42,6 @@ def get_drug(drug_id):
         obj = json.loads(json_data)['drug']
         # WS returns a list of Drugs - for this call it will be always 1 element
         return obj[0]
-    else:
-        return None
-
-
-def get_drug_by_category(category_id):
-    response = client.service.fetchDrugsByCategory(category_id)
-    if response.ResponseCode == 'C':
-        # convert the xml to json
-        json_data = utils.xml2json(response)
-        return json_data
     else:
         return None
 

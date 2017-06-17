@@ -19,14 +19,14 @@ from .models import Drug, Category
 client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
 CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
 
-
+# get a drug from the cache and return it as a Model Drug item
 def __getDrugAsModel(drug_id):
     newdrug = Drug()
     jsondrug = cacheService.get_drug(drug_id)
     drug = Drug.fromjson(newdrug, jsondrug)
     return drug
 
-
+# get a drug category from the cache and return it as a Model Category item
 def __getDrugCategoryAsModel(category_id):
     newcategory = Category()
     jsondrugcategory = cacheService.get_drug_category(int(category_id))
@@ -40,7 +40,8 @@ def __getCategoryChoices():
     category_choices = [(int(category['id']), category['name']) for category in drug_categories]
     return category_choices
 
-
+# returns a dictionary with all available (REST API) drugs
+# Dict item contains drug id & drug name from the REST API
 def __getDrugIDsChoices():
     # get the drug IDS from Cache
     drugs_index = cacheService.get_rest_drugs()
@@ -53,22 +54,14 @@ def check_admin(user):
     return user.is_superuser
 
 
-def index(request):
-    output = '<h1>Index</h1>'
-    return HttpResponse(output)
-
-
+# returns the drug details
 def detail(request, drug_id):
     drug = __getDrugAsModel(drug_id)
     context = {'drug': drug,
                'image_path': '/static/app/images/drugs/' + drug.imagePath}
     return render(request, 'drugs/drug_details.html', context)
 
-
-def get_drug(drug_id):
-    return client.service.findDrug(drug_id)
-
-
+# add drug view
 @user_passes_test(check_admin)
 def add_drug(request):
     insert_succeed = None
@@ -113,6 +106,7 @@ def add_drug(request):
     })
 
 
+# update drug view
 @user_passes_test(check_admin)
 def update_drug(request, drug_id):
     update_succeed = None
@@ -146,19 +140,13 @@ def update_drug(request, drug_id):
         'result': update_succeed
     })
 
-
-@user_passes_test(check_admin)
-def manage_migrations(request):
-    migrationService.synchronize_data()
-    return HttpResponse(200)
-
-
+# list of drug categories
 @user_passes_test(check_admin)
 def display_drug_categories(request):
     categories = Category.objects.all()
     return render(request, 'app/admin/drugCategoriesList.html', dict(categories=categories))
 
-
+# add drug categories
 @user_passes_test(check_admin)
 def add_drug_category(request):
     if request.method == 'GET':
@@ -201,6 +189,7 @@ def add_drug_category(request):
         )
 
 
+# update drug category
 @user_passes_test(check_admin)
 def update_drug_category(request, drug_category_id):
     update_succeed = None
@@ -245,7 +234,7 @@ def get_random_image_for_drug():
     drug_number = random.choice(drug_images_nums)
     return drug_number + '.png'
 
-
+# ListView view with the drugs that belong to a specific category
 class CategoryDrugsList(ListView):
     template_name = 'drugs/drugs_by_category.html'
 
