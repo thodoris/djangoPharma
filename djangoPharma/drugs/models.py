@@ -40,7 +40,7 @@ class Drug(models.Model):
         self.friendly_name = json['friendlyName']
         self.description = json['description']
         self.availability = int(json['availability'])
-        self.imagePath = json['imagePath']
+        self.imagePath = json['imagePath'] if 'imagePath' in json else 'default_drug_image.png'
         self.price = Decimal(json['price'])
         newcategory = Category()
         jsoncategory = json['drugCategory']
