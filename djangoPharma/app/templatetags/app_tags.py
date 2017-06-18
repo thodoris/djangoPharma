@@ -10,8 +10,8 @@ def has_group(user, group_name):
     except:
         return False  # group doesn't exist, so for sure the user isn't part of the group
 
-    # for superuser or staff, always return True
-    if user.is_superuser or user.is_staff:
+    # for superuser , always return True
+    if user.is_superuser:
         return True
 
     return user.groups.filter(name=group_name).exists()

@@ -28,8 +28,8 @@ urlpatterns = [
     url(r'^about', app.views.about, name='about'),
 
     #auth
-    url(r'^logout$',auth_views.LogoutView.as_view(next_page= '/')),
-    url(r'^login/$', auth_views.LoginView.as_view(template_name='app/login.html',authentication_form=app.forms.BootstrapAuthenticationForm , extra_context={'title': 'Log in', 'year': datetime.now().year} )),
+    url(r'^logout$',auth_views.LogoutView.as_view(next_page='/')),
+    url(r'^login/$', auth_views.LoginView.as_view(success_url='/', template_name='app/login.html',authentication_form=app.forms.BootstrapAuthenticationForm , extra_context={'title': 'Log in', 'year': datetime.now().year} )),
     url('^accounts/change-password/$', auth_views.PasswordChangeView.as_view()),
     url('^accounts/change-password/done$', auth_views.PasswordChangeDoneView.as_view()),
     url('^accounts/password-reset$', auth_views.PasswordResetView.as_view()),
@@ -37,6 +37,7 @@ urlpatterns = [
 
     # include registration
     url(r'^accounts/register/$', app.views.register, name='register'),
+    url(r'^accounts/profile/$', app.views.profile, name='profile'),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     # enable the admin:
     url(r'^admin/', include(admin.site.urls)),

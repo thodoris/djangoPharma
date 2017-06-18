@@ -40,10 +40,21 @@ class UserForm(RegistrationForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
 
+
+
+
+class UserProfileForm(forms.ModelForm):
+    """Form for UserProfile"""
+    class Meta:
+        model = User
+        fields = ( 'email', 'first_name', 'last_name')
+
+
 class UserAddressForm(forms.ModelForm):
     class Meta:
         model = UserAddress
         fields = ('street', 'streetno', 'city', 'zip')
+
 
 
 class ContactForm(forms.Form):

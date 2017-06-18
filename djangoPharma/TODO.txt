@@ -1,17 +1,9 @@
 
-1. get correct category name & description in drugs_by_category.html (thodoris) FIXED
-2. Add Contact Page that send an email (Fotis) --> FIXED, problem with sending email TODO investigate
-3. Implement "/account/Profile"  (Account) (thodoris)
-4. clear search box when clearing filters (thodoris) FIXED
-5. add Title & subtitle to all pages (see drugs_by_category.html for example)
-6. add Forget password - recover password UI elements  (thodoris) FIXED
-7. check workflow on  forget , change password
-8. Fix add Drug category : Id should not be displayed
-9. Fix Update Drug Category : Check messages after update
-10. Clear categories (Delete test categories)
-11. Fix description length on Drug. change model & make migrations  (thodoris) FIXED
-12. FIX error Failure! The drug has been not been added to the cart! Please Try again later  , in many places
-
+1. Add Contact Page that send an email (Fotis) --> FIXED, problem with sending email TODO investigate
+2. add Title & subtitle to all pages (see drugs_by_category.html for example)
+3. check workflow on  forget , change password
+4. Clear categories (Delete test categories)
+5. Fix problem with 00 in drug ID
 
 
 

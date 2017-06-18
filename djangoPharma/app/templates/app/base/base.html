@@ -180,8 +180,19 @@
 
         {% if user.is_authenticated %}
             <div class="profile-picture">
-                <a href="index.html">
-                    <img src="{% static 'app/images/profile.jpg' %}" class="img-circle m-b" alt="logo">
+                <a href="/accounts/profile">
+                    {% if request.user|has_group:"admins" %}
+                         <img src="{% static 'app/images/profiles/profile_admin.jpg' %}" class="img-circle m-b" alt="logo">
+                    {%  else  %}
+                     {% if request.user|has_group:"employees" %}
+                         <img src="{% static 'app/images/profiles/profile_employee.jpg' %}" class="img-circle m-b" alt="logo">
+
+                    {%  else  %}
+                                <img src="{% static 'app/images/profiles/profile.jpg' %}" class="img-circle m-b" alt="logo">
+                    {% endif %}
+
+                    {% endif %}
+
                 </a>
 
                 <div class="stats-label text-color">
@@ -194,12 +205,12 @@
 
                         </a>
                         <ul class="dropdown-menu animated flipInX m-t-xs">
-                            <li><a href="/account/Profile">Manage Profile</a></li>
+                            <li><a href="/accounts/Profile">Manage Profile</a></li>
                              <li><a href="accounts/change-password">Change Password</a></li>
                              <li class="divider"></li>
                             <li><a href="/my_orders">Orders</a></li>
                             <li class="divider"></li>
-                            <li><a href="login.html">Logout</a></li>
+                            <li><a href="/logout">Logout</a></li>
                         </ul>
                     </div>
 

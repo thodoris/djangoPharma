@@ -1,0 +1,14 @@
+{% extends 'app/base/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}profile{% endblock %}
+
+{% block content %}
+    {% if result %}
+                <h2 class="text-success">You have successfully updated your profile.</h2>
+    {% else %}
+                <h4 class="text-danger"> Your profile has not been updated due to a technical error. Please try again later.</h4>
+    {% endif %}
+
+
+{% endblock %}

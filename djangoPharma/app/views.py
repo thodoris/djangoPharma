@@ -13,9 +13,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.template.loader import render_to_string
-
+from django.contrib.auth.models import User
 from .forms import ContactForm
-from .forms import UserForm, UserAddressForm
+from .forms import UserForm, UserProfileForm, UserAddressForm
 from .models import Order, OrderDetails
 from .models import UserAddress
 
@@ -103,6 +103,44 @@ def about(request):
             'year': datetime.now().year,
         }
     )
+
+@login_required()
+def profile(request):
+    if request.method == 'POST':
+        user_form = UserProfileForm(data=request.POST, prefix="user")
+        address_form = UserAddressForm(data=request.POST, prefix="address")
+        result = True
+        if user_form.is_valid() and address_form.is_valid():
+            obj, created = User.objects.update_or_create(id=request.user.id, defaults={
+                'email': user_form.cleaned_data['email'], 'first_name': user_form.cleaned_data['first_name'] , 'last_name': user_form.cleaned_data['last_name']})
+            obj.save()
+            address = UserAddress.objects.get(user=request.user)
+            address.zip = address_form.cleaned_data['zip']
+            address.city = address_form.cleaned_data['city']
+            address.streetno = address_form.cleaned_data['streetno']
+            address.street = address_form.cleaned_data['street']
+            address.save()
+            return render(request, 'app/profile_complete.html',context={"result": True})
+        else:
+            context = {
+                "user_form": user_form,
+                "address_form": address_form
+            }
+            return render(request, 'app/profile.html', context)
+
+    else:
+        if check_simple_user(request.user):
+            address = UserAddress.objects.get(user=request.user )
+            user_form = UserProfileForm(prefix="user",instance=request.user )
+            address_form = UserAddressForm(prefix="address" , instance=address)
+            context = {
+                "user_form": user_form,
+                "address_form": address_form
+            }
+            return render(request, 'app/profile.html', context)
+        else:
+            return HttpResponseRedirect('/admin')
+
 
 
 def register(request):

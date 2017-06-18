@@ -16,8 +16,8 @@ from suds.client import Client
 from .forms import AddDrugsForm, UpdateDrugsForm, AddDrugCategoryForm, UpdateDrugCategoryForm
 from .models import Drug, Category
 
-client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
-CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
+_DELETE_client = Client('http://connect.opengov.gr:8080/pharmacy-ws/PharmacyRepoWSImpl?wsdl')
+_DELETE_CACHE_TTL = getattr(settings, 'DJANGOPHARMA_CACHE_TTL', DEFAULT_TIMEOUT)
 
 # get a drug from the cache and return it as a Model Drug item
 def __getDrugAsModel(drug_id):
