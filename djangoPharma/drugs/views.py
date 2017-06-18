@@ -230,8 +230,8 @@ def update_drug_category(request, drug_category_id):
 
 # the image for the drug will be one of the static images in the application, random each time
 def get_random_image_for_drug():
-    drug_images_nums = ['000840105', '023280101', '038260201', '041670301', '093360302',
-                        '099880107', '175990402']
+    drug_images_nums = ['900840105', '923280101', '938260201', '941670301', '993360302',
+                        '999880107', '175990402']
     drug_number = random.choice(drug_images_nums)
     return drug_number + '.png'
 
