@@ -26,7 +26,7 @@ def synchronize_data():
                     obj, created = Drug.objects.update_or_create(id=drug['id'], defaults={
                         'category_id': int(drug['drugCategory']['id']),
                         'friendly_name': drug['friendlyName'], 'description': drug['description'],
-                        'imagePath': drug['imagePath'], 'availability': int(drug['availability']),
+                        'imagePath': drug['imagePath'] if 'imagePath' in drug else 'default_drug_image.png', 'availability': int(drug['availability']),
                         'price': Decimal(drug['price'])})
                     obj.save()
                 cacheService.set_local_db_synchronized(True)
