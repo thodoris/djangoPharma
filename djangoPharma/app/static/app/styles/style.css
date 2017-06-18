@@ -3539,12 +3539,7 @@ ul.h-list li:hover a {
 .landing-page .navbar-nav > li > a {
   height: 55px;
 }
-.landing-page header {
-  background: url('../images/landing/header.jpg') 50% 0 no-repeat;
-  height: 480px;
-  padding-top: 50px;
-  margin-bottom: 30px;
-}
+
 .landing-page section {
   padding: 50px 0 50px 0;
   border-bottom: 1px solid #e4e5e7;
