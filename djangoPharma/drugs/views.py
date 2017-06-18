@@ -162,6 +162,7 @@ def add_drug_category(request):
         )
     elif request.method == 'POST':
         form = AddDrugCategoryForm(request.POST)
+        insert_succeed = None
         if form.is_valid():
             try:
                 with transaction.atomic():

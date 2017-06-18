@@ -108,31 +108,6 @@ class UpdateDrugsForm(ModelForm):
         super(UpdateDrugsForm, self).__init__(*args, **kwargs)
 
 class AddDrugCategoryForm(ModelForm):
-    id = forms.IntegerField(label=_("Category ID"), required=True,
-                            widget=forms.TextInput({
-                                'class': 'form-control',
-                                'placeholder': 'Category ID'}))
-
-    name = forms.CharField(label=_("Category Name"), required=True, max_length=50,
-                           widget=forms.TextInput({
-                               'class': 'form-control',
-                               'placeholder': 'Category Name'}))
-
-    description = forms.CharField(label=_("Category Description"), required=True, max_length=500,
-                                  widget=forms.TextInput({
-                                      'class': 'form-control',
-                                      'placeholder': 'Category Description'}))
-
-    class Meta:
-        model = Category
-        fields = ['id', 'name', 'description']
-
-
-class UpdateDrugCategoryForm(ModelForm):
-    id = forms.IntegerField(label=_("Category ID"), required=True,
-                            widget=forms.TextInput({
-                                'class': 'form-control',
-                                'placeholder': 'Category ID'}))
 
     name = forms.CharField(label=_("Category Name"), required=True, max_length=50,
                            widget=forms.TextInput({
@@ -147,4 +122,26 @@ class UpdateDrugCategoryForm(ModelForm):
     class Meta:
         model = Category
         fields = ['name', 'description']
+
+
+class UpdateDrugCategoryForm(ModelForm):
+    id = forms.IntegerField(label=_("Category ID"), required=True,
+                            widget=forms.TextInput({
+                                'class': 'form-control',
+                                'placeholder': 'Category ID',
+                                'readonly': 'readonly'}))
+
+    name = forms.CharField(label=_("Category Name"), required=True, max_length=50,
+                           widget=forms.TextInput({
+                               'class': 'form-control',
+                               'placeholder': 'Category Name'}))
+
+    description = forms.CharField(label=_("Category Description"), required=True, max_length=500,
+                                  widget=forms.TextInput({
+                                      'class': 'form-control',
+                                      'placeholder': 'Category Description'}))
+
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'description']
 
