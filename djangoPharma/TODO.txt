@@ -3,7 +3,7 @@
 2. add Title & subtitle to all pages (see drugs_by_category.html for example)
 3. check workflow on  forget , change password
 4. Clear categories (Delete test categories)
-5. Fix problem with 00 in drug ID
+
 
 
 
